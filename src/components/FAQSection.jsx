@@ -3,46 +3,49 @@ import React from "react";
 
 const FAQSection = () => {
   return (
-    <section id="sss" className="bg-[#020814] border-t border-slate-800">
+    <section className="bg-[#f6f7f9] border-t border-slate-200">
       <div className="max-w-3xl mx-auto px-4 py-12 md:py-16">
         <div className="text-center mb-8">
           <p className="text-xs uppercase tracking-[0.25em] text-[#f4b41a]">
             Sıkça Sorulanlar
           </p>
-          <h2 className="text-xl md:text-2xl font-bold">
+          <h2 className="text-xl md:text-2xl font-bold text-slate-900">
             Sık Sorulan Sorular
           </h2>
         </div>
 
         <div className="space-y-4 text-sm">
-          <details className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-            <summary className="cursor-pointer font-semibold text-sm">
-              Fiyatlara neler dahil?
+          <details className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+            <summary className="cursor-pointer font-semibold text-slate-900">
+              Ücrete neler dahil?
             </summary>
-            <p className="mt-2 text-xs text-slate-300">
-              Ulaşım, rehberlik, seyahat sigortası ve seçili turlarda
-              konaklama dahildir. Yemekler ve müze girişleri tur detayında
-              ayrıca belirtilir.
+            <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+              Gidiş-dönüş uçak bileti, belirtilen otellerde kahvaltı dahil
+              konaklama, şehir içi ulaşımlar ve programda belirtilen rehberlik
+              hizmetleri dahildir. Müze girişleri ve öğle/akşam yemekleri notlar
+              kısmında ayrıca belirtilir.
             </p>
           </details>
-          <details className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-            <summary className="cursor-pointer font-semibold text-sm">
+
+          <details className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+            <summary className="cursor-pointer font-semibold text-slate-900">
               Ödemeyi nasıl yapabilirim?
             </summary>
-            <p className="mt-2 text-xs text-slate-300">
-              Fuar alanında yüz yüze, ya da banka/EFT ile ödeme
-              yapabilirsiniz. Kayıt sırasında kapora alınır, kalan bakiyeyi
-              tur tarihine kadar tamamlayabilirsiniz.
+            <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+              Fuar alanında yüz yüze, banka/EFT ile veya önceden anlaşılmış
+              taksit imkânlarıyla ödeme yapabilirsiniz. Detaylar için WhatsApp
+              üzerinden bilgi alabilirsiniz.
             </p>
           </details>
-          <details className="bg-slate-900 border border-slate-800 rounded-xl p-4">
-            <summary className="cursor-pointer font-semibold text-sm">
-              İptal ve iade koşulları nedir?
+
+          <details className="bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:shadow-md transition">
+            <summary className="cursor-pointer font-semibold text-slate-900">
+              İptal ve iade koşulları nasıldır?
             </summary>
-            <p className="mt-2 text-xs text-slate-300">
-              Tur tarihinden belirli gün öncesine kadar ücretsiz iptal
-              mümkündür. Detaylı koşullar kayıt formu ve sözleşme ile
-              paylaşılır.
+            <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+              Tur tarihinden belirli gün öncesine kadar ücretsiz veya kesintili
+              iptal hakları mevcuttur. Net koşullar, kayıt formu ve sözleşme ile
+              size yazılı olarak iletilir.
             </p>
           </details>
         </div>

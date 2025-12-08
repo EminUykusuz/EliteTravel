@@ -26,7 +26,7 @@ const items = [
 
 const WhyUsSection = () => {
   return (
-    <section id="neden" className="bg-[#020814] border-t border-slate-800">
+    <section id="neden" className="bg-[#0f4b41a] border-t border-slate-800">
       <div className="max-w-6xl mx-auto px-4 py-12 md:py-16">
         <div className="text-center mb-8">
           <p className="text-xs uppercase tracking-[0.25em] text-[#f4b41a]">
@@ -41,13 +41,13 @@ const WhyUsSection = () => {
           {items.map((item) => (
             <div
               key={item.title}
-              className="bg-slate-900 border border-slate-800 rounded-2xl p-4"
+              className="bg-slate-50 border border-slate-200 rounded-2xl p-4"
             >
               <div className="text-[#f4b41a] text-lg mb-2">
                 {item.icon}
               </div>
               <h3 className="font-semibold mb-1 text-sm">{item.title}</h3>
-              <p className="text-xs text-slate-300">{item.text}</p>
+              <p className="text-xs text-slate-500">{item.text}</p>
             </div>
           ))}
         </div>

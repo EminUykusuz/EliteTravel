@@ -1,45 +1,77 @@
 // src/components/Navbar.jsx
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import { Phone } from "lucide-react";
 
 const Navbar = () => {
   return (
-    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-slate-200">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3">
+    <nav className="bg-white/90 backdrop-blur border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-2">
           <img
-            src="/elite-travel-logo.png"
-            alt="Elite travel logo"
-            className="h-10 md:h-11 w-auto"
+            src="/images/elite-travel-logo.png"
+            alt="Elite Travel"
+            className="h-9 w-auto"
           />
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 text-xs font-medium text-slate-700 uppercase">
-          <a href="#turlar" className="hover:text-[#0b3954] transition">
+        {/* Menü */}
+        <div className="hidden md:flex items-center gap-6 text-sm">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `hover:text-[#0b3954] ${
+                isActive ? "text-[#0b3954] font-semibold" : "text-slate-600"
+              }`
+            }
+          >
+            Ana Sayfa
+          </NavLink>
+          <NavLink
+            to="/turlar"
+            className={({ isActive }) =>
+              `hover:text-[#0b3954] ${
+                isActive ? "text-[#0b3954] font-semibold" : "text-slate-600"
+              }`
+            }
+          >
             Turlar
-          </a>
-          <a href="#takvim" className="hover:text-[#0b3954] transition">
-            Tur Takvimi
-          </a>
-          <a href="#neden" className="hover:text-[#0b3954] transition">
-            Neden Biz?
-          </a>
-          <a href="#sss" className="hover:text-[#0b3954] transition">
-            SSS
-          </a>
-          <a href="#iletisim" className="hover:text-[#0b3954] transition">
+          </NavLink>
+          <NavLink
+            to="/hakkimizda"
+            className={({ isActive }) =>
+              `hover:text-[#0b3954] ${
+                isActive ? "text-[#0b3954] font-semibold" : "text-slate-600"
+              }`
+            }
+          >
+            Hakkımızda
+          </NavLink>
+          <NavLink
+            to="/iletisim"
+            className={({ isActive }) =>
+              `hover:text-[#0b3954] ${
+                isActive ? "text-[#0b3954] font-semibold" : "text-slate-600"
+              }`
+            }
+          >
             İletişim
-          </a>
-        </nav>
+          </NavLink>
+        </div>
 
-        <a
-          href="#iletisim"
-          className="hidden md:inline-flex items-center px-4 py-2 rounded-full bg-[#f4b41a] text-white text-xs font-semibold uppercase tracking-wide hover:bg-[#f7c94c] transition"
-        >
-          Hemen Bilgi Al
-        </a>
+        {/* Sağ taraf – Telefon CTA */}
+        <div className="hidden md:flex items-center gap-2">
+          <div className="flex items-center gap-2 text-xs text-slate-600">
+            <Phone className="w-4 h-4 text-[#0b3954]" />
+            <span>+31 6 21525757</span>
+          </div>
+        </div>
+
+        {/* Mobile placeholder (istersen ileride menu ekleriz) */}
+        <div className="md:hidden text-xs text-slate-600">Menu</div>
       </div>
-    </header>
+    </nav>
   );
 };
 

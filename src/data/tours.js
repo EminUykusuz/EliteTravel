@@ -3,172 +3,141 @@
 export const tours = [
   {
     id: 1,
-    slug: "istanbul-bursa-gunubirlik",
-    title: "İstanbul & Bursa Osmanlı İzleri Turu",
-    shortTitle: "İstanbul & Bursa",
-    duration: "1 Gün · Günübirlik",
-    type: "Günübirlik",
-    price: 1499,
-    currency: "TRY",
-    departureCity: "İstanbul",
-    datesText: "Seçili hafta sonları · Mart - Haziran 2025",
-    thumbnail: "/images/istanbul-bursa-card.jpg", // public/images içine at
-    heroImage: "/images/istanbul-bursa-hero.jpg",
+    slug: "osmanli-baskentleri-sogut",
+    type: "Osmanlı Başkentleri",
+    title: "Osmanlı Başkentleri Turu (İstanbul · Bursa · Bilecik/Söğüt)",
+    duration: "5 Gece · 6 Gün",
+    departureCity: "Düsseldorf",
+    datesText: "21 – 26 Kasım 2025",
+    price: 850,
+    currency: "EUR",
+    whatsappNumber: "31621525757",
+    thumbnail: "/images/osmanli-sogut-thumb.jpg",
+    heroImage: "/images/osmanli-sogut-hero.jpg",
     summary:
-      "İstanbul’dan çıkışlı, Bursa Ulu Camii, Yeşil Türbe, Tophane ve Emir Sultan ziyaretleriyle dolu günübirlik tarih turu.",
+      "Dr. Ahmet Anapalı rehberliğinde İstanbul, Bursa ve Bilecik/Söğüt’ü kapsayan 5 gece 6 günlük tarih ve maneviyat yolculuğu. Düsseldorf çıkışlı, uçak + konaklama + şehir turları dahil.",
     highlights: [
-      "İstanbul Avrupa & Anadolu yakasından merkezî kalkış noktaları",
-      "Ulu Camii, Yeşil Türbe, Emir Sultan, Tophane ve tarihi çarşı",
-      "Profesyonel rehber eşliğinde Osmanlı tarihi anlatımı",
-      "Konforlu turizm araçları ile ulaşım",
-    ],
-    included: [
-      "Lüks araçlarla gidiş–dönüş ulaşım",
-      "Profesyonel rehberlik hizmeti",
-      "Seyahat sigortası",
-    ],
-    excluded: [
-      "Öğle ve akşam yemekleri",
-      "Kişisel harcamalar",
-      "Müze ve ören yeri giriş ücretleri",
-    ],
-    itinerary: [
-      {
-        day: "Sabah",
-        title: "İstanbul’dan Hareket",
-        description:
-          "Belirlenen noktalardan misafirlerin alınması, araç içi bilgilendirme ve Bursa’ya hareket.",
-      },
-      {
-        day: "Öğle",
-        title: "Ulu Camii & Çevresi",
-        description:
-          "Ulu Camii ziyareti, rehber eşliğinde anlatım, ardından tarihi çarşı ve serbest zaman.",
-      },
-      {
-        day: "Öğleden Sonra",
-        title: "Yeşil Türbe & Emir Sultan",
-        description:
-          "Yeşil Türbe, Emir Sultan ve panoramik şehir turu. Fotoğraf molaları.",
-      },
-      {
-        day: "Akşam",
-        title: "İstanbul’a Dönüş",
-        description:
-          "Bursa’dan hareket, İstanbul’a dönüş ve bir sonraki turda görüşmek üzere vedalaşma.",
-      },
-    ],
-    whatsappNumber: "905555555555",
-  },
-  {
-    id: 2,
-    slug: "bursa-bilecik-sogut-konaklamali",
-    title: "Bursa · Bilecik · Söğüt Osmanlı Başlangıç Rotası",
-    shortTitle: "Bursa · Bilecik · Söğüt",
-    duration: "2 Gün · 1 Gece Konaklamalı",
-    type: "Konaklamalı",
-    price: 2899,
-    currency: "TRY",
-    departureCity: "İstanbul",
-    datesText: "Belirli hafta sonları · 2025",
-    thumbnail: "/images/bursa-bilecik-sogut-card.jpg",
-    heroImage: "/images/bursa-bilecik-sogut-hero.jpg",
-    summary:
-      "Osmanlı’nın kuruluş izlerini Bursa, Bilecik ve Söğüt hattında derinlemesine deneyimleyebileceğiniz tarih turu.",
-    highlights: [
-      "Ertuğrul Gazi ve Şeyh Edebali türbeleri",
-      "Söğüt çarşı ve Osmanlı başlangıç coğrafyası",
-      "Merkezi konumlu otelde 1 gece konaklama",
-      "Rehber eşliğinde detaylı tarih bilgisi",
-    ],
-    included: [
-      "Lüks araçlarla ulaşım",
-      "1 gece otel konaklaması (yarım pansiyon)",
-      "Profesyonel rehberlik",
-      "Seyahat sigortası",
-    ],
-    excluded: [
-      "Öğle yemekleri",
-      "Müze giriş ücretleri",
-      "Kişisel harcamalar",
-    ],
-    itinerary: [
-      {
-        day: "1. Gün Sabah",
-        title: "İstanbul → Bursa",
-        description:
-          "İstanbul’dan hareket, Bursa şehir gezisi, Ulu Camii, Yeşil Türbe ve serbest zaman.",
-      },
-      {
-        day: "1. Gün Akşam",
-        title: "Otele Yerleşme",
-        description:
-          "Otele giriş, akşam yemeği ve serbest zaman.",
-      },
-      {
-        day: "2. Gün Sabah",
-        title: "Bursa → Bilecik → Söğüt",
-        description:
-          "Şeyh Edebali, Ertuğrul Gazi türbeleri, Söğüt ve çevre gezileri.",
-      },
-      {
-        day: "2. Gün Akşam",
-        title: "Dönüş",
-        description:
-          "İstanbul’a dönüş yolculuğu, molalar ve tur sonu.",
-      },
-    ],
-    whatsappNumber: "905555555555",
-  },
-  {
-    id: 3,
-    slug: "tam-osmanli-baskentleri-rotasi",
-    title: "Tam Osmanlı Başkentleri Rotası",
-    shortTitle: "Tüm Başkentler",
-    duration: "3 Gün · 2 Gece Konaklamalı",
-    type: "Konaklamalı",
-    price: 4499,
-    currency: "TRY",
-    departureCity: "İstanbul",
-    datesText: "Sınırlı çıkış tarihleri · 2025",
-    thumbnail: "/images/full-rotasyon-card.jpg",
-    heroImage: "/images/full-rotasyon-hero.jpg",
-    summary:
-      "İstanbul, Bursa, Bilecik ve Söğüt’ü kapsayan kapsamlı Osmanlı başkentleri turu.",
-    highlights: [
-      "Tüm Osmanlı başkentlerine tek turda ziyaret",
-      "2 gece otel konaklaması",
-      "Detaylı tarih anlatımları",
-      "Küçük grup kontenjanı ile daha rahat deneyim",
-    ],
-    included: [
-      "Lüks araçlarla ulaşım",
-      "2 gece konaklama",
-      "Profesyonel rehberlik",
-      "Seyahat sigortası",
-    ],
-    excluded: [
-      "Öğle yemekleri",
-      "Müze girişleri",
-      "Kişisel harcamalar",
+      "Dr. Ahmet Anapalı eşliğinde özel anlatımlar",
+      "İstanbul, Bursa ve Söğüt’te rehberli şehir turları",
+      "4 ve 5 yıldızlı otellerde 5 gece kahvaltı dahil konaklama",
+      "Düsseldorf – Sabiha Gökçen gidiş-dönüş uçak bileti",
+      "Özel araçla konforlu ulaşım",
     ],
     itinerary: [
       {
         day: "1. Gün",
-        title: "İstanbul & Bursa",
-        description: "İstanbul çıkış, Bursa şehir turu ve otele yerleşme.",
+        title: "Düsseldorf → İstanbul → Söğüt → Bursa",
+        description:
+          "Düsseldorf buluşma, Düsseldorf–Sabiha Gökçen uçuşu, Söğüt’e transfer, Ertuğrul Gazi ziyareti ve akşam yemeği, ardından Bursa’ya geçiş ve otele yerleşme.",
       },
       {
         day: "2. Gün",
-        title: "Bursa & Bilecik",
-        description: "Bursa’dan Bilecik’e geçiş, Şeyh Edebali ziyareti ve konaklama.",
+        title: "Bursa Tarih ve Maneviyat Turu",
+        description:
+          "Osman Gazi, Orhan Gazi, Murad Hüdavendigâr, Yıldırım Bayezid, Çelebi Mehmet (Yeşil Türbe), II. Murad, Ulu Cami, Karagöz Müzesi, Panorama 1326 ve Emir Sultan ziyaretleri.",
+      },
+      {
+        day: "3–5. Gün",
+        title: "İstanbul Tarihi Yarımada ve Maneviyat Güzergahları",
+        description:
+          "Yedikule, Panorama 1453, Topkapı Sarayı, Ayasofya, Süleymaniye, Eyüp Sultan ve daha birçok durakta rehber eşliğinde tarih yolculuğu.",
+      },
+      {
+        day: "6. Gün",
+        title: "İstanbul → Düsseldorf",
+        description:
+          "Serbest zaman ve alışveriş imkanı sonrası havalimanına transfer ve Düsseldorf’a dönüş uçuşu.",
+      },
+    ],
+    included: [
+      "Düsseldorf – Sabiha Gökçen gidiş-dönüş uçak bileti",
+      "25 + 8 kg bagaj hakkı",
+      "4 ve 5 yıldızlı otellerde 5 gece kahvaltı dahil konaklama",
+      "2 kişilik odalarda konaklama",
+      "İstanbul, Bursa ve Söğüt’te şehir turları",
+      "Tur boyunca özel araç ile ulaşım",
+      "Profesyonel rehberlik (Dr. Ahmet Anapalı)",
+    ],
+    excluded: [
+      "Müze ve ören yeri giriş ücretleri",
+      "Öğle ve akşam yemekleri",
+      "Kişisel harcamalar",
+      "Tek kişilik oda farkı (€150,-)",
+    ],
+  },
+  {
+    id: 2,
+    slug: "osmanli-baskentleri-edirne",
+    type: "Osmanlı Başkentleri",
+    title: "Osmanlı Başkentleri Turu (İstanbul · Bursa · Edirne)",
+    duration: "5 Gece · 6 Gün",
+    departureCity: "Düsseldorf",
+    datesText: "21 – 26 Kasım 2025",
+    price: 850,
+    currency: "EUR",
+    whatsappNumber: "31621525757",
+    thumbnail: "/images/osmanli-edirne-thumb.jpg",
+    heroImage: "/images/osmanli-edirne-hero.jpg",
+    summary:
+      "İstanbul, Bursa ve Edirne’yi kapsayan, Selimiye ve Boğaz turu içeren özel Osmanlı Başkentleri programı. Düsseldorf çıkışlı, sınırlı kontenjanlı fuar özel turu.",
+    highlights: [
+      "İstanbul, Bursa ve Edirne’de rehberli şehir turları",
+      "Boğaz’da tekne turu",
+      "4 yıldızlı otelde 5 gece kahvaltı dahil konaklama",
+      "Düsseldorf – Sabiha Gökçen uçuşu dahil",
+      "Dr. Ahmet Anapalı eşliğinde tarih ve maneviyat",
+    ],
+    itinerary: [
+      {
+        day: "1. Gün",
+        title: "Düsseldorf → İstanbul",
+        description:
+          "Düsseldorf’ta buluşma, uçuş ve İstanbul otele yerleşme, kısa şehir tanıtımı.",
+      },
+      {
+        day: "2. Gün",
+        title: "Bursa Ziyaretleri",
+        description:
+          "Bursa’ya hareket, Osman Gazi ve Orhan Gazi türbeleri, Ulu Cami, tarihi çarşılar ve panoramik tur.",
       },
       {
         day: "3. Gün",
-        title: "Söğüt & Dönüş",
-        description: "Söğüt ziyaretleri, Ertuğrul Gazi Türbesi ve İstanbul’a dönüş.",
+        title: "Edirne · Selimiye ve Osmanlı Mirası",
+        description:
+          "Selimiye Camii, Eski Camii, Üç Şerefeli Camii ve şehir gezisi; akşam İstanbul’a dönüş.",
+      },
+      {
+        day: "4. Gün",
+        title: "İstanbul Klasik Tur + Boğaz Gezisi",
+        description:
+          "Tarihi yarımada ziyaretleri ve Boğaz’da tekne turu; akşam serbest zaman.",
+      },
+      {
+        day: "5. Gün",
+        title: "Serbest Zaman ve Alışveriş",
+        description:
+          "İsteğe bağlı ekstra geziler ve alışveriş imkanı.",
+      },
+      {
+        day: "6. Gün",
+        title: "İstanbul → Düsseldorf",
+        description: "Havalimanına transfer ve Düsseldorf’a dönüş.",
       },
     ],
-    whatsappNumber: "905555555555",
+    included: [
+      "Düsseldorf – Sabiha Gökçen gidiş-dönüş uçak bileti",
+      "20 + 8 kg bagaj hakkı",
+      "4 yıldızlı otelde 5 gece kahvaltı dahil konaklama",
+      "2 kişilik odalarda konaklama",
+      "İstanbul, Bursa ve Edirne’de şehir turları",
+      "Boğaz’da tekne turu",
+      "Tur boyunca özel araç ile ulaşım",
+    ],
+    excluded: [
+      "Müze ve ören yeri giriş ücretleri (MüzeKart tavsiye edilir)",
+      "Öğle ve akşam yemekleri",
+      "Kişisel harcamalar",
+      "Tek kişilik oda farkı (€150,-)",
+    ],
   },
 ];
