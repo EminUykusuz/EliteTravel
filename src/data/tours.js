@@ -1,143 +1,97 @@
-// src/data/tours.js
-
+// src/data.js
+import cami from "../assets/beautiful-suleymaniye-camii-istanbul.jpg";
+import cami2 from "../assets/golden-mosque-dome-with-doves-flight.jpg";
 export const tours = [
+  // --- 1. TUR: BURSA & SÖĞÜT (Programın Aynısı) ---
   {
     id: 1,
-    slug: "osmanli-baskentleri-sogut",
+    slug: "osmanli-baskentleri-kasim-2025",
+    isActive: true,
     type: "Osmanlı Başkentleri",
-    title: "Osmanlı Başkentleri Turu (İstanbul · Bursa · Bilecik/Söğüt)",
-    duration: "5 Gece · 6 Gün",
-    departureCity: "Düsseldorf",
-    datesText: "21 – 26 Kasım 2025",
+    title: "Dr. Ahmet Anapalı ile Osmanlı Başkentleri: Bursa & Söğüt",
+    summary: "Sultanların izinde, Düsseldorf çıkışlı, tarih ve maneviyat dolu 6 günlük eşsiz bir bakış açısı yolculuğu.",
     price: 850,
     currency: "EUR",
-    whatsappNumber: "31621525757",
-    thumbnail: "/images/osmanli-sogut-thumb.jpg",
-    heroImage: "/images/osmanli-sogut-hero.jpg",
-    summary:
-      "Dr. Ahmet Anapalı rehberliğinde İstanbul, Bursa ve Bilecik/Söğüt’ü kapsayan 5 gece 6 günlük tarih ve maneviyat yolculuğu. Düsseldorf çıkışlı, uçak + konaklama + şehir turları dahil.",
-    highlights: [
-      "Dr. Ahmet Anapalı eşliğinde özel anlatımlar",
-      "İstanbul, Bursa ve Söğüt’te rehberli şehir turları",
-      "4 ve 5 yıldızlı otellerde 5 gece kahvaltı dahil konaklama",
-      "Düsseldorf – Sabiha Gökçen gidiş-dönüş uçak bileti",
-      "Özel araçla konforlu ulaşım",
-    ],
+    datesText: "21 – 26 Kasım 2025",
+    duration: "5 Gece · 6 Gün",
+    departureCity: "Düsseldorf (DUS)",
+    
+    // SAĞLAMLAŞTIRILMIŞ LİNKLER
+    thumbnail: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&q=80", // İstanbul Klasik
+    heroImage: "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a6b?w=1920&q=80", // Sultanahmet
+
+    highlights: ["Dr. Ahmet Anapalı Anlatımı", "Söğüt Ertuğrul Gazi", "Bursa Ulu Camii", "Ayasofya-i Kebir", "Topkapı Sarayı"],
+    
     itinerary: [
-      {
-        day: "1. Gün",
-        title: "Düsseldorf → İstanbul → Söğüt → Bursa",
-        description:
-          "Düsseldorf buluşma, Düsseldorf–Sabiha Gökçen uçuşu, Söğüt’e transfer, Ertuğrul Gazi ziyareti ve akşam yemeği, ardından Bursa’ya geçiş ve otele yerleşme.",
-      },
-      {
-        day: "2. Gün",
-        title: "Bursa Tarih ve Maneviyat Turu",
-        description:
-          "Osman Gazi, Orhan Gazi, Murad Hüdavendigâr, Yıldırım Bayezid, Çelebi Mehmet (Yeşil Türbe), II. Murad, Ulu Cami, Karagöz Müzesi, Panorama 1326 ve Emir Sultan ziyaretleri.",
-      },
-      {
-        day: "3–5. Gün",
-        title: "İstanbul Tarihi Yarımada ve Maneviyat Güzergahları",
-        description:
-          "Yedikule, Panorama 1453, Topkapı Sarayı, Ayasofya, Süleymaniye, Eyüp Sultan ve daha birçok durakta rehber eşliğinde tarih yolculuğu.",
-      },
-      {
-        day: "6. Gün",
-        title: "İstanbul → Düsseldorf",
-        description:
-          "Serbest zaman ve alışveriş imkanı sonrası havalimanına transfer ve Düsseldorf’a dönüş uçuşu.",
-      },
+      { day: 1, title: "Kuruluşun Toprakları", description: "07:30 PC 1006 ile İstanbul'a varış. Söğüt'e transfer, Ertuğrul Gazi ziyareti ve Bursa'ya geçiş." },
+      { day: 2, title: "Ulu Şehir Bursa", description: "Osman Gazi, Orhan Gazi, Yeşil Türbe, Ulu Camii, Panorama 1326 ve Emir Sultan." },
+      { day: 3, title: "Dersaadet İstanbul", description: "Yedikule, Panorama 1453, Topkapı Sarayı ve Ayasofya-i Kebir." },
+      { day: 4, title: "Sultanların İstanbul'u", description: "II. Abdülhamid Han, Süleymaniye, Fatih Camii, Eyüp Sultan ve Cülus Yolu." },
+      { day: 5, title: "Saraylar ve Boğaz", description: "Dolmabahçe Sarayı, Barbaros Hayreddin Paşa ve Yıldız Sarayı." },
+      { day: 6, title: "Veda", description: "Serbest zaman sonrası havalimanı transferi. 17:35 PC 1005 ile Düsseldorf'a dönüş." }
     ],
-    included: [
-      "Düsseldorf – Sabiha Gökçen gidiş-dönüş uçak bileti",
-      "25 + 8 kg bagaj hakkı",
-      "4 ve 5 yıldızlı otellerde 5 gece kahvaltı dahil konaklama",
-      "2 kişilik odalarda konaklama",
-      "İstanbul, Bursa ve Söğüt’te şehir turları",
-      "Tur boyunca özel araç ile ulaşım",
-      "Profesyonel rehberlik (Dr. Ahmet Anapalı)",
-    ],
-    excluded: [
-      "Müze ve ören yeri giriş ücretleri",
-      "Öğle ve akşam yemekleri",
-      "Kişisel harcamalar",
-      "Tek kişilik oda farkı (€150,-)",
-    ],
+    whatsappNumber: "31621525757"
   },
+
+  // --- 2. TUR: EDİRNE & İSTANBUL (MİMAR SİNAN ROTASI) ---
   {
     id: 2,
-    slug: "osmanli-baskentleri-edirne",
+    slug: "serhat-sehri-edirne-aralik-2025",
+    isActive: true,
     type: "Osmanlı Başkentleri",
-    title: "Osmanlı Başkentleri Turu (İstanbul · Bursa · Edirne)",
-    duration: "5 Gece · 6 Gün",
-    departureCity: "Düsseldorf",
-    datesText: "21 – 26 Kasım 2025",
-    price: 850,
+    title: "Mimar Sinan'ın İzinde: Edirne & İstanbul",
+    summary: "Osmanlı'nın Avrupa'ya açılan kapısı Edirne ve Mimar Sinan'ın ustalık eseri Selimiye'nin gölgesinde bir yolculuk.",
+    price: 790,
     currency: "EUR",
-    whatsappNumber: "31621525757",
-    thumbnail: "/images/osmanli-edirne-thumb.jpg",
-    heroImage: "/images/osmanli-edirne-hero.jpg",
-    summary:
-      "İstanbul, Bursa ve Edirne’yi kapsayan, Selimiye ve Boğaz turu içeren özel Osmanlı Başkentleri programı. Düsseldorf çıkışlı, sınırlı kontenjanlı fuar özel turu.",
-    highlights: [
-      "İstanbul, Bursa ve Edirne’de rehberli şehir turları",
-      "Boğaz’da tekne turu",
-      "4 yıldızlı otelde 5 gece kahvaltı dahil konaklama",
-      "Düsseldorf – Sabiha Gökçen uçuşu dahil",
-      "Dr. Ahmet Anapalı eşliğinde tarih ve maneviyat",
-    ],
+    datesText: "12 – 16 Aralık 2025",
+    duration: "4 Gece · 5 Gün",
+    departureCity: "Köln (CGN)",
+    
+    // SAĞLAMLAŞTIRILMIŞ LİNKLER (Edirne havası veren görseller)
+    thumbnail: cami, // Cami Detayı
+    heroImage: "https://images.unsplash.com/photo-1622587676646-0b44d32049e7?w=1920&q=80", // Selimiye/Edirne Genel
+
+    highlights: ["Selimiye Camii", "II. Bayezid Külliyesi", "Meriç Köprüsü", "Edirne Ciğeri", "Boğaz Turu"],
+    
+    // SENİN İÇİN DOLDURDUĞUM PROGRAM
     itinerary: [
-      {
-        day: "1. Gün",
-        title: "Düsseldorf → İstanbul",
-        description:
-          "Düsseldorf’ta buluşma, uçuş ve İstanbul otele yerleşme, kısa şehir tanıtımı.",
-      },
-      {
-        day: "2. Gün",
-        title: "Bursa Ziyaretleri",
-        description:
-          "Bursa’ya hareket, Osman Gazi ve Orhan Gazi türbeleri, Ulu Cami, tarihi çarşılar ve panoramik tur.",
-      },
-      {
-        day: "3. Gün",
-        title: "Edirne · Selimiye ve Osmanlı Mirası",
-        description:
-          "Selimiye Camii, Eski Camii, Üç Şerefeli Camii ve şehir gezisi; akşam İstanbul’a dönüş.",
-      },
-      {
-        day: "4. Gün",
-        title: "İstanbul Klasik Tur + Boğaz Gezisi",
-        description:
-          "Tarihi yarımada ziyaretleri ve Boğaz’da tekne turu; akşam serbest zaman.",
-      },
-      {
-        day: "5. Gün",
-        title: "Serbest Zaman ve Alışveriş",
-        description:
-          "İsteğe bağlı ekstra geziler ve alışveriş imkanı.",
-      },
-      {
-        day: "6. Gün",
-        title: "İstanbul → Düsseldorf",
-        description: "Havalimanına transfer ve Düsseldorf’a dönüş.",
-      },
+      { day: 1, title: "Serhat Şehri'ne Yolculuk", description: "İstanbul Havalimanı'nda karşılama ve özel araçlarla Edirne'ye hareket. Otele yerleşme ve akşam Meriç Nehri kenarında çay keyfi." },
+      { day: 2, title: "Mimar Sinan'ın Ustalığı", description: "Dünya mimarlık tarihinin zirvesi Selimiye Camii, Üç Şerefeli Camii ve yazılarıyla ünlü Eski Camii ziyareti. Öğle yemeğinde meşhur Edirne ciğeri ikramı." },
+      { day: 3, title: "Şifanın Tarihi ve Karaağaç", description: "Avrupa Konseyi ödüllü II. Bayezid Sağlık Müzesi (Darüşşifa), Lozan Anıtı ve Karaağaç Tren İstasyonu gezisi." },
+      { day: 4, title: "İstanbul'a Dönüş ve Eyüp Sultan", description: "Sabah kahvaltısı sonrası İstanbul'a dönüş. Eyüp Sultan Hazretleri ziyareti ve Pierre Loti tepesinde Haliç manzarası." },
+      { day: 5, title: "Boğaz'ın İncileri ve Veda", description: "Tekne ile Boğaz turu, Ortaköy ve Eminönü Mısır Çarşısı gezisi sonrası havalimanına transfer." }
     ],
-    included: [
-      "Düsseldorf – Sabiha Gökçen gidiş-dönüş uçak bileti",
-      "20 + 8 kg bagaj hakkı",
-      "4 yıldızlı otelde 5 gece kahvaltı dahil konaklama",
-      "2 kişilik odalarda konaklama",
-      "İstanbul, Bursa ve Edirne’de şehir turları",
-      "Boğaz’da tekne turu",
-      "Tur boyunca özel araç ile ulaşım",
-    ],
-    excluded: [
-      "Müze ve ören yeri giriş ücretleri (MüzeKart tavsiye edilir)",
-      "Öğle ve akşam yemekleri",
-      "Kişisel harcamalar",
-      "Tek kişilik oda farkı (€150,-)",
-    ],
+    whatsappNumber: "31621525757"
   },
+
+  // --- 3. TUR: KUDÜS (MANEVİYAT DOLU ROTA) ---
+  {
+    id: 3,
+    slug: "kudus-mirac-yolculugu-2026",
+    isActive: true,
+    type: "Maneviyat Turları",
+    title: "Miracın Gölgesinde: Kudüs-ü Şerif",
+    summary: "İlk kıblemiz Mescid-i Aksa'da Cuma namazı ve Peygamberler şehrinde manevi bir diriliş.",
+    price: 1150,
+    currency: "EUR",
+    datesText: "15 – 19 Şubat 2026",
+    duration: "4 Gece · 5 Gün",
+    departureCity: "Düsseldorf (DUS)",
+    
+    // SAĞLAMLAŞTIRILMIŞ LİNKLER
+    thumbnail: cami2, // Kubbet-üs Sahra
+    heroImage: "https://images.unsplash.com/photo-1564998708761-a831e5f08577?w=1920&q=80", // Kudüs Genel
+
+    highlights: ["Mescid-i Aksa", "Kubbet-üs Sahra", "El-Halil Kenti", "Burak Duvarı", "Zeytin Dağı"],
+    
+    // SENİN İÇİN DOLDURDUĞUM PROGRAM
+    itinerary: [
+      { day: 1, title: "Kutsal Topraklara Vuslat", description: "Tel Aviv Havalimanı'na varış ve Kudüs'e transfer. Mescid-i Aksa'da ilk ikindi namazı ve Burak Duvarı ziyareti." },
+      { day: 2, title: "Peygamberler Şehri", description: "Zeytin Dağı'ndan Kudüs panoraması, Selman-ı Farisi ve Rabia-tül Adeviyye makamları. Akşam Mescid-i Aksa'da sohbet." },
+      { day: 3, title: "El-Halil ve Hz. İbrahim", description: "El-Halil kentine hareket. Hz. İbrahim, Hz. İshak, Hz. Yakup ve zevcelerinin kabirlerini ziyaret. Beytüllahim gezisi." },
+      { day: 4, title: "Eski Şehir ve Cuma Namazı", description: "Kudüs sur içi, Kıyamet Kilisesi, Hz. Ömer Camii gezileri. Mescid-i Aksa avlusunda Cuma namazı heyecanı." },
+      { day: 5, title: "Yafa ve Dönüş", description: "Osmanlı mirası Yafa şehri, Sultan Abdülhamid Saat Kulesi ve Bahriye Camii ziyareti sonrası havalimanına transfer." }
+    ],
+    whatsappNumber: "31621525757"
+  }
 ];

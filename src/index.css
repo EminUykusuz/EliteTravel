@@ -5,3 +5,41 @@ body {
   background-color: #f5f5f7; /* AÇIK ARKA PLAN */
   color: #0f172a; /* koyu yazı rengi (slate-900 tadında) */
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* LENIS NOTU:
+   Lenis kullandığımız için "html { scroll-behavior: smooth; }" eklememelisin.
+   Lenis bu işi kendi motoruyla yapıyor.
+*/
+
+/* --- MERKEZİ SCROLLBAR TASARIMI --- */
+
+/* 1. Webkit Tarayıcılar (Chrome, Safari, Edge, Opera) */
+::-webkit-scrollbar {
+  width: 10px; /* Genişlik ideal incelikte */
+}
+
+/* Scrollbar Arka Planı (Track) */
+::-webkit-scrollbar-track {
+  background: #f6f7f9; /* elite-base rengiyle bütünleşsin */
+}
+
+/* Hareket Eden Çubuk (Thumb) */
+::-webkit-scrollbar-thumb {
+  background-color: #d1d5db; /* İlk başta sakin gri */
+  border-radius: 999px; /* Tam yuvarlak köşeler */
+  border: 2px solid #f6f7f9; /* Kenarlardan boşluk bırakarak 'havada duruyor' hissi verir */
+}
+
+/* Çubuğun Üzerine Gelince */
+::-webkit-scrollbar-thumb:hover {
+  background-color: #0b3954; /* Markamızın Laciverti (Elite Dark) */
+}
+
+/* 2. Firefox İçin (Webkit desteklemez) */
+html {
+  scrollbar-width: thin; /* İnce çubuk */
+  scrollbar-color: #d1d5db #f6f7f9; /* Çubuk Rengi / Arka Plan Rengi */
+}

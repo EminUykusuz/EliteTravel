@@ -1,200 +1,81 @@
-// src/pages/TourDetailPage.jsx
-import React from "react";
-import { useParams, Link } from "react-router-dom";
-import { tours } from "../data/tours.js";
-import Navbar from "../components/Navbar.jsx";
-import Footer from "../components/Footer.jsx";
+import { useParams } from 'react-router-dom';
+import { tours } from '../data/tours';
+import ScheduleSection from '../components/sections/ScheduleSection'; // YENİ
+import Badge from '../components/ui/Badge'; // YENİ
+import { Calendar, MapPin, CheckCircle, Clock } from 'lucide-react';
+import { motion } from 'framer-motion';
 
-const TourDetailPage = () => {
+export default function TourDetailPage() {
   const { slug } = useParams();
-  const tour = tours.find((t) => t.slug === slug);
+  const tour = tours.find(t => t.slug === slug);
 
-  if (!tour) {
-    return (
-      <>
-        <Navbar />
-        <main className="bg-[#f3f4f6] min-h-[60vh]">
-          <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-            <h1 className="text-2xl font-bold mb-2 text-slate-900">
-              Tur bulunamadı
-            </h1>
-            <p className="text-slate-600 mb-4">
-              Aradığınız tur yayından kaldırılmış veya henüz eklenmemiş olabilir.
-            </p>
-            <Link
-              to="/turlar"
-              className="inline-flex px-4 py-2 rounded-full bg-[#f4b41a] text-white text-xs font-semibold hover:bg-[#ffd44f] transition"
-            >
-              Tüm turlara dön
-            </Link>
-          </div>
-        </main>
-        <Footer />
-      </>
-    );
-  }
-
-  const currencySymbol = tour.currency === "EUR" ? "€" : "₺";
-
-  const whatsappLink = `https://wa.me/${tour.whatsappNumber}?text=${encodeURIComponent(
-    `Merhaba, "${tour.title}" turu hakkında bilgi almak istiyorum.`
-  )}`;
+  if (!tour) return <div className="text-center py-20">Tur bulunamadı.</div>;
 
   return (
-    <>
-      <Navbar />
-      <section className="bg-[#f3f4f6] border-b border-slate-200">
-        <div className="max-w-6xl mx-auto px-4 pt-6 pb-10">
-          <Link
-            to="/turlar"
-            className="inline-flex text-xs text-slate-600 hover:text-[#f4b41a] mb-4"
-          >
-            ← Tüm turlara dön
-          </Link>
-
-          <div className="grid md:grid-cols-[2fr,1fr] gap-8 items-start">
-            {/* SOL */}
-            <div>
-              <div className="aspect-[16/9] rounded-2xl overflow-hidden border border-slate-200 mb-4 bg-white shadow-sm">
-                <img
-                  src={tour.heroImage || tour.thumbnail}
-                  alt={tour.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              <div className="flex flex-wrap gap-3 text-[11px] mb-3">
-                {tour.duration && (
-                  <span className="px-2 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                    {tour.duration}
-                  </span>
-                )}
-                {tour.departureCity && (
-                  <span className="px-2 py-1 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
-                    Kalkış: {tour.departureCity}
-                  </span>
-                )}
-              </div>
-
-              <h1 className="text-2xl md:text-3xl font-bold mb-2 text-slate-900">
-                {tour.title}
-              </h1>
-              <p className="text-sm text-slate-700 mb-4">{tour.summary}</p>
-
-              {tour.highlights && tour.highlights.length > 0 && (
-                <div className="mb-6">
-                  <h2 className="text-sm font-semibold mb-2 text-slate-900">
-                    Öne Çıkanlar
-                  </h2>
-                  <ul className="list-disc list-inside text-xs text-slate-700 space-y-1">
-                    {tour.highlights.map((h, i) => (
-                      <li key={i}>{h}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {tour.itinerary && tour.itinerary.length > 0 && (
-                <div className="mb-6">
-                  <h2 className="text-sm font-semibold mb-2 text-slate-900">
-                    Tur Programı (Örnek Akış)
-                  </h2>
-                  <div className="space-y-3">
-                    {tour.itinerary.map((step, i) => (
-                      <div
-                        key={i}
-                        className="border border-slate-200 rounded-xl p-3 text-xs bg-white shadow-sm"
-                      >
-                        <div className="text-[#f4b41a] font-semibold mb-1">
-                          {step.day}
-                        </div>
-                        <div className="font-semibold mb-1 text-slate-900">
-                          {step.title}
-                        </div>
-                        <p className="text-slate-700">{step.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <div className="grid md:grid-cols-2 gap-4 text-xs">
-                {tour.included && (
-                  <div className="border border-slate-200 rounded-xl p-3 bg-white shadow-sm">
-                    <h3 className="text-sm font-semibold mb-2 text-emerald-500">
-                      Fiyata Dahil Olan Hizmetler
-                    </h3>
-                    <ul className="list-disc list-inside text-slate-700 space-y-1">
-                      {tour.included.map((item, i) => (
-                        <li key={i}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {tour.excluded && (
-                  <div className="border border-slate-200 rounded-xl p-3 bg-white shadow-sm">
-                    <h3 className="text-sm font-semibold mb-2 text-rose-500">
-                      Fiyata Dahil Olmayanlar
-                    </h3>
-                    <ul className="list-disc list-inside text-slate-700 space-y-1">
-                      {tour.excluded.map((item, i) => (
-                        <li key={i}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-
-              <p className="text-[11px] text-slate-500 mt-4">
-                *Program akışı hava, yol ve resmi durumlara göre rehber tarafından
-                küçük değişikliklerle güncellenebilir. Kesin program kayıt
-                sırasında sözleşme ile paylaşılır.
-              </p>
+    <div className="pb-20">
+      {/* Hero Kısmı */}
+      <div className="relative h-[60vh]">
+        <img src={tour.heroImage} className="w-full h-full object-cover" alt={tour.title} />
+        <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white text-center p-4">
+          <div className="max-w-4xl">
+            <Badge variant="accent" className="mb-4">{tour.type}</Badge>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">{tour.title}</h1>
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8 font-medium text-lg">
+              <span className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm"><Clock size={20}/> {tour.duration}</span>
+              <span className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm"><MapPin size={20}/> {tour.departureCity} Çıkışlı</span>
             </div>
-
-            {/* SAĞ – Fiyat kutusu */}
-            <aside className="bg-white border border-slate-200 rounded-2xl p-4 sticky top-20 self-start shadow-sm">
-              <div className="text-xs text-slate-600 mb-1">
-                Kişi Başı Başlangıç Fiyatı
-              </div>
-              <div className="text-3xl font-bold text-[#f4b41a] mb-2">
-                {currencySymbol}
-                {tour.price.toLocaleString("tr-TR")}
-              </div>
-              {tour.datesText && (
-                <div className="text-[11px] text-slate-500 mb-4">
-                  {tour.datesText}
-                </div>
-              )}
-
-              <a
-                href={whatsappLink}
-                target="_blank"
-                rel="noreferrer"
-                className="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-full bg-emerald-500 text-white text-xs font-semibold uppercase tracking-wide hover:bg-emerald-400 transition mb-2"
-              >
-                WhatsApp’tan Bilgi Al
-              </a>
-
-              <button
-                type="button"
-                className="w-full inline-flex items-center justify-center px-4 py-2.5 rounded-full border border-[#0b3954] text-xs font-semibold uppercase tracking-wide text-slate-800 hover:border-[#f4b41a] hover:text-[#f4b41a] transition mb-4"
-              >
-                Fuar Alanında Görüşmek İstiyorum
-              </button>
-
-              <div className="text-[11px] text-slate-500 space-y-1">
-                <p>• Online kayıtlarda yeriniz 24 saate kadar ön rezerve edilir.</p>
-                <p>• Kesin kayıt için sözleşme ve ödeme teyidi gereklidir.</p>
-                <p>• Grup ve okul turları için özel fiyat alınabilir.</p>
-              </div>
-            </aside>
           </div>
         </div>
-      </section>
-      <Footer />
-    </>
-  );
-};
+      </div>
+      
+      <div className="container mx-auto px-4 -mt-16 relative z-10 grid lg:grid-cols-3 gap-8">
+        {/* SOL KOLON */}
+        <div className="lg:col-span-2 space-y-8">
+          
+          {/* Highlights */}
+          <motion.div initial={{ y: 20 }} animate={{ y: 0 }} className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
+            <h2 className="text-2xl font-bold text-elite-dark mb-6">Turun Öne Çıkanları</h2>
+            <ul className="grid sm:grid-cols-2 gap-4">
+              {tour.highlights.map((h, i) => (
+                <li key={i} className="flex gap-3 text-gray-700 items-start">
+                  <CheckCircle className="text-elite-gold flex-shrink-0 mt-0.5" size={20}/> 
+                  <span className="leading-snug">{h}</span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+          
+          {/* YENİ ScheduleSection Bileşeni Buraya Geliyor */}
+          <ScheduleSection itinerary={tour.itinerary} />
 
-export default TourDetailPage;
+        </div>
+
+        {/* SAĞ KOLON (Sticky Fiyat Kartı) */}
+        <div className="relative">
+          <div className="sticky top-24 bg-white p-6 rounded-3xl shadow-xl border border-gray-100">
+            <div className="mb-6 border-b border-gray-100 pb-6">
+              <p className="text-gray-500 text-sm font-medium mb-1">Kişi Başı Başlangıç</p>
+              <div className="text-4xl font-extrabold text-elite-dark tracking-tight">
+                {tour.currency === 'EUR' ? '€' : '₺'}{tour.price}
+              </div>
+              <div className="mt-4 bg-elite-base p-3 rounded-xl flex items-center gap-3 text-elite-dark font-semibold">
+                <Calendar size={20} className="text-elite-gold" /> 
+                {tour.datesText}
+              </div>
+            </div>
+            <a 
+              href={`https://wa.me/${tour.whatsappNumber}`} 
+              target="_blank" 
+              className="block w-full text-center py-4 bg-green-500 text-white font-bold rounded-xl hover:bg-green-600 hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+            >
+              WhatsApp'tan Bilgi Al
+            </a>
+            <p className="text-xs text-center text-gray-400 mt-4 px-4">
+              Gruplara özel indirimlerimiz için lütfen iletişime geçiniz.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
