@@ -1,6 +1,0 @@
-@UykusuzPenApi_HostAddress = http://localhost:5023
-
-GET {{UykusuzPenApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
