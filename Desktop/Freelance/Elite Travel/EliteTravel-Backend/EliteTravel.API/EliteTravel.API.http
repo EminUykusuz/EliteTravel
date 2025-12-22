@@ -1,6 +1,0 @@
-@EliteTravel.API_HostAddress = http://localhost:5067
-
-GET {{EliteTravel.API_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
