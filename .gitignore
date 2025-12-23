@@ -30,6 +30,8 @@ logs/
 .env.local
 .env.*.local
 *.local
+appsettings.local.json
+appsettings.*.local.json
 
 # Uploads
 **/wwwroot/uploads/*
