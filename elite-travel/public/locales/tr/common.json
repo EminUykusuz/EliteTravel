@@ -1,0 +1,340 @@
+{
+  "nav": {
+    "home": "Ana Sayfa",
+    "tours": "Turlar",
+    "about": "Hakkımızda",
+    "contact": "İletişim",
+    "login": "Giriş Yap",
+    "admin": "Admin Panel"
+  },
+  "hero": {
+    "badge": "Elite Travel Sunar",
+    "title": "Dünyayı Ayrıcalıklı Keşfedin",
+    "subtitle": "Size özel hazırlanmış rotalar ve VIP hizmet anlayışıyla seyahat standartlarınızı değiştiriyoruz",
+    "bookNow": "Rezervasyon Yap",
+    "learnMore": "Detaylı Bilgi",
+    "cta": "Turları İncele",
+    "exploreMore": "Daha Fazla Keşfet"
+  },
+  "tours": {
+    "title": "Özel Tur Paketlerimiz",
+    "subtitle": "Dikkatice seçilmiş rota ve deneyimli rehberler",
+    "viewAll": "Tüm Turları Gör",
+    "startingFrom": "Başlangıç Fiyatı",
+    "days": "gün",
+    "capacity": "Kapasite",
+    "guide": "Rehber",
+    "bookNow": "Şimdi Rezerv Et",
+    "allTours": "Tüm Turlar",
+    "pageSubtitle": "Tarihin izinde, konforun zirvesinde unutulmaz yolculuklar.",
+    "exploreSoon": "Yakında Keşfet",
+    "availableTours": "Aktif Tur",
+    "noToursFound": "Henüz Tur Bulunamadı",
+    "noToursDescription": "Aradığınız kriterlere uygun tur şu an mevcut değil veya henüz eklenmemiş. Yeni rotalarımız hazırlanıyor, takipte kalın.",
+    "domestic": "Yurt İçi",
+    "international": "Yurt Dışı",
+    "categories": {
+      "ottomanCapitals": "Osmanlı Başkentleri",
+      "ottomanArchitecture": "Osmanlı Mimarisi",
+      "spiritualTours": "Maneviyat Turları"
+    }
+  },
+  "aboutUs": {
+    "title": "Neden Biz?",
+    "subtitle": "Elite Travel'ı seçin",
+    "feature1": "Deneyimli Rehberler",
+    "feature1Desc": "30+ yıl turizm deneyimi",
+    "feature2": "VIP Hizmet",
+    "feature2Desc": "Kişisel dikkat ve özel ilgi",
+    "feature3": "Uygun Fiyat",
+    "feature3Desc": "En iyi fiyat garantisi",
+    "feature4": "Güvenilir",
+    "feature4Desc": "Lisanslı ve sigortalı"
+  },
+  "faq": {
+    "badge": "Merak Ettikleriniz",
+    "title": "Sıkça Sorulan Sorular",
+    "subtitle": "Tur programlarımız, ödemeler ve süreçler hakkında en çok merak edilen soruları sizin için derledik.",
+    "q1": "Ücrete neler dahil?",
+    "a1": "Fiyatlarımıza gidiş-dönüş uçak biletleri, 5 yıldızlı otellerde konaklama, lüks araçlarla transferler, müze ve ören yeri giriş ücretleri ve profesyonel rehberlik hizmetleri dahildir. Kişisel harcamalar ve öğle/akşam yemekleri hariçtir.",
+    "q2": "Ödeme seçenekleri nelerdir?",
+    "a2": "Ödemelerinizi banka havalesi veya kredi kartı ile güvenli bir şekilde gerçekleştirebilirsiniz. Erken rezervasyonlarda taksit imkanlarımız bulunmaktadır.",
+    "q3": "Vize işlemleri nasıl yapılıyor?",
+    "a3": "Avrupa vatandaşları için vize gerekmemektedir. T.C. vatandaşları veya diğer pasaport sahipleri için vize danışmanlık hizmetimiz mevcuttur, ekibimiz tüm süreci sizin adınıza yönetir.",
+    "q4": "Tur iptal ve iade koşulları nelerdir?",
+    "a4": "Tura 30 gün kala yapılan iptallerde ücretin tamamı iade edilir. 15-30 gün arası iptallerde %50 kesinti uygulanır. Son 15 gün içinde yapılan iptallerde maalesef iade yapılamamaktadır."
+  },
+  "contact": {
+    "title": "Bizimle Kolayca İletişime Geçin",
+    "subtitle": "Tur programları, özel talepler, otel ve uçuş sorularınız için formu doldurun ya da WhatsApp üzerinden anında yazın.",
+    "badge": "İLETİŞİM • ELITE TRAVEL",
+    "mainTitle": "Bizimle Kolayca İletişime Geçin",
+    "mainSubtitle": "Tur programları, özel talepler, otel ve uçuş sorularınız için formu doldurun ya da WhatsApp üzerinden anında yazın.",
+    "formTitle": "Bize Yazın",
+    "formSubtitle": "Formu doldurun, en kısa sürede size dönüş yapalım. İsterseniz WhatsApp üzerinden de bizimle iletişime geçebilirsiniz.",
+    "nameLabel": "Adınız Soyadınız",
+    "namePlaceholder": "Ahmet Yılmaz",
+    "phoneLabel": "Telefon",
+    "phonePlaceholder": "+31 6 ...",
+    "emailLabel": "E-Posta",
+    "emailPlaceholder": "mail@ornek.com",
+    "messageLabel": "Mesajınız",
+    "messagePlaceholder": "Merhaba, Arnhem çıkışlı turlar hakkında bilgi almak istiyorum...",
+    "sendButton": "Mesajı Gönder",
+    "sending": "Gönderiliyor...",
+    "successTitle": "Mesajınız Gönderildi!",
+    "successMessage": "En kısa sürede size dönüş yapacağız. Teşekkür ederiz!",
+    "errorTitle": "Bir Hata Oluştu",
+    "errorMessage": "Mesaj gönderilemedi. Lütfen tekrar deneyin veya WhatsApp'tan yazın.",
+    "officeTitle": "Merkez Ofis",
+    "phoneTitle": "Telefon & WhatsApp",
+    "whatsappButton": "Hızlı WhatsApp Mesajı",
+    "tipLabel": "İpucu",
+    "tipMessage": "Hafta içi ve hafta sonu belirli saatlerde aktifiz. Misafir olduğumuzda en kısa sürede dönüş sağlarız.",
+    "officeStatus": "Arnhem / Nederland • Ofisimiz Açık",
+    "formFooter": "📧 Formu doldurarak 24 saat içinde yanıt alabilir, acil durumlar için WhatsApp'tan anında ulaşabilirsiniz.",
+    "firstName": "Adınız",
+    "lastName": "Soyadınız",
+    "email": "Email Adresiniz",
+    "phone": "Telefon",
+    "message": "Mesajınız",
+    "send": "Mesajı Gönder",
+    "sendSuccess": "Mesajınız başarıyla gönderildi!",
+    "sendError": "Bir hata oluştu. Lütfen tekrar deneyiniz.",
+    "required": "Zorunlu alan",
+    "invalidEmail": "Geçerli bir email girin",
+    "successTeam": "Elite Travel Ekibi",
+    "successButton": "Tamam",
+    "contactInfo": "İletişim Bilgilerimiz",
+    "placeholder": "Merhabalar, Arnhem çıkışlı turlar hakkında bilgi almak istiyorum...",
+    "officeAddress": "Merkez Ofis",
+    "phoneWhatsapp": "Telefon & WhatsApp",
+    "quickMessage": "Hızlı WhatsApp Mesajı",
+    "weekdayInfo": "Hafta içi ve hafta sonu belirli saatlerde aktifiz. Müsait olduğumuzda en kısa sürede dönüş sağlanır.",
+    "locationTitle": "Elite Travel Konum"
+  },
+  "footer": {
+    "copyright": "Tüm hakları saklıdır",
+    "quickAccess": "Hızlı Erişim",
+    "contactUs": "Bize Ulaşın",
+    "address": "Adres",
+    "phone": "Telefon",
+    "email": "Email",
+    "followUs": "Bizi Takip Edin",
+    "tagline": "BİR TURDAN FAZLASI",
+    "description": "Dr. Ahmet Anapalı rehberliğinde, tarih ve maneviyat dolu özel rotalarla konforlu bir keşif deneyimi sunuyoruz.",
+    "addressLine1": "Fuar Alanı: Salon 3, Stant B-12",
+    "addressLine2": "İstanbul / Türkiye",
+    "premiumTourism": "Premium Tourism"
+  },
+  "about": {
+    "heroSection": {
+      "badge": "Hakkımızda",
+      "title": "Deneyim ve Güven",
+      "titleSpan": "ile Seyahat Etmek",
+      "subtitle": "15 yılın üzerinde seyahat deneyimi ile elit müşterilerimize kişisel hizmet sunuyoruz."
+    },
+    "whyUs": {
+      "badge": "Neden Biz?",
+      "title": "Elite Travel'ı Seçin",
+      "titleSpan": "Kalite ve Güvenin",
+      "para1": "30 yıldan fazla turizm deneyimi ile Avrupa turlarının en iyi alternatifini sunuyoruz.",
+      "para2": "Her tur, müşterilerimizin özel istekleri göz önüne alınarak özenle hazırlanır.",
+      "quote": "Lüks seyahat, her müşteri için özel olmalıdır."
+    },
+    "guide": {
+      "badge": "Deneyimli Rehber",
+      "title": "Misafirperver ve Bilgili",
+      "para1": "Turist rehberlerimiz sadece rotaları bilmez, aynı zamanda kültür elçisidir.",
+      "para2": "Her tur sırasında müşterilerimizin tam memnuniyeti için çaba gösterilir.",
+      "name": "Ahmet Yıldırım",
+      "role": "Kültür Turizmi Uzmanı",
+      "deepHistory": "Derin Tarih Anlatımı",
+      "deepHistoryDesc": "Osmanlı'nın kuruluş dönemine odaklanan detaylı rehberlik hizmeti.",
+      "specialRoutes": "Özel Rotalar",
+      "specialRoutesDesc": "Daha zengin ve anlamlı bir deneyim için hazırlanmış özel rotalar.",
+      "description": "20+ yıl turizm deneyimi ile Türk kültürünü dünyaya anlatıyor.",
+      "specialization": "Osmanlı Tarihi ve Sanat Mimarisi"
+    },
+    "values": {
+      "badge": "Değerlerimiz",
+      "title": "Biz Neye İnanıyoruz",
+      "subtitle": "Her deneyimde kalite, güven ve sıcak misafirperverlik sunuyoruz.",
+      "premium": {
+        "title": "Premium Deneyim",
+        "desc": "Özenle seçilmiş oteller, rotalar ve size özel hizmetler."
+      },
+      "trust": {
+        "title": "Güven & Emniyet",
+        "desc": "Şeffaf süreçler, resmi partnerler ve her adımda güvenilir hizmet."
+      },
+      "warmth": {
+        "title": "Sıcak Misafirperverlik",
+        "desc": "Her misafirimize ailemiz gibi yaklaşır, her detayı önemseriz."
+      },
+      "item1Title": "Güvenilirlik",
+      "item1Desc": "Müşteri memnuniyeti her kararın merkezinde.",
+      "item2Title": "Kalite",
+      "item2Desc": "En iyi hizmet standartları her zaman.",
+      "item3Title": "Deneyim",
+      "item3Desc": "Yıllarca birikmiş profesyonel bilgi.",
+      "item4Title": "Kişisellik",
+      "item4Desc": "Her müşteri için özel dikkat."
+    },
+    "cta": {
+      "title": "Seyahat Yolculuğunuza Başlayın",
+      "desc": "Elite Travel ile unutulmaz anılar yaratın. Bugün rezervasyon yapın veya daha fazla bilgi alın.",
+      "description": "Elite Travel ile unutulmaz anılar yaratın. Bugün rezervasyon yapın veya daha fazla bilgi alın.",
+      "exploreTours": "Turları Keşfet",
+      "contactUs": "Bizimle İletişime Geçin",
+      "exploreButton": "Turları Keşfet",
+      "contactButton": "Bizimle İletişime Geçin"
+    }
+  },
+  "tourDetail": {
+    "about": "Tur Hakkında",
+    "highlights": "Turun Öne Çıkanları",
+    "notFound": "Tur bulunamadı.",
+    "departure": "Kalkış",
+    "startingPrice": "Başlangıç Fiyatı",
+    "whatsappInfo": "WhatsApp ile İletişim",
+    "perPerson": "*kişi başı",
+    "groupDiscount": "Grup İndirimi: 6+ kişi için %15 indirim",
+    "maxGroupSize": "Maksimum Grup Büyüklüğü",
+    "people": "Kişi",
+    "duration": "Süre"
+  },
+  "booking": {
+    "title": "Hemen Rezervasyon Yapın",
+    "guest": "Misafir",
+    "guest_one": "Misafir",
+    "guest_other": "Misafir",
+    "capacity": "Kapasite: {{capacity}} kişi",
+    "fields": {
+      "guestCount": "Misafir Sayısı",
+      "departureDate": "Başlangıç Tarihi",
+      "specialRequests": "Özel Talep/Notlar (Opsiyonel)"
+    },
+    "placeholders": {
+      "specialRequests": "Diyetinize ait özel gereksinimler, erişilebilirlik ihtiyaçları vb. yazabilirsiniz..."
+    },
+    "hints": {
+      "departureDateMinDays": "En az {{days}} gün önceden rezervasyon yapmalısınız"
+    },
+    "summary": {
+      "perPerson": "Kişi Başı Fiyat",
+      "guestCount": "Misafir Sayısı",
+      "total": "Toplam"
+    },
+    "loginRequired": {
+      "title": "Hesaba Giriş Gerekli",
+      "desc": "Rezervasyon yapmak için lütfen hesabınıza giriş yapın."
+    },
+    "actions": {
+      "confirm": "Rezervasyonu Onayla",
+      "loginToBook": "Giriş Yaparak Rezervasyon Yap"
+    },
+    "validation": {
+      "guestCountRequired": "Lütfen misafir sayısını seçin",
+      "departureDateRequired": "Lütfen başlangıç tarihini seçin",
+      "loginRequired": "Lütfen önce hesabınıza giriş yapın"
+    },
+    "success": "Rezervasyon başarıyla oluşturuldu! Yakında sizinle iletişime geçeceğiz.",
+    "errors": {
+      "createFailed": "Rezervasyon oluşturulamadı",
+      "createError": "Rezervasyon oluşturulurken bir hata oluştu"
+    },
+    "whatsapp": {
+      "trouble": "Rezervasyon yapmak için sorun mu yaşıyorsunuz?",
+      "button": "WhatsApp Yoluyla İletişime Geçin",
+      "prefilledMessage": "Merhaba, {{tourTitle}} turunu rezerve etmek istiyorum."
+    }
+  },
+  "yeniBoum": {
+    "key1": "Yeni bölüm örnek çeviri"
+  },
+  "whyUs": {
+    "heading": "Neden Elite Travel?"
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "success": "Başarılı",
+    "cancel": "İptal",
+    "save": "Kaydet",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "back": "Geri",
+    "name": "Ad",
+    "description": "Açıklama",
+    "price": "Fiyat",
+    "days": "gün",
+    "reviews": "değerlendirme",
+    "perPerson": "kişi başına"
+  },
+  "schedule": {
+    "title": "Tur Programı",
+    "day": "GÜN"
+  },
+  "admin": {
+    "tourManagement": "Tur Yönetim Paneli",
+    "manageEditTours": "Turları yönet, düzenle ve yeni turlar ekle",
+    "tourList": "Tur Listesi",
+    "addNewTour": "Yeni Tur Ekle",
+    "tourImage": "Tur Resmi",
+    "selectImage": "Resim seçmek için tıklayın",
+    "uploading": "Yükleniyor...",
+    "fileSelect": "Dosya Seç",
+    "maxFileSize": "JPG, PNG, WEBP - Max 5MB",
+    "tourTitle": "Tur Başlığı",
+    "price": "Fiyat",
+    "currency": "Para Birimi",
+    "capacity": "Kapasite",
+    "description": "Açıklama",
+    "tourDetails": "Tur hakkında detaylı bilgi...",
+    "itinerary": "Tur Programı (İtinerary)",
+    "addDay": "+ Gün Ekle",
+    "dayNumber": "Gün",
+    "dayTitle": "Başlık",
+    "dayDescription": "Açıklama",
+    "dayTitlePlaceholder": "Gün başlığı (ör: İstanbul Safranbolu Yolu)",
+    "dayDescriptionPlaceholder": "Bu gün ne yapılacağını açıklayın...",
+    "deleteDay": "Sil",
+    "activeTour": "Aktif Tur",
+    "save": "💾 Kaydet",
+    "update": "✏️ Güncelle",
+    "cancel": "❌ İptal",
+    "edit": "✎ Düzenle",
+    "delete": "🗑 Sil",
+    "active": "✓ Aktif",
+    "inactive": "○ Pasif",
+    "assignedGuide": "Atanmış",
+    "noGuide": "Atanmamış",
+    "maxGroupSize": "Maksimum Grup Büyüklüğü",
+    "people": "kişi",
+    "noToursAdded": "Henüz tur eklenmemiş",
+    "addFirstTour": "İlk Turu Ekle",
+    "errors": {
+      "tourTitleRequired": "Lütfen tur başlığını girin",
+      "imageRequired": "Lütfen resim yükleyin",
+      "loadFailed": "Turlar yüklenemedi",
+      "addFailed": "Tur eklenirken hata oluştu",
+      "updateFailed": "Tur güncellenirken hata oluştu",
+      "deleteFailed": "Tur silinirken hata oluştu",
+      "uploadFailed": "Resim yüklenemedi",
+      "fileSizeError": "Dosya boyutu 5MB'dan küçük olmalı"
+    },
+    "success": {
+      "added": "Tur başarıyla eklendi",
+      "updated": "Tur başarıyla güncellendi",
+      "deleted": "Tur başarıyla silindi",
+      "imageUploaded": "Resim başarıyla yüklendi"
+    },
+    "confirmDelete": {
+      "title": "Emin misin?",
+      "message": "Bu turu silmek istediğinden emin misin?",
+      "confirmButton": "Evet, sil!",
+      "cancelButton": "İptal"
+    }
+  }
+}

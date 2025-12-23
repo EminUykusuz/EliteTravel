@@ -1,0 +1,368 @@
+{
+  "nav": {
+    "home": "Startpagina",
+    "tours": "Tours",
+    "about": "Over Ons",
+    "contact": "Contact",
+    "login": "Inloggen",
+    "admin": "Beheerderspaneel"
+  },
+  "hero": {
+    "badge": "Elite Travel Presenteert",
+    "title": "Ontdek de Wereld Exclusief",
+    "subtitle": "We veranderen uw reisnormen met maatwerk routes en uitstekende VIP-service",
+    "bookNow": "Nu Boeken",
+    "learnMore": "Meer Informatie",
+    "cta": "Tours Verkennen",
+    "exploreMore": "Meer Ontdekken"
+  },
+  "tours": {
+    "title": "Onze Speciale Tourbundels",
+    "subtitle": "Zorgvuldig geselecteerde routes en ervaren gidsen",
+    "viewAll": "Alle Tours Bekijken",
+    "startingFrom": "Vanaf",
+    "days": "dagen",
+    "capacity": "Capaciteit",
+    "guide": "Gids",
+    "bookNow": "Nu Reserveren",
+    "allTours": "Alle Tours",
+    "pageSubtitle": "Onvergetelijke reizen waar comfort en geschiedenis samenkomen.",
+    "exploreSoon": "Binnenkort Verkennen",
+    "availableTours": "Actieve Tour",
+    "noToursFound": "Geen Tours Gevonden",
+    "noToursDescription": "Er zijn geen tours beschikbaar die aan uw criteria voldoen, of ze zijn nog niet toegevoegd. Nieuwe routes worden voorbereid, blijf op de hoogte.",
+    "domestic": "Binnenland",
+    "international": "Buitenland",
+    "categories": {
+      "ottomanCapitals": "Ottomaanse hoofdsteden",
+      "ottomanArchitecture": "Ottomaanse architectuur",
+      "spiritualTours": "Spirituele tours"
+    }
+  },
+  "aboutUs": {
+    "title": "Waarom wij?",
+    "subtitle": "Kies Elite Travel",
+    "feature1": "Ervaren gidsen",
+    "feature1Desc": "30+ jaar toerisme-ervaring",
+    "feature2": "VIP-service",
+    "feature2Desc": "Persoonlijke aandacht en speciale zorg",
+    "feature3": "Betaalbare prijzen",
+    "feature3Desc": "Besteprijsgarantie",
+    "feature4": "Betrouwbaar",
+    "feature4Desc": "Gelicentieerd en verzekerd"
+  },
+  "about": {
+    "heroTitle": "In de Voetsporen van de Geschiedenis",
+    "heroSubtitle": "Een Elite-reis",
+    "heroSection": {
+      "badge": "Over ons",
+      "title": "Reis met",
+      "titleSpan": "Ervaring en Vertrouwen",
+      "subtitle": "Met meer dan 15 jaar reiservaringen bieden we persoonlijke service aan onze elite-klanten."
+    },
+    "whyUs": {
+      "badge": "Waarom wij?",
+      "title": "Kies Elite Travel",
+      "titleSpan": "Kwaliteit en Veiligheid",
+      "para1": "Met meer dan 30 jaar toerisme-ervaring bieden we het beste Europese toeraanbod.",
+      "para2": "Elke tour wordt zorgvuldig voorbereid met inachtneming van de speciale wensen van onze klanten.",
+      "quote": "Luxusreizen moet speciaal zijn voor elke klant."
+    },
+    "guide": {
+      "badge": "Ervaren Gids",
+      "title": "Gastvrij en Kundig",
+      "para1": "Onze reisgidsen kennen niet alleen de routes, maar zijn ook culturele ambassadeurs.",
+      "para2": "We streven naar volledige klanttevredenheid tijdens elke tour.",
+      "name": "Ahmet Yıldırım",
+      "role": "Cultuurtoerisme Expert",
+      "deepHistory": "Diepgaande historische verhalen",
+      "deepHistoryDesc": "Uitgebreide gidsservice met focus op de stichtingstijd van het Ottomaanse Rijk.",
+      "specialRoutes": "Speciale routes",
+      "specialRoutesDesc": "Unieke routes voor een rijkere en betekenisvollere ervaring.",
+      "description": "Met 20+ jaar toerisme-ervaring presenteert hij de Turkse cultuur aan de wereld.",
+      "specialization": "Osmaanse Geschiedenis en Architectuurkunst"
+    },
+    "values": {
+      "badge": "Onze Waarden",
+      "title": "Wat wij geloven",
+      "subtitle": "We focussen in elke ervaring op kwaliteit, vertrouwen en warme gastvrijheid.",
+      "premium": {
+        "title": "Premium ervaring",
+        "desc": "Zorgvuldig geselecteerde hotels, routes en services – op maat voor u."
+      },
+      "trust": {
+        "title": "Vertrouwen & veiligheid",
+        "desc": "Duidelijke processen, officiële partners en betrouwbare service bij elke stap."
+      },
+      "warmth": {
+        "title": "Warme gastvrijheid",
+        "desc": "We behandelen elke gast als familie en letten op elk detail."
+      },
+      "item1Title": "Betrouwbaarheid",
+      "item1Desc": "Klanttevredenheid staat centraal in elke beslissing.",
+      "item2Title": "Kwaliteit",
+      "item2Desc": "Altijd de beste servicenormen.",
+      "item3Title": "Ervaring",
+      "item3Desc": "Professionele kennis opgebouwd over jaren.",
+      "item4Title": "Personalisatie",
+      "item4Desc": "Speciale aandacht voor elke klant."
+    },
+    "cta": {
+      "title": "Begin uw reiservaring",
+      "desc": "Maak onvergetelijke herinneringen met Elite Travel. Boek vandaag of krijg meer informatie.",
+      "description": "Maak onvergetelijke herinneringen met Elite Travel. Boek vandaag of krijg meer informatie.",
+      "exploreTours": "Verken tours",
+      "contactUs": "Neem contact met ons op",
+      "exploreButton": "Verken Tours",
+      "contactButton": "Neem contact met ons op"
+    }
+  },
+  "faq": {
+    "badge": "Uw Vragen",
+    "title": "Veelgestelde Vragen",
+    "subtitle": "We hebben de meestgestelde vragen over onze tourrondleidingen, betalingen en processen verzameld.",
+    "q1": "Wat is inbegrepen in de prijs?",
+    "a1": "Onze prijzen zijn inclusief retourvluchten, verblijf in 5-sterrenhotels, transfers in luxevoertuigen, entreekaarsen voor musea en historische sites, en professionele gidsservices. Persoonlijke uitgaven en lunch/diner zijn niet inbegrepen.",
+    "q2": "Wat zijn de betalingsopties?",
+    "a2": "U kunt veilig betalen via bankoverschrijving of creditcard. Termijnbetalingsopties zijn beschikbaar voor vroege reserveringen.",
+    "q3": "Hoe worden visumformulieren afgehandeld?",
+    "a3": "EU-burgers hebben geen visum nodig. Voor houders van andere paspoorten bieden we visumconsultatie aan, en ons team regelt het hele proces voor u.",
+    "q4": "Wat zijn de annulerings- en terugbetalingsvoorwaarden?",
+    "a4": "Volledige terugbetaling voor annuleringen 30 dagen voor de tour. Annuleringen 15-30 dagen van tevoren krijgen 50% korting. Helaas zijn geen terugbetalingen mogelijk voor annuleringen in de laatste 15 dagen."
+  },
+
+  "footer": {
+    "copyright": "Alle rechten voorbehouden",
+    "quickAccess": "Snelle Toegang",
+    "contactUs": "Neem Contact Met Ons Op",
+    "address": "Adres",
+    "phone": "Telefoon",
+    "email": "E-mail",
+    "followUs": "Volg Ons",
+    "tagline": "MEER DAN EEN TOUR",
+    "description": "Onder begeleiding van Dr. Ahmet Anapalı bieden we een comfortabele ontdekkingstocht met speciale routes vol geschiedenis en spiritualiteit.",
+    "addressLine1": "Beurslocatie: Hal 3, Stand B-12",
+    "addressLine2": "Istanbul / Turkije",
+    "premiumTourism": "Premium Tourism"
+  },
+  "tourDetail": {
+    "about": "Over de Tour",
+    "highlights": "Hoogtepunten Van de Tour",
+    "notFound": "Tour niet gevonden.",
+    "departure": "Vertrekplaats",
+    "startingPrice": "Startprijs",
+    "whatsappInfo": "Contact via WhatsApp",
+    "perPerson": "*per persoon",
+    "groupDiscount": "Groepskorting: 15% korting voor 6+ personen",
+    "maxGroupSize": "Maximale Groepsgrootte",
+    "people": "Personen",
+    "duration": "Duur"
+  },
+
+  "booking": {
+    "title": "Nu Reserveren",
+    "guest": "Gast",
+    "guest_one": "Gast",
+    "guest_other": "Gasten",
+    "capacity": "Capaciteit: {{capacity}} personen",
+    "fields": {
+      "guestCount": "Aantal gasten",
+      "departureDate": "Startdatum",
+      "specialRequests": "Speciale verzoeken/notities (optioneel)"
+    },
+    "placeholders": {
+      "specialRequests": "U kunt dieetwensen, toegankelijkheidsbehoeften, enz. invullen..."
+    },
+    "hints": {
+      "departureDateMinDays": "U moet minstens {{days}} dagen van tevoren reserveren"
+    },
+    "summary": {
+      "perPerson": "Prijs per persoon",
+      "guestCount": "Aantal gasten",
+      "total": "Totaal"
+    },
+    "loginRequired": {
+      "title": "Inloggen vereist",
+      "desc": "Log in om te reserveren."
+    },
+    "actions": {
+      "confirm": "Reservering Bevestigen",
+      "loginToBook": "Log in om te Reserveren"
+    },
+    "validation": {
+      "guestCountRequired": "Selecteer het aantal gasten",
+      "departureDateRequired": "Selecteer een startdatum",
+      "loginRequired": "Log eerst in"
+    },
+    "success": "Uw reservering is succesvol aangemaakt! We nemen snel contact met u op.",
+    "errors": {
+      "createFailed": "Reservering kon niet worden aangemaakt",
+      "createError": "Er is een fout opgetreden bij het aanmaken van de reservering"
+    },
+    "whatsapp": {
+      "trouble": "Problemen met reserveren?",
+      "button": "Contact via WhatsApp",
+      "prefilledMessage": "Hallo, ik wil graag de tour {{tourTitle}} reserveren."
+    }
+  },
+  "yeniBoum": {
+    "key1": "Voorbeeldvertaling voor nieuwe sectie"
+  },
+
+  "whyUs": {
+    "heading": "Waarom Elite Travel?",
+    "title": "Professioneel, Betrouwbaar en Ervaren",
+    "item1": {
+      "title": "Geschiedenisgerichte Narratief",
+      "desc": "Gedetailleerde rondleiding gericht op de oprichtingsperiode van het Ottomaanse Rijk."
+    },
+    "item2": {
+      "title": "Comfortabel Vervoer",
+      "desc": "Toerisme-gelicentieerde voertuigen met USB-poorten aan zitplaatsen en airconditioning voor comfortabel reizen."
+    },
+    "item3": {
+      "title": "Bedrijfswaarborg",
+      "desc": "TURSAB-gelicentieerd agentschap met officiële contracten en facturen voor veilige registratie."
+    },
+    "item4": {
+      "title": "24/7 Communicatie",
+      "desc": "Snelle reactie via WhatsApp; persoonlijke ondersteuning op ons kantoor."
+    }
+  },
+  "common": {
+    "loading": "Laden...",
+    "error": "Fout",
+    "success": "Succes",
+    "cancel": "Annuleren",
+    "save": "Opslaan",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "back": "Terug",
+    "name": "Naam",
+    "description": "Beschrijving",
+    "price": "Prijs",
+    "days": "dagen",
+    "reviews": "reviews",
+    "perPerson": "per persoon"
+  },
+  "schedule": {
+    "title": "Reisroute",
+    "day": "DAG"
+  },
+  "contact": {
+    "badge": "CONTACT • ELITE TRAVEL",
+    "mainTitle": "Neem Gemakkelijk Contact Met Ons Op",
+    "mainSubtitle": "Vul het formulier in voor tourprogramma's, speciale verzoeken, hotel- en vluchtinformatie, of neem direct contact met ons op via WhatsApp.",
+    "formTitle": "Schrijf Ons",
+    "formSubtitle": "Vul het formulier in en we nemen zo snel mogelijk contact met u op. U kunt ook contact met ons opnemen via WhatsApp.",
+    "nameLabel": "Uw Naam en Achternaam",
+    "namePlaceholder": "Jan Jansen",
+    "phoneLabel": "Telefoon",
+    "phonePlaceholder": "+31 6 ...",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "mail@voorbeeld.nl",
+    "messageLabel": "Uw Bericht",
+    "messagePlaceholder": "Hallo, ik wil graag informatie over tours vanuit Arnhem...",
+    "sendButton": "Bericht Verzenden",
+    "sending": "Verzenden...",
+    "successTitle": "Uw Bericht is Verzonden!",
+    "successMessage": "We nemen zo snel mogelijk contact met u op. Bedankt!",
+    "errorTitle": "Er is een Fout Opgetreden",
+    "errorMessage": "Bericht kon niet worden verzonden. Probeer het opnieuw of neem contact met ons op via WhatsApp.",
+    "officeTitle": "Hoofdkantoor",
+    "phoneTitle": "Telefoon & WhatsApp",
+    "whatsappButton": "Snel WhatsApp Bericht",
+    "tipLabel": "Tip",
+    "tipMessage": "We zijn op specifieke tijden actief tijdens weekdagen en weekenden. We reageren zo snel mogelijk wanneer we beschikbaar zijn.",
+    "officeStatus": "Arnhem / Nederland • Ons Kantoor is Open",
+    "formFooter": "📧 Vul het formulier in om binnen 24 uur een reactie te krijgen, of neem direct contact met ons op via WhatsApp voor dringende zaken.",
+    "badge": "Contact • Elite Travel",
+    "title": "Neem eenvoudig contact met ons op",
+    "subtitle": "Voor vragen, suggesties en tourvragen vult u alstublieft het formulier in. We nemen zo snel mogelijk contact met u op.",
+    "formTitle": "Schrijf naar ons",
+    "formDescription": "Neem contact met ons op om vragen over onze tours te stellen, offertes te krijgen of een aangepaste tour in te plannen.",
+    "firstName": "Uw naam en achternaam",
+    "lastName": "Achternaam",
+    "email": "E-mailadres",
+    "phone": "Telefoonnummer",
+    "message": "Uw bericht",
+    "send": "Bericht Verzenden",
+    "sendSuccess": "Uw bericht is succesvol verzonden!",
+    "sendError": "Er is een fout opgetreden. Probeer het opnieuw.",
+    "required": "Verplicht veld",
+    "successTitle": "Bedankt!",
+    "successMessage": "Uw bericht is succesvol ontvangen. We nemen zo snel mogelijk contact met u op.",
+    "successTeam": "Elite Travel Team",
+    "successButton": "OK",
+    "contactInfo": "Contactgegevens",
+    "messageLabel": "Uw bericht",
+    "placeholder": "Hallo, ik wil graag informatie over tours vanuit Arnhem...",
+    "officeAddress": "Hoofdkantoor",
+    "phoneWhatsapp": "Telefoon & WhatsApp",
+    "quickMessage": "Snel WhatsApp-bericht",
+    "weekdayInfo": "We zijn op specifieke tijdstippen op weekdagen en weekenden actief. We reageren zo snel mogelijk als we beschikbaar zijn.",
+    "locationTitle": "Elite Travel Locatie",
+    "officeStatus": "Arnhem / Nederland • Ons kantoor is open"
+  },
+  "admin": {
+    "tourManagement": "Tour Beheerdashboard",
+    "manageEditTours": "Tours beheren, bewerken en nieuwe tours toevoegen",
+    "tourList": "Tourlijst",
+    "addNewTour": "Nieuwe Tour Toevoegen",
+    "tourImage": "Tour Afbeelding",
+    "selectImage": "Klik om afbeelding te selecteren",
+    "uploading": "Wordt geüpload...",
+    "fileSelect": "Bestand Selecteren",
+    "maxFileSize": "JPG, PNG, WEBP - Max 5MB",
+    "tourTitle": "Tourtitel",
+    "price": "Prijs",
+    "currency": "Valuta",
+    "capacity": "Capaciteit",
+    "description": "Beschrijving",
+    "tourDetails": "Gedetailleerde informatie over de tour...",
+    "itinerary": "Tourschema",
+    "addDay": "+ Dag Toevoegen",
+    "dayNumber": "Dag",
+    "dayTitle": "Titel",
+    "dayDescription": "Beschrijving",
+    "dayTitlePlaceholder": "Dagtitel (bijv. Istanbul naar Safranbolu Route)",
+    "dayDescriptionPlaceholder": "Beschrijf wat deze dag gaat gebeuren...",
+    "deleteDay": "Verwijderen",
+    "activeTour": "Actieve Tour",
+    "save": "💾 Opslaan",
+    "update": "✏️ Bijwerken",
+    "cancel": "❌ Annuleren",
+    "edit": "✎ Bewerken",
+    "delete": "🗑 Verwijderen",
+    "active": "✓ Actief",
+    "inactive": "○ Inactief",
+    "assignedGuide": "Toegewezen",
+    "noGuide": "Niet Toegewezen",
+    "maxGroupSize": "Maximale Groepsgrootte",
+    "people": "Personen",
+    "noToursAdded": "Nog geen tours toegevoegd",
+    "addFirstTour": "Eerste Tour Toevoegen",
+    "errors": {
+      "tourTitleRequired": "Voer alstublieft de tourtitel in",
+      "imageRequired": "Upload alstublieft een afbeelding",
+      "loadFailed": "Tours konden niet worden geladen",
+      "addFailed": "Fout bij het toevoegen van tour",
+      "updateFailed": "Fout bij het bijwerken van tour",
+      "deleteFailed": "Fout bij het verwijderen van tour",
+      "uploadFailed": "Afbeelding kon niet worden geüpload",
+      "fileSizeError": "Bestandsgrootte moet kleiner zijn dan 5MB"
+    },
+    "success": {
+      "added": "Tour succesvol toegevoegd",
+      "updated": "Tour succesvol bijgewerkt",
+      "deleted": "Tour succesvol verwijderd",
+      "imageUploaded": "Afbeelding succesvol geüpload"
+    },
+    "confirmDelete": {
+      "title": "Bent u zeker?",
+      "message": "Weet u zeker dat u deze tour wilt verwijderen?",
+      "confirmButton": "Ja, verwijderen!",
+      "cancelButton": "Annuleren"
+    }
+  }
+}

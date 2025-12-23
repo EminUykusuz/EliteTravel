@@ -1,0 +1,342 @@
+{
+  "nav": {
+    "home": "Home",
+    "tours": "Tours",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "admin": "Admin Panel"
+  },
+  "hero": {
+    "badge": "Elite Travel Presents",
+    "title": "Discover the World Exclusively",
+    "subtitle": "We transform your travel standards with custom-designed routes and VIP service excellence",
+    "bookNow": "Book Now",
+    "learnMore": "Learn More",
+    "cta": "Explore Tours",
+    "exploreMore": "Explore More"
+  },
+  "tours": {
+    "title": "Our Special Tour Packages",
+    "subtitle": "Carefully selected routes and experienced guides",
+    "viewAll": "View All Tours",
+    "startingFrom": "Starting From",
+    "days": "days",
+    "capacity": "Capacity",
+    "guide": "Guide",
+    "bookNow": "Book Now",
+    "allTours": "All Tours",
+    "pageSubtitle": "Unforgettable journeys where comfort meets history.",
+    "exploreSoon": "Coming Soon",
+    "availableTours": "Active Tour",
+    "noToursFound": "No Tours Found",
+    "noToursDescription": "There are no tours available that match your criteria, or they haven't been added yet. New routes are being prepared, stay tuned.",
+    "domestic": "Domestic",
+    "international": "International",
+    "categories": {
+      "ottomanCapitals": "Ottoman Capitals",
+      "ottomanArchitecture": "Ottoman Architecture",
+      "spiritualTours": "Spiritual Tours"
+    }
+  },
+  "aboutUs": {
+    "title": "Why Us?",
+    "subtitle": "Choose Elite Travel",
+    "feature1": "Expert Guides",
+    "feature1Desc": "30+ years of tourism experience",
+    "feature2": "VIP Service",
+    "feature2Desc": "Personal attention and special care",
+    "feature3": "Affordable Prices",
+    "feature3Desc": "Best price guarantee",
+    "feature4": "Trustworthy",
+    "feature4Desc": "Licensed and insured"
+  },
+  "faq": {
+    "badge": "Your Questions",
+    "title": "Frequently Asked Questions",
+    "subtitle": "We've compiled the most frequently asked questions about our tour programs, payments, and processes.",
+    "q1": "What does the price include?",
+    "a1": "Our prices include round-trip flights, accommodation in 5-star hotels, transfers in luxury vehicles, museum and historical site entrance fees, and professional guide services. Personal expenses and lunch/dinner are not included.",
+    "q2": "What are the payment options?",
+    "a2": "You can make your payments securely via bank transfer or credit card. Installment options are available for early reservations.",
+    "q3": "How are visa procedures handled?",
+    "a3": "EU citizens do not require a visa. For TC citizens or other passport holders, we offer visa consultation services, and our team manages the entire process on your behalf.",
+    "q4": "What are the cancellation and refund policies?",
+    "a4": "Full refunds are provided for cancellations 30 days before the tour. Cancellations 15-30 days before receive 50% deduction. Unfortunately, no refunds are possible for cancellations within 15 days."
+  },
+  "contact": {
+    "badge": "CONTACT • ELITE TRAVEL",
+    "title": "Get in Touch with Us",
+    "subtitle": "For questions, suggestions, and tour requests, please fill out the form below. We will contact you as soon as possible.",
+    "mainTitle": "Get in Touch with Us Easily",
+    "mainSubtitle": "Fill out the form for tour programs, special requests, hotel and flight inquiries, or contact us instantly via WhatsApp.",
+    "formTitle": "Write to Us",
+    "formSubtitle": "Fill out the form and we will get back to you as soon as possible. You can also contact us via WhatsApp.",
+    "nameLabel": "Your Name and Surname",
+    "namePlaceholder": "John Doe",
+    "phoneLabel": "Phone",
+    "phonePlaceholder": "+31 6 ...",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "mail@example.com",
+    "messageLabel": "Your Message",
+    "messagePlaceholder": "Hello, I would like information about tours departing from Arnhem...",
+    "sendButton": "Send Message",
+    "sending": "Sending...",
+    "successTitle": "Your Message Sent!",
+    "successMessage": "We will get back to you as soon as possible. Thank you!",
+    "errorTitle": "An Error Occurred",
+    "errorMessage": "Message could not be sent. Please try again or contact us via WhatsApp.",
+    "officeTitle": "Head Office",
+    "phoneTitle": "Phone & WhatsApp",
+    "whatsappButton": "Quick WhatsApp Message",
+    "tipLabel": "Tip",
+    "tipMessage": "We are active at specific times on weekdays and weekends. We will respond as soon as possible when available.",
+    "officeStatus": "Arnhem / Netherlands • Our Office is Open",
+    "formFooter": "📧 Fill out the form to get a response within 24 hours, or contact us instantly via WhatsApp for urgent matters.",
+    "firstName": "First Name",
+    "lastName": "Surname",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Your Message",
+    "send": "Send Message",
+    "sendSuccess": "Your message has been sent successfully!",
+    "sendError": "An error occurred. Please try again.",
+    "required": "Required field",
+    "invalidEmail": "Please enter a valid email",
+    "successTeam": "Elite Travel Team",
+    "successButton": "OK",
+    "contactInfo": "Contact Information",
+    "placeholder": "Hello, I would like information about tours departing from Arnhem...",
+    "officeAddress": "Head Office",
+    "phoneWhatsapp": "Phone & WhatsApp",
+    "quickMessage": "Quick WhatsApp Message",
+    "weekdayInfo": "We are active at specific times on weekdays and weekends. We will respond as soon as possible when we are available.",
+    "locationTitle": "Elite Travel Location"
+  },
+  "footer": {
+    "copyright": "All rights reserved",
+    "quickAccess": "Quick Access",
+    "contactUs": "Contact Us",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "followUs": "Follow Us",
+    "tagline": "MORE THAN A TOUR",
+    "description": "With Dr. Ahmet Anapalı as your guide, we offer a comfortable discovery experience with special routes full of history and spirituality.",
+    "addressLine1": "Exhibition Area: Hall 3, Stand B-12",
+    "addressLine2": "Istanbul / Turkey",
+    "premiumTourism": "Premium Tourism"
+  },
+  "tourDetail": {
+    "about": "About Tour",
+    "highlights": "Tour Highlights",
+    "notFound": "Tour not found.",
+    "departure": "Departure",
+    "startingPrice": "Starting Price",
+    "whatsappInfo": "Contact via WhatsApp",
+    "perPerson": "*per person",
+    "groupDiscount": "Group Discount: 15% off for 6+ people",
+    "maxGroupSize": "Max Group Size",
+    "people": "People",
+    "duration": "Duration"
+  },
+  "booking": {
+    "title": "Book Now",
+    "guest": "Guest",
+    "guest_one": "Guest",
+    "guest_other": "Guests",
+    "capacity": "Capacity: {{capacity}} people",
+    "fields": {
+      "guestCount": "Guest Count",
+      "departureDate": "Departure Date",
+      "specialRequests": "Special Requests/Notes (Optional)"
+    },
+    "placeholders": {
+      "specialRequests": "You can write dietary requirements, accessibility needs, etc."
+    },
+    "hints": {
+      "departureDateMinDays": "You must book at least {{days}} days in advance"
+    },
+    "summary": {
+      "perPerson": "Price Per Person",
+      "guestCount": "Guest Count",
+      "total": "Total"
+    },
+    "loginRequired": {
+      "title": "Login Required",
+      "desc": "Please log in to make a reservation."
+    },
+    "actions": {
+      "confirm": "Confirm Reservation",
+      "loginToBook": "Log in to Book"
+    },
+    "validation": {
+      "guestCountRequired": "Please select the number of guests",
+      "departureDateRequired": "Please select a departure date",
+      "loginRequired": "Please log in first"
+    },
+    "success": "Your reservation has been created successfully! We'll contact you soon.",
+    "errors": {
+      "createFailed": "Reservation could not be created",
+      "createError": "An error occurred while creating the reservation"
+    },
+    "whatsapp": {
+      "trouble": "Having trouble booking?",
+      "button": "Contact via WhatsApp",
+      "prefilledMessage": "Hello, I would like to book the {{tourTitle}} tour."
+    }
+  },
+  "yeniBoum": {
+    "key1": "New section example translation"
+  },
+  "about": {
+    "heroTitle": "In the Footsteps of History",
+    "heroSubtitle": "An Elite Journey",
+    "heroSection": {
+      "badge": "About Us",
+      "title": "Travel with",
+      "titleSpan": "Experience and Trust",
+      "subtitle": "With over 15 years of travel experience, we provide personalized service to our elite clients."
+    },
+    "whyUs": {
+      "badge": "Why Us?",
+      "title": "Choose Elite Travel",
+      "titleSpan": "Quality and Safety",
+      "para1": "With more than 30 years of tourism experience, we offer the best European tours alternative.",
+      "para2": "Every tour is carefully prepared considering the special requests of our customers.",
+      "quote": "Luxury travel should be special for every customer."
+    },
+    "guide": {
+      "badge": "Experienced Guide",
+      "title": "Hospitable and Knowledgeable",
+      "para1": "Our tour guides not only know the routes but are also cultural ambassadors.",
+      "para2": "We strive for complete customer satisfaction during every tour.",
+      "name": "Ahmet Yıldırım",
+      "role": "Cultural Tourism Expert",
+      "deepHistory": "In-Depth Historical Narration",
+      "deepHistoryDesc": "A detailed guide service focusing on the foundation era of the Ottoman Empire.",
+      "specialRoutes": "Special Routes",
+      "specialRoutesDesc": "Unique routes prepared for a richer and more meaningful experience.",
+      "description": "With 20+ years of tourism experience, he presents Turkish culture to the world.",
+      "specialization": "Ottoman History and Architectural Art"
+    },
+    "values": {
+      "badge": "Our Values",
+      "title": "What We Believe In",
+      "subtitle": "We focus on quality, trust, and warm hospitality in every experience.",
+      "premium": {
+        "title": "Premium Experience",
+        "desc": "Carefully selected hotels, routes, and services tailored to you."
+      },
+      "trust": {
+        "title": "Trust & Safety",
+        "desc": "Clear processes, official partners, and reliable service at every step."
+      },
+      "warmth": {
+        "title": "Warm Hospitality",
+        "desc": "We treat every guest as family and care about every detail."
+      },
+      "item1Title": "Reliability",
+      "item1Desc": "Customer satisfaction is at the center of every decision.",
+      "item2Title": "Quality",
+      "item2Desc": "Best service standards always.",
+      "item3Title": "Experience",
+      "item3Desc": "Professional knowledge accumulated over years.",
+      "item4Title": "Personalization",
+      "item4Desc": "Special attention for each customer."
+    },
+    "cta": {
+      "title": "Start Your Travel Journey",
+      "desc": "Create unforgettable memories with Elite Travel. Book today or get more information.",
+      "description": "Create unforgettable memories with Elite Travel. Book today or get more information.",
+      "exploreTours": "Explore Tours",
+      "contactUs": "Contact Us",
+      "exploreButton": "Explore Tours",
+      "contactButton": "Contact Us"
+    }
+  },
+  "whyUs": {
+    "heading": "Why Elite Travel?"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "name": "Name",
+    "description": "Description",
+    "price": "Price",
+    "days": "days",
+    "reviews": "reviews",
+    "perPerson": "per person"
+  },
+  "schedule": {
+    "title": "Tour Itinerary",
+    "day": "DAY"
+  },
+  "admin": {
+    "tourManagement": "Tour Management Dashboard",
+    "manageEditTours": "Manage, edit and add new tours",
+    "tourList": "Tour List",
+    "addNewTour": "Add New Tour",
+    "tourImage": "Tour Image",
+    "selectImage": "Click to select image",
+    "uploading": "Uploading...",
+    "fileSelect": "Choose File",
+    "maxFileSize": "JPG, PNG, WEBP - Max 5MB",
+    "tourTitle": "Tour Title",
+    "price": "Price",
+    "currency": "Currency",
+    "capacity": "Capacity",
+    "description": "Description",
+    "tourDetails": "Detailed information about tour...",
+    "itinerary": "Tour Itinerary",
+    "addDay": "+ Add Day",
+    "dayNumber": "Day",
+    "dayTitle": "Title",
+    "dayDescription": "Description",
+    "dayTitlePlaceholder": "Day title (e.g. Istanbul to Safranbolu Road)",
+    "dayDescriptionPlaceholder": "Describe what will happen this day...",
+    "deleteDay": "Delete",
+    "activeTour": "Active Tour",
+    "save": "💾 Save",
+    "update": "✏️ Update",
+    "cancel": "❌ Cancel",
+    "edit": "✎ Edit",
+    "delete": "🗑 Delete",
+    "active": "✓ Active",
+    "inactive": "○ Inactive",
+    "assignedGuide": "Assigned",
+    "noGuide": "Not Assigned",
+    "maxGroupSize": "Max Group Size",
+    "people": "people",
+    "noToursAdded": "No tours added yet",
+    "addFirstTour": "Add First Tour",
+    "errors": {
+      "tourTitleRequired": "Please enter tour title",
+      "imageRequired": "Please upload an image",
+      "loadFailed": "Could not load tours",
+      "addFailed": "Error adding tour",
+      "updateFailed": "Error updating tour",
+      "deleteFailed": "Error deleting tour",
+      "uploadFailed": "Could not upload image",
+      "fileSizeError": "File size must be less than 5MB"
+    },
+    "success": {
+      "added": "Tour added successfully",
+      "updated": "Tour updated successfully",
+      "deleted": "Tour deleted successfully",
+      "imageUploaded": "Image uploaded successfully"
+    },
+    "confirmDelete": {
+      "title": "Are you sure?",
+      "message": "Are you sure you want to delete this tour?",
+      "confirmButton": "Yes, delete!",
+      "cancelButton": "Cancel"
+    }
+  }
+}

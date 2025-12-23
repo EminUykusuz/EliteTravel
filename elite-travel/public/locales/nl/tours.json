@@ -1,0 +1,80 @@
+{
+  "tours": [
+    {
+      "id": 1,
+      "slug": "osmanli-baskentleri-kasim-2025",
+      "isActive": true,
+      "category": "Ottomaanse Hoofdsteden",
+      "type": "Ottomaanse Hoofdsteden",
+      "title": "Met Dr. Ahmet Anapalı - Ottomaanse Hoofdsteden: Bursa & Söğüt",
+      "summary": "Op de voetsporen van sultans, vertrek uit Düsseldorf, een unieke 6-daagse reis vol geschiedenis en spiritualiteit.",
+      "price": 850,
+      "currency": "EUR",
+      "datesText": "21. – 26. november 2025",
+      "duration": "5 Nachten · 6 Dagen",
+      "departureCity": "Düsseldorf (DUS)",
+      "thumbnail": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a6b?w=1920&q=80",
+      "highlights": ["Dr. Ahmet Anapalı Verhaal", "Söğüt Ertuğrul Gazi", "Bursa Grote Moskee", "Hagia Sophia de Grote", "Topkapi-paleis"],
+      "itinerary": [
+        {"day": 1, "title": "Landen van Stichting", "description": "Aankomst in Istanbul met PC 1006 om 07:30. Transfer naar Söğüt, bezoek aan Ertuğrul Gazi heiligdom en vervolging naar Bursa."},
+        {"day": 2, "title": "Grote Stad Bursa", "description": "Osman Gazi, Orhan Gazi, Groene Mausoleum, Grote Moskee, Panorama 1326 en Emir Sultan."},
+        {"day": 3, "title": "Constantinopel Istanbul", "description": "Yedikule, Panorama 1453, Topkapi-paleis en Hagia Sophia de Grote."},
+        {"day": 4, "title": "Sultans Istanbul", "description": "Abdülhamid II, Süleymaniye, Fatih-moskee, Eyüp Sultan en de Kroningingsstraat."},
+        {"day": 5, "title": "Paleizen en de Straat", "description": "Dolmabahçe-paleis, Barbaros Hayreddin Pasja en Yıldız-paleis."},
+        {"day": 6, "title": "Afscheid", "description": "Na vrije tijd luchthavenoverdracht. Terugkeer naar Düsseldorf met PC 1005 om 17:35."}
+      ],
+      "whatsappNumber": "31621525757"
+    },
+    {
+      "id": 2,
+      "slug": "serhat-sehri-edirne-aralik-2025",
+      "isActive": true,
+      "category": "Ottomaanse Architectuur",
+      "type": "Ottomaanse Hoofdsteden",
+      "title": "Op de Voetsporen van Architect Sinan: Edirne & Istanbul",
+      "summary": "Een reis in de schaduw van Edirne, de poort van het Ottomaanse Rijk naar Europa, en de Selimiye, het meesterwerk van Architect Sinan.",
+      "price": 790,
+      "currency": "EUR",
+      "datesText": "12. – 16. december 2025",
+      "duration": "4 Nachten · 5 Dagen",
+      "departureCity": "Keulen (CGN)",
+      "thumbnail": "https://images.unsplash.com/photo-1622587676646-0b44d32049e7?w=600&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1622587676646-0b44d32049e7?w=1920&q=80",
+      "highlights": ["Selimiye-moskee", "Bayezid II Complex", "Meriç-brug", "Edirne Lever", "Bosporus-cruise"],
+      "itinerary": [
+        {"day": 1, "title": "Reis naar de Grensstad", "description": "Ontvangst op Istanbul Airport en reis naar Edirne met speciaal voertuig. Hotel check-in en thee aan de Meriç-rivier s avonds."},
+        {"day": 2, "title": "Meesterschap van Architect Sinan", "description": "Bezoek aan het hoogtepunt van de wereldarchitectuurgeschiedenis - Selimiye-moskee, Drie-Balkons-moskee en de beroemde Oude-moskee. Beroemde Edirne lever bij lunch."},
+        {"day": 3, "title": "Geschiedenis van Genezing en Karaağaç", "description": "Met de Europese Raadsprijs bekroonde Bayezid II Gezondheidsmuseum (Darüşşifa), Lausanne Monument en bezoek aan Karaağaç Treinstation."},
+        {"day": 4, "title": "Terugkeer naar Istanbul en Eyüp Sultan", "description": "Terugkeer naar Istanbul na ontbijt. Bezoek aan Eyüp Sultan en geniet van het uitzicht op de Gouden Hoorn vanaf Pierre Loti heuvel."},
+        {"day": 5, "title": "Parels van de Straat en Afscheid", "description": "Boottocht door de Bosporus, bezoek aan Ortaköy en Egyptische Bazaar in Eminönü, vervolgens transfer naar het vliegveld."}
+      ],
+      "whatsappNumber": "31621525757"
+    },
+    {
+      "id": 3,
+      "slug": "kudus-mirac-yolculugu-2026",
+      "isActive": true,
+      "category": "Ottomaanse Hoofdsteden",
+      "type": "Ottomaanse Hoofdsteden",
+      "title": "In de Schaduw van de Nachtelijke Reis: Heilig Jeruzalem",
+      "summary": "Vrijdagbedrijf in de Al-Aqsa-moskee, onze eerste gebedrichting, en spirituele wedergeboorte in de Stad der Profeten.",
+      "price": 1150,
+      "currency": "EUR",
+      "datesText": "15. – 19. februari 2026",
+      "duration": "4 Nachten · 5 Dagen",
+      "departureCity": "Düsseldorf (DUS)",
+      "thumbnail": "https://images.unsplash.com/photo-1564998708761-a831e5f08577?w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1564998708761-a831e5f08577?w=1920&q=80",
+      "highlights": ["Al-Aqsa-moskee", "Rotsdom", "Hebron", "Westermuur", "Olijfberg"],
+      "itinerary": [
+        {"day": 1, "title": "Aankomst in het Heilige Land", "description": "Aankomst op Tel Aviv Airport en transfer naar Jeruzalem. Eerste gebed in de Al-Aqsa-moskee en bezoek aan de Westermuur."},
+        {"day": 2, "title": "Stad der Profeten", "description": "Uitzicht op Jeruzalem vanaf de Olijfberg, bezoek aan Salman al-Farisi en Rabia al-Adawiyya locaties. Avondbijeenkomst in de Al-Aqsa-moskee."},
+        {"day": 3, "title": "Hebron en Profeet Ibrahim", "description": "Reis naar Hebron. Bezoek aan graven van Profeet Ibrahim, Profeet Ishak, Profeet Jacop en hun vrouwen. Bezoek aan Bethlehem."},
+        {"day": 4, "title": "Oude Stad en Vrijdagbedrijf", "description": "Rondleiding door de Oude Stad van Jeruzalem, Kerk van het Heilige Graf, Moskee van Umar. Vrijdagbedrijf in de binnenplaats van de Al-Aqsa-moskee."},
+        {"day": 5, "title": "Jaffa en Terugkeer", "description": "Bezoek aan de Ottomaanse erfgoedstad Jaffa, Klok van Sultan Abdülhamid en Bahriye-moskee, vervolgens transfer naar het vliegveld."}
+      ],
+      "whatsappNumber": "31621525757"
+    }
+  ]
+}

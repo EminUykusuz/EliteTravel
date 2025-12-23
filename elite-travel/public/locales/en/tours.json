@@ -1,0 +1,80 @@
+{
+  "tours": [
+    {
+      "id": 1,
+      "slug": "osmanli-baskentleri-kasim-2025",
+      "isActive": true,
+      "category": "Ottoman Capitals",
+      "type": "Ottoman Capitals",
+      "title": "With Dr. Ahmet Anapalı - Ottoman Capitals: Bursa & Söğüt",
+      "summary": "Following in the footsteps of sultans, departing from Düsseldorf, a unique 6-day journey filled with history and spirituality.",
+      "price": 850,
+      "currency": "EUR",
+      "datesText": "21 – 26 November 2025",
+      "duration": "5 Nights · 6 Days",
+      "departureCity": "Düsseldorf (DUS)",
+      "thumbnail": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a6b?w=1920&q=80",
+      "highlights": ["Dr. Ahmet Anapalı Narration", "Söğüt Ertuğrul Gazi", "Bursa Grand Mosque", "Hagia Sophia the Great", "Topkapi Palace"],
+      "itinerary": [
+        {"day": 1, "title": "Lands of Foundation", "description": "Arrival at Istanbul with PC 1006 at 07:30. Transfer to Söğüt, visit Ertuğrul Gazi shrine and proceed to Bursa."},
+        {"day": 2, "title": "Great City Bursa", "description": "Osman Gazi, Orhan Gazi, Green Mausoleum, Grand Mosque, Panorama 1326 and Emir Sultan."},
+        {"day": 3, "title": "Constantinople Istanbul", "description": "Yedikule, Panorama 1453, Topkapi Palace and Hagia Sophia the Great."},
+        {"day": 4, "title": "Sultans' Istanbul", "description": "Abdülhamid II, Süleymaniye, Fatih Mosque, Eyüp Sultan and the Coronation Road."},
+        {"day": 5, "title": "Palaces and the Strait", "description": "Dolmabahçe Palace, Barbaros Hayreddin Pasha and Yıldız Palace."},
+        {"day": 6, "title": "Farewell", "description": "After free time, airport transfer. Return to Düsseldorf with PC 1005 at 17:35."}
+      ],
+      "whatsappNumber": "31621525757"
+    },
+    {
+      "id": 2,
+      "slug": "serhat-sehri-edirne-aralik-2025",
+      "isActive": true,
+      "category": "Ottoman Architecture",
+      "type": "Ottoman Capitals",
+      "title": "In the Footsteps of Architect Sinan: Edirne & Istanbul",
+      "summary": "A journey in the shadow of Edirne, the gateway of the Ottoman Empire to Europe, and Selimiye, the masterpiece of Architect Sinan.",
+      "price": 790,
+      "currency": "EUR",
+      "datesText": "12 – 16 December 2025",
+      "duration": "4 Nights · 5 Days",
+      "departureCity": "Cologne (CGN)",
+      "thumbnail": "https://images.unsplash.com/photo-1622587676646-0b44d32049e7?w=600&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1622587676646-0b44d32049e7?w=1920&q=80",
+      "highlights": ["Selimiye Mosque", "Bayezid II Complex", "Meriç Bridge", "Edirne Liver", "Bosphorus Tour"],
+      "itinerary": [
+        {"day": 1, "title": "Journey to the Border City", "description": "Welcome at Istanbul Airport and travel to Edirne by special vehicle. Hotel check-in and tea by the Meriç River in the evening."},
+        {"day": 2, "title": "Architect Sinan's Mastery", "description": "Visit the pinnacle of world architectural history - Selimiye Mosque, Üç Şerefeli Mosque and the famous Eski Mosque. Famous Edirne liver served at lunch."},
+        {"day": 3, "title": "History of Healing and Karaağaç", "description": "European Council award-winning Bayezid II Health Museum (Darüşşifa), Lausanne Monument and Karaağaç Train Station visit."},
+        {"day": 4, "title": "Return to Istanbul and Eyüp Sultan", "description": "Return to Istanbul after breakfast. Visit Eyüp Sultan and enjoy the Golden Horn view from Pierre Loti hill."},
+        {"day": 5, "title": "Pearls of the Strait and Farewell", "description": "Boat tour of the Bosphorus, visit to Ortaköy and Egyptian Bazaar in Eminönü, then transfer to airport."}
+      ],
+      "whatsappNumber": "31621525757"
+    },
+    {
+      "id": 3,
+      "slug": "kudus-mirac-yolculugu-2026",
+      "isActive": true,
+      "category": "Ottoman Capitals",
+      "type": "Ottoman Capitals",
+      "title": "In the Shadow of the Night Journey: Holy Jerusalem",
+      "summary": "Friday prayer at Al-Aqsa Mosque, our first Qibla, and spiritual revival in the City of Prophets.",
+      "price": 1150,
+      "currency": "EUR",
+      "datesText": "15 – 19 February 2026",
+      "duration": "4 Nights · 5 Days",
+      "departureCity": "Düsseldorf (DUS)",
+      "thumbnail": "https://images.unsplash.com/photo-1564998708761-a831e5f08577?w=800&q=80",
+      "heroImage": "https://images.unsplash.com/photo-1564998708761-a831e5f08577?w=1920&q=80",
+      "highlights": ["Al-Aqsa Mosque", "Dome of the Rock", "Hebron", "Western Wall", "Mount of Olives"],
+      "itinerary": [
+        {"day": 1, "title": "Arrival in the Holy Land", "description": "Arrival at Tel Aviv Airport and transfer to Jerusalem. First prayer at Al-Aqsa Mosque and visit to the Western Wall."},
+        {"day": 2, "title": "City of Prophets", "description": "View of Jerusalem from Mount of Olives, visit to Salman al-Farisi and Rabia al-Adawiyya sites. Evening gathering at Al-Aqsa Mosque."},
+        {"day": 3, "title": "Hebron and Prophet Ibrahim", "description": "Journey to Hebron. Visit tombs of Prophet Ibrahim, Prophet Isaac, Prophet Jacob and their wives. Visit to Bethlehem."},
+        {"day": 4, "title": "Old City and Friday Prayer", "description": "Tour of the Old City of Jerusalem, Church of the Holy Sepulchre, Mosque of Umar. Friday prayer in Al-Aqsa Mosque courtyard."},
+        {"day": 5, "title": "Jaffa and Return", "description": "Visit Ottoman heritage city of Jaffa, Sultan Abdülhamid Clock Tower and Bahriye Mosque, then transfer to airport."}
+      ],
+      "whatsappNumber": "31621525757"
+    }
+  ]
+}
