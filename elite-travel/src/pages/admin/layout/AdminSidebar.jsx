@@ -59,7 +59,7 @@ export default function Sidebar({ isOpen }) {
             alt="Elite Travel Logo" 
             className="h-16 w-auto mb-2"
           />
-          <p className="text-xs text-gray-400 ml-1">Admin Panel</p>
+          <p className="text-xs text-gray-400 ml-1">Elite Travel Admin Paneli</p>
         </motion.div>
 
         {/* Menu Items */}

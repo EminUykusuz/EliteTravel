@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Save, Globe, Mail, Phone, MapPin, Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
+import { Save, Globe, Mail, Phone, MapPin, Facebook, Instagram, Twitter, Youtube, Upload, X } from 'lucide-react';
 import { showSuccess, showError } from '../../../utils/alerts';
 import { settingsService } from '../../../serivces/genericService';
+import api from '../../../services/api';
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState('general');
   const [loading, setLoading] = useState(true);
   const [settingsId, setSettingsId] = useState(null);
+  const [faviconPreview, setFaviconPreview] = useState(null);
+  const [faviconFile, setFaviconFile] = useState(null);
   
   const [generalSettings, setGeneralSettings] = useState({
     siteName: '',
@@ -17,11 +19,8 @@ export default function SettingsPage() {
   });
 
   const [seoSettings, setSeoSettings] = useState({
-    metaTitle: '',
-    metaDescription: '',
-    metaKeywords: '',
     googleAnalytics: '',
-    facebookPixel: ''
+    faviconUrl: ''
   });
 
   const [socialMedia, setSocialMedia] = useState({
@@ -47,12 +46,12 @@ export default function SettingsPage() {
             address: data.address || ''
           });
           setSeoSettings({
-            metaTitle: data.metaTitle || '',
-            metaDescription: data.metaDescription || '',
-            metaKeywords: data.metaKeywords || '',
             googleAnalytics: data.googleAnalytics || '',
-            facebookPixel: data.facebookPixel || ''
+            faviconUrl: data.faviconUrl || ''
           });
+          if (data.faviconUrl) {
+            setFaviconPreview(data.faviconUrl);
+          }
           setSocialMedia({
             facebookUrl: data.facebookUrl || '',
             instagramUrl: data.instagramUrl || '',
@@ -60,9 +59,7 @@ export default function SettingsPage() {
             youtubeUrl: data.youtubeUrl || ''
           });
         }
-      } catch (error) {
-        console.log('Ayarlar yükleniyor ilk kez...');
-      } finally {
+      } catch (error) { /* ignored */ } finally {
         setLoading(false);
       }
     };
@@ -82,24 +79,51 @@ export default function SettingsPage() {
       showSuccess('Genel ayarlar kaydedildi!');
     } catch (error) {
       showError('Kaydedilemedi!');
-      console.error(error);
-    }
+          }
   };
 
   const handleSaveSEO = async (e) => {
     e.preventDefault();
     try {
+      let faviconUrl = seoSettings.faviconUrl;
+      
+      // Eğer yeni favicon dosyası seçilmişse, önce upload et
+      if (faviconFile) {
+        const formData = new FormData();
+        formData.append('file', faviconFile);
+        
+        try {
+          const uploadResponse = await api.post('/FileUpload/upload-favicon', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+          
+          if (uploadResponse.data) {
+            faviconUrl = uploadResponse.data.url || uploadResponse.data.data?.url;
+                      }
+        } catch (uploadError) {
+                    showError('Favicon yüklenemedi!');
+          return;
+        }
+      }
+      
+      const updatedSettings = { ...seoSettings, faviconUrl };
+      
+            
       if (settingsId) {
-        await settingsService.update(settingsId, seoSettings);
+        await settingsService.update(settingsId, updatedSettings);
       } else {
-        const response = await settingsService.create(seoSettings);
+        const response = await settingsService.create(updatedSettings);
         setSettingsId(response.data?.id || response.id);
       }
+      
+      setSeoSettings(updatedSettings);
+      setFaviconFile(null); // Dosyayı temizle
       showSuccess('SEO ayarları kaydedildi!');
     } catch (error) {
       showError('Kaydedilemedi!');
-      console.error(error);
-    }
+          }
   };
 
   const handleSaveSocial = async (e) => {
@@ -117,12 +141,10 @@ export default function SettingsPage() {
         youtubeUrl: socialMedia.youtubeUrl || ''
       };
       
-      console.log('Saving social media settings:', payload);
-      await settingsService.update(settingsId, payload);
+            await settingsService.update(settingsId, payload);
       showSuccess('Sosyal medya ayarları kaydedildi!');
     } catch (error) {
-      console.error('Social media save error:', error);
-      showError(error.response?.data?.message || 'Kaydedilemedi!');
+            showError(error.response?.data?.message || 'Kaydedilemedi!');
     }
   };
 
@@ -270,71 +292,74 @@ export default function SettingsPage() {
                 <form onSubmit={handleSaveSEO} className="space-y-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Meta Başlık
+                      Google Analytics ID
                     </label>
                     <input
                       type="text"
-                      value={seoSettings.metaTitle}
-                      onChange={(e) => setSeoSettings({ ...seoSettings, metaTitle: e.target.value })}
+                      value={seoSettings.googleAnalytics}
+                      onChange={(e) => setSeoSettings({ ...seoSettings, googleAnalytics: e.target.value })}
                       className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="60 karakterden az olmalı"
+                      placeholder="G-XXXXXXXXXX veya UA-XXXXXXXXX-X"
                     />
-                    <p className="text-sm text-gray-500 mt-1">{seoSettings.metaTitle.length}/60 karakter</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Google Analytics 4 (G-) veya Universal Analytics (UA-) tracking kodunu girin
+                    </p>
                   </div>
 
+                  {/* Favicon Upload */}
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Meta Açıklama
+                    <label className="block text-sm font-semibold text-gray-700 mb-3">
+                      Favicon (Site İkonu)
                     </label>
-                    <textarea
-                      value={seoSettings.metaDescription}
-                      onChange={(e) => setSeoSettings({ ...seoSettings, metaDescription: e.target.value })}
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      rows="3"
-                      placeholder="160 karakterden az olmalı"
-                    />
-                    <p className="text-sm text-gray-500 mt-1">{seoSettings.metaDescription.length}/160 karakter</p>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Anahtar Kelimeler
-                    </label>
-                    <input
-                      type="text"
-                      value={seoSettings.metaKeywords}
-                      onChange={(e) => setSeoSettings({ ...seoSettings, metaKeywords: e.target.value })}
-                      className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="Virgülle ayırın"
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Google Analytics ID
+                    <div className="flex items-start gap-4">
+                      {/* Preview */}
+                      {faviconPreview && (
+                        <div className="relative group">
+                          <img
+                            src={faviconPreview}
+                            alt="Favicon"
+                            className="w-16 h-16 object-contain rounded-lg border-2 border-gray-300 bg-white p-2"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFaviconPreview(null);
+                              setFaviconFile(null);
+                              setSeoSettings({ ...seoSettings, faviconUrl: '' });
+                            }}
+                            className="absolute -top-2 -right-2 p-1 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </div>
+                      )}
+                      
+                      {/* Upload Button */}
+                      <label className="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-4 cursor-pointer hover:bg-gray-50 transition-all flex-1">
+                        <Upload className="w-8 h-8 text-gray-400 mb-2" />
+                        <p className="text-sm text-gray-600 font-medium">Favicon Yükle</p>
+                        <p className="text-xs text-gray-400 mt-1">ICO, PNG (32x32 veya 64x64)</p>
+                        <input
+                          type="file"
+                          className="hidden"
+                          accept=".ico,.png"
+                          onChange={async (e) => {
+                            const file = e.target.files[0];
+                            if (file) {
+                              const reader = new FileReader();
+                              reader.onloadend = () => {
+                                setFaviconPreview(reader.result);
+                              };
+                              reader.readAsDataURL(file);
+                              setFaviconFile(file);
+                            }
+                          }}
+                        />
                       </label>
-                      <input
-                        type="text"
-                        value={seoSettings.googleAnalytics}
-                        onChange={(e) => setSeoSettings({ ...seoSettings, googleAnalytics: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="UA-XXXXXXXXX-X"
-                      />
                     </div>
-
-                    <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">
-                        Facebook Pixel ID
-                      </label>
-                      <input
-                        type="text"
-                        value={seoSettings.facebookPixel}
-                        onChange={(e) => setSeoSettings({ ...seoSettings, facebookPixel: e.target.value })}
-                        className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="123456789"
-                      />
-                    </div>
+                    <p className="text-xs text-gray-500 mt-2">
+                      Favicon, tarayıcı sekmesinde görünen küçük site ikonudur. 32x32 veya 64x64 piksel boyutunda olmalıdır.
+                    </p>
                   </div>
 
                   <button

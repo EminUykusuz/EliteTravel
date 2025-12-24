@@ -6,6 +6,7 @@ import { categoryService } from '../services/categoryService';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Globe, Map, Sparkles, ArrowRight, ChevronDown, ChevronUp, Filter } from 'lucide-react';
+import { setupPageSEO } from '../utils/seoHelper';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -29,28 +30,57 @@ export default function ToursPage() {
   const location = useLocation();
 
   useEffect(() => {
+    // SEO meta tags - Multi-language
+    const seoContent = {
+      tr: {
+        title: 'Turlarımız',
+        description: 'Profesyonel rehberlerimiz eşliğinde düzenlenen benzersiz kültür turları ve seyahat programları. Tarihi yerler, kültür rotaları ve özel turlar.',
+        keywords: 'turlar, seyahat, tatil, kültür turları, rehberli tur, gezi programları'
+      },
+      en: {
+        title: 'Our Tours',
+        description: 'Unique cultural tours and travel programs organized with our professional guides. Historical sites, cultural routes and special tours.',
+        keywords: 'tours, travel, vacation, cultural tours, guided tour, travel programs'
+      },
+      de: {
+        title: 'Unsere Touren',
+        description: 'Einzigartige Kulturtouren und Reiseprogramme, organisiert mit unseren professionellen Reiseführern. Historische Stätten, Kulturrouten und Sondertouren.',
+        keywords: 'touren, reise, urlaub, kulturtouren, geführte tour, reiseprogramme'
+      },
+      nl: {
+        title: 'Onze Tours',
+        description: 'Unieke culturele tours en reisprogramma\'s georganiseerd met onze professionele gidsen. Historische plaatsen, culturele routes en speciale tours.',
+        keywords: 'tours, reis, vakantie, culturele tours, begeleide tour, reisprogramma\'s'
+      }
+    };
+    const lang = i18nInstance.language || 'tr';
+    const content = seoContent[lang] || seoContent.tr;
+    
+    setupPageSEO({
+      title: content.title,
+      description: content.description,
+      keywords: content.keywords,
+      path: '/tours'
+    });
+
     const loadTours = async () => {
       try {
         const searchParams = new URLSearchParams(location.search);
         const categorySlug = searchParams.get('category'); // Slug kullan
 
-        console.log('🔍 URL parametresi category:', categorySlug);
-
-        const lang = i18nInstance.language || 'tr';
+                const lang = i18nInstance.language || 'tr';
         const params = {
           isActive: true,
           languageCode: lang
         };
         if (categorySlug) {
           params.category = categorySlug; // Slug gönder
-          console.log('📦 Backend\'e gönderilen params:', params);
-        } else {
+                  } else {
           setActiveCategoryName('');
         }
 
         const data = await tourService.getAll(params);
-        console.log('✅ Backend\'den dönen tur sayısı:', data?.length);
-        
+                
         const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5067/api';
         const baseUrl = API_URL.replace('/api', ''); // Remove /api to get base URL
         
@@ -73,8 +103,7 @@ export default function ToursPage() {
         }));
         setTours(apiTours);
       } catch (error) {
-        console.error('Turlar yüklenemedi:', error);
-        setTours([]);
+                setTours([]);
       } finally {
         setLoading(false);
       }

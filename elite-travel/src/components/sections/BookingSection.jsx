@@ -77,14 +77,12 @@ export default function BookingSection({ tour, tourPrice }) {
         });
 
         // Admin'e bildirim gönder (opsiyonel)
-        console.log('Yeni rezervasyon:', bookingData);
-      } else {
+              } else {
         showError(response.message || t('booking.errors.createFailed'));
       }
     } catch (error) {
       closeLoading();
-      console.error('Booking error:', error);
-      showError(error.response?.data?.message || t('booking.errors.createError'));
+            showError(error.response?.data?.message || t('booking.errors.createError'));
     }
   };
 

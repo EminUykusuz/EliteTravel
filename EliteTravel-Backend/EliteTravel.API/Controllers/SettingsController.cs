@@ -89,6 +89,7 @@ public class SettingsController : ControllerBase
             existing.MetaKeywords = settings.MetaKeywords ?? existing.MetaKeywords;
             existing.GoogleAnalytics = settings.GoogleAnalytics ?? existing.GoogleAnalytics;
             existing.FacebookPixel = settings.FacebookPixel ?? existing.FacebookPixel;
+            existing.FaviconUrl = settings.FaviconUrl ?? existing.FaviconUrl;
             existing.FacebookUrl = settings.FacebookUrl ?? existing.FacebookUrl;
             existing.InstagramUrl = settings.InstagramUrl ?? existing.InstagramUrl;
             existing.TwitterUrl = settings.TwitterUrl ?? existing.TwitterUrl;

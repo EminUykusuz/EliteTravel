@@ -1,11 +1,13 @@
 import { useParams } from 'react-router-dom';
 import ScheduleSection from '../components/sections/ScheduleSection';
 import BookingForm from '../components/tours/BookingForm';
+import SocialShareButtons from '../components/ui/SocialShareButtons';
 import { MapPin, Users, Clock, AlertCircle, User, Calendar, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
 import { tourService } from '../services/tourService';
+import { setupPageSEO, generateTourSchema, generateBreadcrumbSchema } from '../utils/seoHelper';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -29,14 +31,23 @@ export default function TourDetailPage() {
       setLoading(true);
       try {
         const dto = await tourService.getBySlug(slug);
-        console.log('Tour DTO:', dto);
-        
+                
         if (!dto) {
           setTour(null);
           return;
         }
 
-        const itinerary = (dto.itineraries || dto.Itineraries || [])
+        // Dil çevirisini çek
+        const tourId = dto.id ?? dto.Id;
+        const currentLang = i18n.language; // 'tr', 'en', 'de', 'nl'
+        let translation = null;
+        
+        // Türkçe değilse çeviri dene
+        if (currentLang !== 'tr') {
+          translation = await tourService.getTranslation(tourId, currentLang);
+        }
+
+        const itinerary = (translation?.itineraries || dto.itineraries || dto.Itineraries || [])
           .map((it) => ({
             day: it.dayNumber ?? it.DayNumber,
             title: it.title ?? it.Title,
@@ -44,13 +55,13 @@ export default function TourDetailPage() {
           }))
           .sort((a, b) => (a.day || 0) - (b.day || 0));
 
-        const extras = (dto.extras || dto.Extras || []).map((ex) => ({
+        const extras = (translation?.extras || dto.extras || dto.Extras || []).map((ex) => ({
           title: ex.title ?? ex.Title,
           price: ex.price ?? ex.Price,
           emoji: ex.emoji ?? ex.Emoji ?? '✨'
         }));
 
-        const highlights = dto.highlights || dto.Highlights || [];
+        const highlights = translation?.highlights || dto.highlights || dto.Highlights || [];
 
         const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5067/api';
         const baseUrl = API_URL.replace('/api', ''); // Remove /api to get base URL
@@ -62,16 +73,43 @@ export default function TourDetailPage() {
           ? baseUrl + (dto.thumbnail ?? dto.Thumbnail)
           : (dto.thumbnail ?? dto.Thumbnail);
 
-        console.log('🖼️ Backend\'den gelen:', { mainImage: dto.mainImage ?? dto.MainImage, thumbnail: dto.thumbnail ?? dto.Thumbnail });
-        console.log('🌐 Oluşturulan URL:', { mainImageUrl, thumbnailUrl });
-        console.log('✨ Highlights:', highlights);
-        console.log('💰 Extras:', extras);
+        // Gallery photos'ları parse et ve tam URL'e çevir
+        let galleryPhotosArray = dto.galleryPhotos ?? dto.GalleryPhotos ?? dto.galleryPhotosJson ?? dto.GalleryPhotosJson ?? [];
+        
+        // Eğer string ise JSON parse et
+        if (typeof galleryPhotosArray === 'string') {
+          try {
+            galleryPhotosArray = JSON.parse(galleryPhotosArray);
+          } catch {
+            galleryPhotosArray = [];
+          }
+        }
 
-        setTour({
+        // Backend'den gelen URL'lerden sadece filename'i çıkar ve temiz URL oluştur
+        // Backend bazen path'leri birden fazla kez birleştiriyor, biz sadece son kısmı (filename) kullanacağız
+        const galleryPhotos = (Array.isArray(galleryPhotosArray) ? galleryPhotosArray : [])
+          .map(url => {
+            if (!url) return null;
+            
+            // URL'den son segment'i (filename) al
+            const urlString = String(url).trim();
+            const segments = urlString.split('/');
+            const filename = segments[segments.length - 1];
+            
+            // Eğer geçerli bir filename varsa temiz URL oluştur
+            if (filename && filename.length > 0) {
+              return `${baseUrl}/api/tours/image/${filename}`;
+            }
+            
+            return null;
+          })
+          .filter(Boolean);
+
+        const tourData = {
           id: dto.id ?? dto.Id,
           slug: dto.slug ?? dto.Slug,
-          title: dto.title || dto.Title || '',
-          description: dto.description || dto.Description || '',
+          title: translation?.title || dto.title || dto.Title || '',
+          description: translation?.description || dto.description || dto.Description || '',
           price: dto.price ?? dto.Price,
           currency: dto.currency ?? dto.Currency,
           capacity: dto.capacity ?? dto.Capacity,
@@ -80,12 +118,53 @@ export default function TourDetailPage() {
           departureCity: dto.departureCity ?? dto.DepartureCity,
           mainImage: mainImageUrl,
           thumbnail: thumbnailUrl,
+          galleryPhotos,
           itinerary,
           extras,
           highlights
+        };
+        
+        setTour(tourData);
+        
+        // SEO Setup - Multi-language
+        const tourPath = `/tours/${dto.slug ?? dto.Slug}`;
+        const seoDescriptions = {
+          tr: `${tourData.title} - Benzersiz bir seyahat deneyimi`,
+          en: `${tourData.title} - Unique travel experience`,
+          de: `${tourData.title} - Einzigartiges Reiseerlebnis`,
+          nl: `${tourData.title} - Unieke reiservaring`
+        };
+        const seoKeywords = {
+          tr: `${tourData.title}, tur, seyahat, tatil, ${tourData.departureCity || ''}, gezi`,
+          en: `${tourData.title}, tour, travel, vacation, ${tourData.departureCity || ''}, trip`,
+          de: `${tourData.title}, tour, reise, urlaub, ${tourData.departureCity || ''}, ausflug`,
+          nl: `${tourData.title}, tour, reis, vakantie, ${tourData.departureCity || ''}, excursie`
+        };
+        const breadcrumbLabels = {
+          tr: { home: 'Ana Sayfa', tours: 'Turlar' },
+          en: { home: 'Home', tours: 'Tours' },
+          de: { home: 'Startseite', tours: 'Touren' },
+          nl: { home: 'Home', tours: 'Tours' }
+        };
+        const currentLangLabels = breadcrumbLabels[currentLang] || breadcrumbLabels.tr;
+        
+        setupPageSEO({
+          title: tourData.title,
+          description: tourData.description?.substring(0, 160) || seoDescriptions[currentLang] || seoDescriptions.tr,
+          keywords: seoKeywords[currentLang] || seoKeywords.tr,
+          path: tourPath,
+          image: tourData.mainImage,
+          type: 'article',
+          structuredData: [
+            generateTourSchema(tourData),
+            generateBreadcrumbSchema([
+              { name: currentLangLabels.home, path: '/' },
+              { name: currentLangLabels.tours, path: '/tours' },
+              { name: tourData.title, path: tourPath }
+            ])
+          ]
         });
-      } catch (e) {
-        console.error('Error loading tour:', e);
+      } catch {
         setTour(null);
       } finally {
         setLoading(false);
@@ -115,6 +194,7 @@ export default function TourDetailPage() {
   }
 
   const symbol = tour.currency === 'EUR' ? '€' : '₺';
+  const currentUrl = `${window.location.origin}/tours/${tour.slug}`;
 
   return (
     <motion.div 
@@ -127,7 +207,8 @@ export default function TourDetailPage() {
       <motion.div variants={itemVariants} className="relative h-[70vh] overflow-hidden group">
         <img 
           src={tour.mainImage || tour.thumbnail || 'https://via.placeholder.com/1200x800?text=Tour'} 
-          alt={tour.title} 
+          alt={`${tour.title} - ${tour.departureCity || 'Elite Travel'} Turu`}
+          loading="eager"
           className="w-full h-full object-cover transition-transform duration-300"
         />
         
@@ -135,8 +216,6 @@ export default function TourDetailPage() {
 
         <motion.div variants={itemVariants} className="absolute inset-0 flex flex-col items-center justify-center text-white p-4 text-center">
           <h1 className="text-5xl md:text-7xl font-black mb-4 leading-tight drop-shadow-lg">{tour.title}</h1>
-          
-
 
           <div className="flex flex-wrap justify-center gap-3 md:gap-6">
             {tour.guideName && (
@@ -167,6 +246,19 @@ export default function TourDetailPage() {
           {/* LEFT COLUMN - Main Content */}
           <motion.div variants={containerVariants} className="lg:col-span-2 space-y-8">
             
+            {/* SOCIAL SHARE */}
+            <motion.div
+              variants={itemVariants}
+              className="bg-white p-6 rounded-2xl shadow-lg border border-slate-100"
+            >
+              <SocialShareButtons
+                url={currentUrl}
+                title={tour.title}
+                description={tour.description}
+                image={tour.mainImage}
+              />
+            </motion.div>
+            
             {/* HIGHLIGHTS */}
             {(tour.highlights || []).length > 0 && (
               <motion.div 
@@ -174,7 +266,7 @@ export default function TourDetailPage() {
                 className="bg-white p-10 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-all"
               >
                 <h2 className="text-2xl font-bold text-slate-900 mb-8">
-                  Turun Öne Çıkanları
+                  {t('tourDetail.highlights')}
                 </h2>
                 <div className="grid md:grid-cols-2 gap-4">
                   {tour.highlights.map((highlight, idx) => (
@@ -196,6 +288,37 @@ export default function TourDetailPage() {
             {/* ITINERARY */}
             <ScheduleSection itinerary={tour.itinerary} />
 
+            {/* EXTRAS */}
+            {(tour.extras || []).length > 0 && (
+              <motion.div
+                variants={itemVariants}
+                className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-all"
+              >
+                <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                  <div className="w-1 h-8 bg-gradient-to-b from-green-500 to-emerald-600 rounded-full"></div>
+                  {t('tourDetail.extras') || 'Ekstra Hizmetler'}
+                </h2>
+                <p className="text-sm text-slate-600 mb-6">
+                  💡 {t('common:tourDetail.extrasNote') || 'Ekstra hizmetlerden yararlanmak isterseniz rezervasyon formunda "Özel İstekler" kısmında belirtiniz.'}
+                </p>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {tour.extras.map((ex, idx) => (
+                    <div
+                      key={idx}
+                      className="flex items-center justify-between p-4 bg-gradient-to-r from-slate-50 to-green-50 rounded-xl border border-green-100 hover:shadow-md transition-all"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{ex.emoji}</span>
+                        <span className="text-base font-medium text-slate-700">{ex.title}</span>
+                      </div>
+                      <span className="text-base font-bold text-green-600">+{symbol}{ex.price}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
             {!!tour.description && (
               <motion.div 
                 variants={itemVariants}
@@ -209,35 +332,42 @@ export default function TourDetailPage() {
               </motion.div>
             )}
 
-           {/* EXTRAS */}
-{(tour.extras || []).length > 0 && (
-  <motion.div
-    variants={itemVariants}
-    className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100"
-  >
-    <h2 className="text-2xl font-bold text-slate-900 mb-2">
-      {t('tourDetail.extras') || 'Ekstra Hizmetler'}
-    </h2>
-    <p className="text-xs text-slate-500 mb-4">
-      💡 {t('common:tourDetail.extrasNote') || 'Ekstra hizmetlerden yararlanmak isterseniz rezervasyon formunda "Özel İstekler" kısmında belirtiniz.'}
-    </p>
-
-    <div className="grid grid-cols-2 gap-4">
-      {tour.extras.map((ex, idx) => (
-        <div
-          key={idx}
-          className="flex items-center justify-between p-2"
-        >
-          <div className="flex items-center gap-2">
-            <span className="text-lg">{ex.emoji}</span>
-            <span className="text-xs text-slate-600">{ex.title}</span>
-          </div>
-          <span className="text-xs font-bold text-green-600">+{symbol}{ex.price}</span>
-        </div>
-      ))}
-    </div>
-  </motion.div>
-)}
+            {/* GALLERY PHOTOS */}
+            {(tour.galleryPhotos || []).length > 0 && (
+              <motion.div 
+                variants={itemVariants}
+                className="bg-white p-10 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-all"
+              >
+                <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                  <div className="w-1 h-8 bg-gradient-to-b from-blue-900 to-blue-600 rounded-full"></div>
+                  📸 {t('tourDetail.gallery')}
+                </h2>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                  {tour.galleryPhotos.map((photo, idx) => (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: idx * 0.05 }}
+                      whileHover={{ scale: 1.05 }}
+                      className="relative aspect-square rounded-xl overflow-hidden shadow-md hover:shadow-2xl transition-all cursor-pointer group"
+                    >
+                      <img
+                        src={photo}
+                        alt={`${tour.title} - Galeri Fotoğrafı ${idx + 1}`}
+                        loading="lazy"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="absolute bottom-3 left-3 text-white font-semibold text-sm">
+                          #{idx + 1}
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
 
           </motion.div>
 

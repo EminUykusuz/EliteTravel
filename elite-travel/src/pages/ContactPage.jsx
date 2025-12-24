@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { MapPin, Phone, Send, MessageCircle, AlertCircle, CheckCircle, Mail } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import api from '../services/api';
+import { setupPageSEO } from '../utils/seoHelper';
 
 export default function ContactPage() {
   const { t, i18n } = useTranslation();
@@ -15,6 +16,41 @@ export default function ContactPage() {
   const [submitStatus, setSubmitStatus] = useState(null);
   const [submissionCount, setSubmissionCount] = useState(0);
   const MAX_SUBMISSIONS = 10;
+
+  // SEO meta tags - Multi-language
+  React.useEffect(() => {
+    const seoContent = {
+      tr: {
+        title: 'İletişim',
+        description: 'Turlarımız hakkında detaylı bilgi almak, rezervasyon yapmak veya sorularınız için bizimle iletişime geçin. Size yardımcı olmaktan mutluluk duyarız.',
+        keywords: 'iletişim, rezervasyon, bilgi, destek, elite travel iletişim'
+      },
+      en: {
+        title: 'Contact',
+        description: 'Contact us for detailed information about our tours, to make a reservation or for your questions. We are happy to help you.',
+        keywords: 'contact, reservation, information, support, elite travel contact'
+      },
+      de: {
+        title: 'Kontakt',
+        description: 'Kontaktieren Sie uns für detaillierte Informationen über unsere Touren, um eine Reservierung vorzunehmen oder für Ihre Fragen. Wir helfen Ihnen gerne.',
+        keywords: 'kontakt, reservierung, information, unterstützung, elite travel kontakt'
+      },
+      nl: {
+        title: 'Contact',
+        description: 'Neem contact met ons op voor gedetailleerde informatie over onze tours, om een reservering te maken of voor uw vragen. We helpen u graag.',
+        keywords: 'contact, reservering, informatie, ondersteuning, elite travel contact'
+      }
+    };
+    const lang = i18n.language || 'tr';
+    const content = seoContent[lang] || seoContent.tr;
+    
+    setupPageSEO({
+      title: content.title,
+      description: content.description,
+      keywords: content.keywords,
+      path: '/contact'
+    });
+  }, [i18n.language]);
 
   // Check submission count from localStorage
   React.useEffect(() => {
@@ -74,7 +110,7 @@ export default function ContactPage() {
         payload.phone = formData.phone;
       }
 
-      console.log('Sending payload:', payload); // Debug için
+       // Debug için
 
       const response = await api.post('/contacts', payload);
 
@@ -95,8 +131,7 @@ export default function ContactPage() {
         setTimeout(() => setSubmitStatus(null), 5000);
       }
     } catch (error) {
-      console.error('Failed to submit contact form:', error);
-      console.error('Error response:', error.response?.data); // Backend hatasını göster
+             // Backend hatasını göster
       setSubmitStatus('error');
       setTimeout(() => setSubmitStatus(null), 5000);
     } finally {

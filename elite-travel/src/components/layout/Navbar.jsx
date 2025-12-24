@@ -43,7 +43,6 @@ const Navbar = () => {
 
         setNavLinks(menuStructure);
       } catch (error) {
-        console.error(t('common.error'), error);
         // Fallback hardcoded menu
         setNavLinks([
           { name: t('nav.home'), href: '/', hasDropdown: false },

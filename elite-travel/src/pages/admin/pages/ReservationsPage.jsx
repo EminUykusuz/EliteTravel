@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Eye, Edit, Trash2, CheckCircle, Clock, AlertCircle, Plus, X } from 'lucide-react';
 import { showConfirm, showSuccess, showError, showLoading, closeLoading } from '../../../utils/alerts';
 import { bookingService } from '../../../services/bookingService';
@@ -67,22 +66,18 @@ export default function ReservationsPage() {
   const loadTours = async () => {
     try {
       const data = await tourService.getAll();
-      console.log('Tours loaded:', data);
-      setTours(Array.isArray(data) ? data : data?.items || []);
+            setTours(Array.isArray(data) ? data : data?.items || []);
     } catch (error) {
-      console.error('Turlar yüklenemedi:', error);
-      showError('Turlar yüklenirken hata oluştu');
+            showError('Turlar yüklenirken hata oluştu');
     }
   };
 
   const loadUsers = async () => {
     try {
       const data = await userService.getAll();
-      console.log('Users loaded:', data);
-      setUsers(Array.isArray(data) ? data : data?.items || []);
+            setUsers(Array.isArray(data) ? data : data?.items || []);
     } catch (error) {
-      console.error('Kullanıcılar yüklenemedi:', error);
-      showError('Kullanıcılar yüklenirken hata oluştu');
+            showError('Kullanıcılar yüklenirken hata oluştu');
     }
   };
 
@@ -109,8 +104,7 @@ export default function ReservationsPage() {
       setReservations(normalized);
     } catch (error) {
       showError('Rezervasyonlar yüklenirken hata oluştu!');
-      console.error(error);
-    } finally {
+          } finally {
       setLoading(false);
     }
   };
@@ -128,8 +122,7 @@ export default function ReservationsPage() {
       } catch (error) {
         closeLoading();
         showError('Rezervasyon silinirken hata oluştu!');
-        console.error(error);
-      }
+              }
     }
   };
 
@@ -143,8 +136,7 @@ export default function ReservationsPage() {
     } catch (error) {
       closeLoading();
       showError('Durum güncellenirken hata oluştu!');
-      console.error(error);
-    }
+          }
   };
 
   const handleCreateReservation = async (e) => {
@@ -250,8 +242,7 @@ export default function ReservationsPage() {
     } catch (error) {
       closeLoading();
       showError('Rezervasyon oluşturulurken hata oluştu!');
-      console.error(error);
-    }
+          }
   };
 
   const filteredReservations = filterStatus === 'Tümü' 

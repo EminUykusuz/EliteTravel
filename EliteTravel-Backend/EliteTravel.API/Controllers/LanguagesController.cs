@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using EliteTravel.Core.DTOs;
+using EliteTravel.Core.Services;
 
 namespace EliteTravel.API.Controllers
 {
@@ -7,23 +8,40 @@ namespace EliteTravel.API.Controllers
     [ApiController]
     public class LanguagesController : ControllerBase
     {
+        private readonly ILanguageService _languageService;
+
+        public LanguagesController(ILanguageService languageService)
+        {
+            _languageService = languageService;
+        }
+
         [HttpGet]
         public async Task<ActionResult<List<LanguageResponseDto>>> GetAll()
         {
-            // Genelde çok az dil olur, pagination gereksiz
-            return Ok(new List<LanguageResponseDto>());
+            var languages = await _languageService.GetAllLanguagesAsync();
+            return Ok(languages);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ApiResponseDto<LanguageResponseDto>>> GetById(int id)
         {
-            return Ok(ApiResponseDto<LanguageResponseDto>.SuccessResponse(null, "Language found"));
+            var language = await _languageService.GetLanguageByIdAsync(id);
+
+            if (language == null)
+                return NotFound(ApiResponseDto<LanguageResponseDto>.ErrorResponse("Language not found"));
+
+            return Ok(ApiResponseDto<LanguageResponseDto>.SuccessResponse(language, "Language found"));
         }
 
         [HttpGet("code/{code}")]
         public async Task<ActionResult<ApiResponseDto<LanguageResponseDto>>> GetByCode(string code)
         {
-            return Ok(ApiResponseDto<LanguageResponseDto>.SuccessResponse(null, "Language found"));
+            var language = await _languageService.GetByCodeAsync(code);
+
+            if (language == null)
+                return NotFound(ApiResponseDto<LanguageResponseDto>.ErrorResponse("Language not found"));
+
+            return Ok(ApiResponseDto<LanguageResponseDto>.SuccessResponse(language, "Language found"));
         }
 
         [HttpPost]
@@ -32,8 +50,10 @@ namespace EliteTravel.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ApiResponseDto<LanguageResponseDto>.ErrorResponse("Validation failed"));
 
-            return CreatedAtAction(nameof(GetById), new { id = 1 },
-                ApiResponseDto<LanguageResponseDto>.SuccessResponse(null, "Language created"));
+            var createdLanguage = await _languageService.CreateLanguageAsync(dto);
+
+            return CreatedAtAction(nameof(GetById), new { id = createdLanguage.Id },
+                ApiResponseDto<LanguageResponseDto>.SuccessResponse(createdLanguage, "Language created"));
         }
 
         [HttpPut("{id}")]
@@ -45,12 +65,22 @@ namespace EliteTravel.API.Controllers
             if (id != dto.Id)
                 return BadRequest(ApiResponseDto<LanguageResponseDto>.ErrorResponse("ID mismatch"));
 
-            return Ok(ApiResponseDto<LanguageResponseDto>.SuccessResponse(null, "Language updated"));
+            var updatedLanguage = await _languageService.UpdateLanguageAsync(dto);
+
+            if (updatedLanguage == null)
+                return NotFound(ApiResponseDto<LanguageResponseDto>.ErrorResponse("Language not found"));
+
+            return Ok(ApiResponseDto<LanguageResponseDto>.SuccessResponse(updatedLanguage, "Language updated"));
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<ApiResponseDto<bool>>> Delete(int id)
         {
+            var result = await _languageService.DeleteLanguageAsync(id);
+
+            if (!result)
+                return NotFound(ApiResponseDto<bool>.ErrorResponse("Language not found"));
+
             return Ok(ApiResponseDto<bool>.SuccessResponse(true, "Language deleted"));
         }
     }

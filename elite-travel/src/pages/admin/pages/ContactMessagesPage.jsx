@@ -30,18 +30,15 @@ export default function ContactMessagesPage() {
       });
       
       const response = await api.get(`/contacts?${params}`);
-      console.log('API Response:', response.data);
-      const data = response.data.data;
+            const data = response.data.data;
       if (!data || !data.items) {
-        console.error('Invalid response structure:', response.data);
-        setMessages([]);
+                setMessages([]);
         return;
       }
       setMessages(data.items);
       setTotalPages(Math.ceil(data.totalCount / pageSize));
     } catch (error) {
-      console.error('Failed to fetch messages:', error);
-      alert('Failed to load messages');
+            alert('Failed to load messages');
     } finally {
       setLoading(false);
     }
@@ -53,9 +50,7 @@ export default function ContactMessagesPage() {
       try {
         await api.get(`/contacts/${message.id}`);
         message.isRead = true;
-      } catch (error) {
-        console.error('Failed to mark as read:', error);
-      }
+      } catch (error) { /* ignored */ }
     }
     setSelectedMessage(message);
   };
@@ -80,8 +75,7 @@ export default function ContactMessagesPage() {
       alert('✅ Yanıt başarıyla gönderildi!\n📧 Müşteriye email olarak iletilmiştir.');
       fetchMessages(); // Refresh the list
     } catch (error) {
-      console.error('Failed to send reply:', error);
-      alert('❌ Yanıt gönderilemedi. Lütfen tekrar deneyin.');
+            alert('❌ Yanıt gönderilemedi. Lütfen tekrar deneyin.');
     }
   };
 
@@ -94,8 +88,7 @@ export default function ContactMessagesPage() {
       if (selectedMessage?.id === id) setSelectedMessage(null);
       alert('Mesaj başarıyla silindi');
     } catch (error) {
-      console.error('Failed to delete message:', error);
-      alert('Mesaj silinemedi');
+            alert('Mesaj silinemedi');
     }
   };
 

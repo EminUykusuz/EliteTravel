@@ -11,6 +11,7 @@ namespace EliteTravel.Core.Entities
         // JSON olarak saklanacak - Her dil için itinerary ve extra çevirileri
         public string? ItinerariesJson { get; set; } // JSON: [{ dayNumber: 1, title: "...", description: "..." }]
         public string? ExtrasJson { get; set; } // JSON: [{ title: "...", price: 50 }]
+        public string? HighlightsJson { get; set; } // JSON: ["highlight 1", "highlight 2"]
 
         public virtual Tour Tour { get; set; } = null!;
         public virtual Language Language { get; set; } = null!;

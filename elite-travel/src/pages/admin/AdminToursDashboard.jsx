@@ -163,8 +163,7 @@ const AdminToursDashboard = () => {
       setActiveTab('list');
 
     } catch (error) {
-      console.error(error);
-      Swal.fire('Hata!', 'Tur eklenirken hata oluştu', 'error');
+            Swal.fire('Hata!', 'Tur eklenirken hata oluştu', 'error');
     }
   };
 
@@ -216,8 +215,7 @@ const AdminToursDashboard = () => {
       setActiveTab('list');
 
     } catch (error) {
-      console.error(error);
-      Swal.fire('Hata!', 'Tur güncellenirken hata oluştu', 'error');
+            Swal.fire('Hata!', 'Tur güncellenirken hata oluştu', 'error');
     }
   };
 
@@ -261,10 +259,8 @@ const AdminToursDashboard = () => {
 
     if (result.isConfirmed) {
       try {
-        console.log('Silinecek tur ID:', id);
-        const response = await tourService.delete(id);
-        console.log('Delete response:', response);
-        
+                const response = await tourService.delete(id);
+                
         Swal.fire({
           icon: 'success',
           title: 'Silindi!',
@@ -275,8 +271,7 @@ const AdminToursDashboard = () => {
 
         loadTours();
       } catch (error) {
-        console.error('Delete error:', error);
-        Swal.fire('Hata!', `Tur silinirken hata oluştu: ${error.message || error}`, 'error');
+                Swal.fire('Hata!', `Tur silinirken hata oluştu: ${error.message || error}`, 'error');
       }
     }
   };

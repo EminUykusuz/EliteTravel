@@ -22,9 +22,7 @@ export default function Navbar({ sidebarOpen, setSidebarOpen }) {
           setNotifications(response.data.data.items);
           setUnreadCount(response.data.data.items.length);
         }
-      } catch (error) {
-        console.error('Mesajlar yüklenirken hata:', error);
-      }
+      } catch (error) { /* ignored */ }
     };
 
     fetchMessages();

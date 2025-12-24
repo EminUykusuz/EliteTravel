@@ -14,6 +14,7 @@ namespace EliteTravel.Core.DTOs
         public int Capacity { get; set; }
         public string? MainImage { get; set; }
         public string? Thumbnail { get; set; }
+        public string[]? GalleryPhotos { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
         public int? GuideId { get; set; }

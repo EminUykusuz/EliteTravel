@@ -30,8 +30,7 @@ export default function TwoFactorSetupPage() {
           const email = auth.user?.email || 'user@elite.com';
           const otpauthUrl = `otpauth://totp/Elite Travel:${email}?secret=${auth.secret}&issuer=Elite Travel`;
           
-          console.log('OTPAuth URL:', otpauthUrl);
-          
+                    
           const qrDataUrl = await QRCode.toDataURL(otpauthUrl, {
             width: 300,
             margin: 2,
@@ -113,10 +112,9 @@ export default function TwoFactorSetupPage() {
                 alt="QR Code" 
                 className="w-full max-w-xs mx-auto rounded-lg border-2 border-gray-200"
                 onError={(e) => {
-                  console.error('Image load error:', e);
-                  showError('QR kod yüklenemedi');
+                                    showError('QR kod yüklenemedi');
                 }}
-                onLoad={() => console.log('QR image loaded successfully!')}
+                onLoad={() => }
               />
             </div>
           ) : (

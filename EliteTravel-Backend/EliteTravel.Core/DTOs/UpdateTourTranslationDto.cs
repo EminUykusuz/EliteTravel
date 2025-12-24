@@ -14,5 +14,10 @@ namespace EliteTravel.Core.DTOs
 
         [MaxLength(250)]
         public string? Slug { get; set; }
+
+        // JSON alanları - çeviri yönetimi için
+        public string? ItinerariesJson { get; set; }
+        public string? ExtrasJson { get; set; }
+        public string? HighlightsJson { get; set; }
     }
 }

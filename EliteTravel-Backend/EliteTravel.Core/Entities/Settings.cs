@@ -13,6 +13,7 @@ public class Settings : BaseEntity
     public string? MetaKeywords { get; set; }
     public string? GoogleAnalytics { get; set; }
     public string? FacebookPixel { get; set; }
+    public string? FaviconUrl { get; set; }
     
     // Social Media
     public string? FacebookUrl { get; set; }

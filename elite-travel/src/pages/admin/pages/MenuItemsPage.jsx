@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Plus, Edit, Trash, Menu, ChevronRight, X, Link as LinkIcon, Tag } from 'lucide-react';
 import { showConfirm, showSuccess, showError, showLoading, closeLoading } from '../../../utils/alerts';
 import { menuService } from '../../../services/menuService';
@@ -32,18 +31,15 @@ export default function MenuItemsPage() {
   const loadCategories = async () => {
     try {
       const response = await categoryService.getAll();
-      console.log('Categories API response:', response);
-      // Backend direkt array dönüyor, wrapper yok
+            // Backend direkt array dönüyor, wrapper yok
       const categoriesData = Array.isArray(response?.data) 
         ? response.data 
         : Array.isArray(response) 
           ? response 
           : [];
-      console.log('Loaded categories:', categoriesData);
-      setCategories(categoriesData);
+            setCategories(categoriesData);
     } catch (error) {
-      console.error('Error loading categories:', error);
-      setCategories([]);
+            setCategories([]);
     }
   };
 
@@ -62,8 +58,7 @@ export default function MenuItemsPage() {
       setFlatMenuItems(flatData);
     } catch (error) {
       showError('Menü öğeleri yüklenirken hata oluştu!');
-      console.error('Error loading menu items:', error);
-    } finally {
+          } finally {
       setLoading(false);
     }
   };
@@ -80,8 +75,7 @@ export default function MenuItemsPage() {
       } catch (error) {
         closeLoading();
         showError('Menü öğesi silinirken hata oluştu!');
-        console.error(error);
-      }
+              }
     }
   };
 
@@ -124,8 +118,7 @@ export default function MenuItemsPage() {
       loadMenuItems();
     } catch (error) {
       closeLoading();
-      console.error('Menü işlemi hatası:', error);
-      const errorMsg = error.response?.data?.message || 
+            const errorMsg = error.response?.data?.message || 
                        error.response?.data?.errors?.[0] ||
                        'İşlem sırasında hata oluştu!';
       showError(errorMsg);

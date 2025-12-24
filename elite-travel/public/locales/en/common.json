@@ -130,6 +130,8 @@
   "tourDetail": {
     "about": "About Tour",
     "highlights": "Tour Highlights",
+    "gallery": "Tour Gallery",
+    "share": "Share",
     "extras": "Optional Extras",
     "extrasInfo": "You can choose your preferred extra services during booking.",
     "extrasNote": "If you would like to add extra services, please mention them in 'Special Requests' section of the booking form.",

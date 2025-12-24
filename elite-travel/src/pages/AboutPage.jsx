@@ -1,11 +1,47 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ShieldCheck, History, Users, Star, Map, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { setupPageSEO } from '../utils/seoHelper';
 
 export default function AboutPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  
+  // SEO Setup - Multi-language
+  useEffect(() => {
+    const seoContent = {
+      tr: {
+        title: 'Hakkımızda',
+        description: 'Elite Travel olarak yıllardır unutulmaz seyahat deneyimleri sunuyoruz. Profesyonel rehberlerimiz ve özenle hazırlanmış turlarımızla keşfe çıkın.',
+        keywords: 'hakkımızda, elite travel, seyahat acentesi, tur şirketi, profesyonel rehberler'
+      },
+      en: {
+        title: 'About Us',
+        description: 'As Elite Travel, we have been providing unforgettable travel experiences for years. Explore with our professional guides and carefully prepared tours.',
+        keywords: 'about us, elite travel, travel agency, tour company, professional guides'
+      },
+      de: {
+        title: 'Über Uns',
+        description: 'Als Elite Travel bieten wir seit Jahren unvergessliche Reiseerlebnisse. Erkunden Sie mit unseren professionellen Reiseführern und sorgfältig vorbereiteten Touren.',
+        keywords: 'über uns, elite travel, reisebüro, tourunternehmen, professionelle reiseführer'
+      },
+      nl: {
+        title: 'Over Ons',
+        description: 'Als Elite Travel bieden we al jarenlang onvergetelijke reiservaringen. Ontdek met onze professionele gidsen en zorgvuldig voorbereide tours.',
+        keywords: 'over ons, elite travel, reisbureau, tourbedrijf, professionele gidsen'
+      }
+    };
+    const lang = i18n.language || 'tr';
+    const content = seoContent[lang] || seoContent.tr;
+    
+    setupPageSEO({
+      title: content.title,
+      description: content.description,
+      keywords: content.keywords,
+      path: '/about'
+    });
+  }, [i18n.language]);
   
   // Animasyon varyasyonları
   const fadeInUp = {

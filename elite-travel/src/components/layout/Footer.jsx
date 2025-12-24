@@ -43,7 +43,7 @@ export default function Footer() {
         // Menü öğelerini yükle
         const response = await menuService.getAll();
         const items = response.data || response;
-        console.log('Footer Menu Items:', items); // Debug için
+         // Debug için
         const visibleItems = items.filter(item => !item.parentId && !item.isDeleted);
         setFooterMenus(visibleItems);
 
@@ -63,9 +63,7 @@ export default function Footer() {
             email: settings.siteEmail || ''
           });
         }
-      } catch (error) {
-        console.error('Veri yüklenilemedi:', error);
-      } finally {
+      } catch (error) { /* ignored */ } finally {
         setLoading(false);
       }
     };

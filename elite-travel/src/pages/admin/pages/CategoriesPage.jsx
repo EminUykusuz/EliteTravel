@@ -25,8 +25,7 @@ export default function CategoriesPage() {
       setLoading(true);
       const data = await categoryService.getFlat(); // Flat endpoint kullan - tüm kategorileri al
       
-      console.log('🔍 Backend\'den gelen kategoriler:', data);
-      
+            
       // Normalize data - backend PascalCase döndürüyorsa camelCase'e çevir
       const normalizedData = data.map(cat => ({
         id: cat.id || cat.Id,
@@ -39,15 +38,10 @@ export default function CategoriesPage() {
         tourCategories: cat.tourCategories || cat.TourCategories
       }));
       
-      console.log('✅ Normalize edilmiş kategoriler:', normalizedData);
-      console.log('📊 Parent kategoriler:', normalizedData.filter(c => !c.parentId));
-      console.log('📊 Alt kategoriler:', normalizedData.filter(c => c.parentId));
-      
       setCategories(normalizedData);
     } catch (error) {
       showError('Kategoriler yüklenirken hata oluştu!');
-      console.error(error);
-    } finally {
+          } finally {
       setLoading(false);
     }
   };
@@ -72,7 +66,6 @@ export default function CategoriesPage() {
       } catch (error) {
         closeLoading();
         showError('Kategori silinirken hata oluştu!');
-        console.error(error);
       }
     }
   };
@@ -99,7 +92,6 @@ export default function CategoriesPage() {
     } catch (error) {
       closeLoading();
       showError('İşlem sırasında hata oluştu!');
-      console.error(error);
     }
   };
 
@@ -117,8 +109,7 @@ export default function CategoriesPage() {
   const parentCategories = categories.filter(c => !c.parentId);
   const getChildCategories = (parentId) => {
     const children = categories.filter(c => c.parentId === parentId);
-    console.log(`👶 Parent ${parentId} için alt kategoriler:`, children);
-    return children;
+        return children;
   };
 
   if (loading) {

@@ -145,6 +145,9 @@ namespace EliteTravel.API.Controllers
                 Capacity = tour.Capacity,
                 MainImage = tour.MainImage != null ? "/api/tours/image/" + tour.MainImage.Replace("/uploads/tours/", "") : null,
                 Thumbnail = tour.Thumbnail != null ? "/api/tours/image/" + tour.Thumbnail.Replace("/uploads/tours/", "") : null,
+                GalleryPhotos = !string.IsNullOrEmpty(tour.GalleryPhotosJson)
+                    ? JsonSerializer.Deserialize<string[]>(tour.GalleryPhotosJson)?.Select(p => "/api/tours/image/" + p.Replace("/uploads/tours/", "")).ToArray()
+                    : null,
                 Description = tour.Description,
                 IsActive = tour.IsActive,
                 GuideId = tour.GuideId,
@@ -208,6 +211,9 @@ namespace EliteTravel.API.Controllers
                 Capacity = tour.Capacity,
                 MainImage = tour.MainImage != null ? "/api/tours/image/" + tour.MainImage.Replace("/uploads/tours/", "") : null,
                 Thumbnail = tour.Thumbnail != null ? "/api/tours/image/" + tour.Thumbnail.Replace("/uploads/tours/", "") : null,
+                GalleryPhotos = !string.IsNullOrEmpty(tour.GalleryPhotosJson)
+                    ? JsonSerializer.Deserialize<string[]>(tour.GalleryPhotosJson)?.Select(p => "/api/tours/image/" + p.Replace("/uploads/tours/", "")).ToArray()
+                    : null,
                 Description = tour.Description,
                 IsActive = tour.IsActive,
                 GuideId = tour.GuideId,
@@ -279,6 +285,22 @@ namespace EliteTravel.API.Controllers
                 // Dosyaları kaydet
                 var mainImagePath = await SaveFileAsync(request.MainImage);
                 var thumbnailPath = await SaveFileAsync(request.Thumbnail);
+                
+                // Gallery photos'ları kaydet
+                List<string>? galleryPhotosPaths = null;
+                if (request.GalleryPhotos != null && request.GalleryPhotos.Any())
+                {
+                    galleryPhotosPaths = new List<string>();
+                    foreach (var photo in request.GalleryPhotos)
+                    {
+                        var photoPath = await SaveFileAsync(photo);
+                        if (!string.IsNullOrEmpty(photoPath))
+                        {
+                            galleryPhotosPaths.Add(photoPath);
+                        }
+                    }
+                    Console.WriteLine($"📸 {galleryPhotosPaths.Count} galeri fotoğrafı kaydedildi");
+                }
 
                 // Yeni tour oluştur
                 var tour = new Tour
@@ -297,6 +319,9 @@ namespace EliteTravel.API.Controllers
                     DepartureCity = request.DepartureCity,
                     HighlightsJson = request.Highlights != null && request.Highlights.Any() 
                         ? JsonSerializer.Serialize(request.Highlights) 
+                        : null,
+                    GalleryPhotosJson = galleryPhotosPaths != null && galleryPhotosPaths.Any()
+                        ? JsonSerializer.Serialize(galleryPhotosPaths)
                         : null,
                     CreatedDate = DateTime.UtcNow
                 };
@@ -468,6 +493,51 @@ namespace EliteTravel.API.Controllers
                         DeleteFile(oldThumbnail);
                     tour.Thumbnail = await SaveFileAsync(request.Thumbnail);
                 }
+                
+                // Gallery photos güncelle
+                List<string> finalGalleryPhotos = new List<string>();
+                
+                // Önce mevcut korunacak fotoğrafları ekle
+                if (request.ExistingGalleryPhotos != null && request.ExistingGalleryPhotos.Any())
+                {
+                    finalGalleryPhotos.AddRange(request.ExistingGalleryPhotos);
+                    Console.WriteLine($"♻️ {request.ExistingGalleryPhotos.Length} mevcut fotoğraf korundu");
+                }
+                
+                // Yeni fotoğraflar eklendiyse
+                if (request.GalleryPhotos != null && request.GalleryPhotos.Any())
+                {
+                    foreach (var photo in request.GalleryPhotos)
+                    {
+                        var photoPath = await SaveFileAsync(photo);
+                        if (!string.IsNullOrEmpty(photoPath))
+                        {
+                            finalGalleryPhotos.Add(photoPath);
+                        }
+                    }
+                    Console.WriteLine($"📸 {request.GalleryPhotos.Count} yeni fotoğraf eklendi");
+                }
+                
+                // Eski fotoğrafları sil (korunmayan)
+                if (!string.IsNullOrEmpty(tour.GalleryPhotosJson))
+                {
+                    var oldPhotos = JsonSerializer.Deserialize<string[]>(tour.GalleryPhotosJson);
+                    if (oldPhotos != null)
+                    {
+                        foreach (var oldPhoto in oldPhotos)
+                        {
+                            if (!finalGalleryPhotos.Contains(oldPhoto))
+                            {
+                                DeleteFile(oldPhoto);
+                                Console.WriteLine($"🗑️ Silindi: {oldPhoto}");
+                            }
+                        }
+                    }
+                }
+                
+                tour.GalleryPhotosJson = finalGalleryPhotos.Any() 
+                    ? JsonSerializer.Serialize(finalGalleryPhotos) 
+                    : null;
 
                 // Temel bilgileri güncelle
                 tour.Title = request.Title;

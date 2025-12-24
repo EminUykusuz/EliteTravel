@@ -29,8 +29,7 @@ export default function LoginPage() {
       showLoading();
       
       const result = await authService.login(formData.email, formData.password);
-      console.log('Login response:', result);
-      
+            
       closeLoading();
       setLoading(false);
 
@@ -51,7 +50,7 @@ export default function LoginPage() {
       <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-800">Elite Travel</h1>
-          <p className="text-gray-600 mt-2">Admin Panel</p>
+          <p className="text-gray-600 mt-2">Elite Travel Admin Paneli</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">

@@ -27,6 +27,7 @@ namespace EliteTravel.Core.Entities
         public string? DatesText { get; set; } // "21 – 26 Kasım 2025"
         public string? DepartureCity { get; set; } // "Düsseldorf (DUS)"
         public string? HighlightsJson { get; set; } // JSON array: ["Feature 1", "Feature 2"]
+        public string? GalleryPhotosJson { get; set; } // JSON array: ["photo1.jpg", "photo2.jpg"]
 
         // Navigation properties
         public virtual Guide? Guide { get; set; }

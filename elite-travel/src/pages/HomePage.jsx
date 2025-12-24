@@ -6,7 +6,7 @@ import ContactSection from '../components/sections/ContactSection';
 import FAQSection from '../components/sections/FAQSection';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
-import { SEO } from '../utils/seoHelper';
+import { setupPageSEO } from '../utils/seoHelper';
 import { tourService } from '../services/tourService';
 
 export default function HomePage() {
@@ -15,12 +15,38 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // SEO meta tags ayarla
-    SEO.setPageMeta(
-      SEO.pages.home.title,
-      SEO.pages.home.description,
-      SEO.pages.home.image
-    );
+    // SEO meta tags - Multi-language
+    const seoContent = {
+      tr: {
+        title: 'Unutulmaz Seyahat Deneyimleri',
+        description: 'Profesyonel rehberlerimiz eşliğinde benzersiz kültür turları ve seyahat deneyimleri. Tarihi keşfedin, yeni yerler görün.',
+        keywords: 'seyahat, tur, tatil, kültür turları, gezi, rehberli tur'
+      },
+      en: {
+        title: 'Unforgettable Travel Experiences',
+        description: 'Unique cultural tours and travel experiences with our professional guides. Discover history, see new places.',
+        keywords: 'travel, tour, vacation, cultural tours, trip, guided tour'
+      },
+      de: {
+        title: 'Unvergessliche Reiseerlebnisse',
+        description: 'Einzigartige Kulturtouren und Reiseerlebnisse mit unseren professionellen Reiseführern. Entdecken Sie Geschichte, sehen Sie neue Orte.',
+        keywords: 'reise, tour, urlaub, kulturtouren, ausflug, geführte tour'
+      },
+      nl: {
+        title: 'Onvergetelijke Reiservaringen',
+        description: 'Unieke culturele tours en reiservaringen met onze professionele gidsen. Ontdek geschiedenis, zie nieuwe plaatsen.',
+        keywords: 'reis, tour, vakantie, culturele tours, excursie, begeleide tour'
+      }
+    };
+    const lang = i18n.language || 'tr';
+    const content = seoContent[lang] || seoContent.tr;
+    
+    setupPageSEO({
+      title: content.title,
+      description: content.description,
+      keywords: content.keywords,
+      path: '/'
+    });
 
     // Turları API'den yükle
     const loadTours = async () => {
@@ -48,8 +74,7 @@ export default function HomePage() {
         }));
         setTours(apiTours);
       } catch (error) {
-        console.error('Turlar yüklenemedi:', error);
-        setTours([]);
+                setTours([]);
       } finally {
         setLoading(false);
       }

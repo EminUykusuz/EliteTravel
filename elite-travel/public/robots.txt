@@ -1,0 +1,23 @@
+# Elite Travel - Robots.txt
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /api
+Disallow: /login
+Disallow: /two-factor
+
+# Sitemap
+Sitemap: https://elitetravel.com/sitemap.xml
+
+# Crawl delay (10 seconds)
+Crawl-delay: 10
+
+# Specific bot instructions
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /

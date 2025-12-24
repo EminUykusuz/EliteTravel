@@ -28,8 +28,7 @@ export default function SecuritySettings() {
       setHas2FA(response.data.data.twoFactorEnabled || false);
       setLoading(false);
     } catch (error) {
-      console.error('2FA durumu kontrol edilemedi:', error);
-      setLoading(false);
+            setLoading(false);
     }
   };
 

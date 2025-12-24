@@ -13,6 +13,8 @@ namespace EliteTravel.API.Models
         
         public IFormFile? MainImage { get; set; }
         public IFormFile? Thumbnail { get; set; }
+        public List<IFormFile>? GalleryPhotos { get; set; }
+        public string[]? ExistingGalleryPhotos { get; set; } // Update sırasında korunacak URL'ler
         
         public int[]? CategoryIds { get; set; }
         public string? DatesText { get; set; }

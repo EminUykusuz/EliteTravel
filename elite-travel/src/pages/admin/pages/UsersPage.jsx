@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { Plus, Edit, Trash, Search, Filter, Mail, Shield } from 'lucide-react';
 import { showConfirm, showSuccess, showError } from '../../../utils/alerts';
 import { userService } from '../../../services/userService';
@@ -29,8 +28,7 @@ export default function UsersPage() {
       setUsers(data.items || data || []);
     } catch (error) {
       showError('Kullanıcılar yüklenirken hata oluştu!');
-      console.error(error);
-    } finally {
+          } finally {
       setLoading(false);
     }
   };
@@ -44,8 +42,7 @@ export default function UsersPage() {
         loadUsers();
       } catch (error) {
         showError('Kullanıcı silinirken hata oluştu!');
-        console.error(error);
-      }
+              }
     }
   };
 
@@ -64,8 +61,7 @@ export default function UsersPage() {
       loadUsers();
     } catch (error) {
       showError('Kullanıcı oluşturulurken hata oluştu!');
-      console.error(error);
-    }
+          }
   };
 
   const filteredUsers = users.filter(user => {

@@ -29,73 +29,61 @@ export const tourService = {
 
   // Yeni tur oluştur
   create: async (tourData) => {
-    console.log('🚀 tourService.create çağrıldı');
-    console.log('📦 Gönderilen data tipi:', tourData instanceof FormData ? 'FormData' : typeof tourData);
-    
-    // FormData içeriğini log'la
-    if (tourData instanceof FormData) {
-      console.log('📋 FormData içeriği:');
-      for (let [key, value] of tourData.entries()) {
-        console.log(`  ${key}:`, value instanceof File ? `File: ${value.name}` : value);
-      }
-    }
-    
-    try {
-      console.log('🌐 POST /tours isteği gönderiliyor...');
-      const response = await api.post('/tours', tourData);
-      console.log('✅ Backend yanıtı:', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('❌ tourService.create hatası:', error);
-      console.error('❌ Hata detayı:', error.response?.data);
-      throw error;
-    }
+    const response = await api.post('/tours', tourData);
+    return response.data;
   },
 
   // Tur güncelle
   update: async (id, tourData) => {
-    console.log('🔄 tourService.update çağrıldı, ID:', id);
-    console.log('📦 Gönderilen data tipi:', tourData instanceof FormData ? 'FormData' : typeof tourData);
-    
-    // FormData içeriğini log'la
-    if (tourData instanceof FormData) {
-      console.log('📋 FormData içeriği:');
-      for (let [key, value] of tourData.entries()) {
-        console.log(`  ${key}:`, value instanceof File ? `File: ${value.name}` : value);
-      }
-    }
-    
-    try {
-      console.log(`🌐 PUT /tours/${id} isteği gönderiliyor...`);
-      const response = await api.put(`/tours/${id}`, tourData);
-      console.log('✅ Backend yanıtı:', response.data);
-      return response.data;
-    } catch (error) {
-      console.error('❌ tourService.update hatası:', error);
-      console.error('❌ Hata detayı:', error.response?.data);
-      throw error;
-    }
+    const response = await api.put(`/tours/${id}`, tourData);
+    return response.data;
   },
 
   // Tur sil
   delete: async (id) => {
-    try {
-      const response = await api.delete(`/tours/${id}`);
-      // Backend return ApiResponseDto<bool> so check if success
-      if (response.data?.success || response.status === 200) {
-        return response.data;
-      }
-      throw new Error(response.data?.message || 'Delete failed');
-    } catch (error) {
-      console.error('Tour delete error:', error);
-      throw error;
+    const response = await api.delete(`/tours/${id}`);
+    // Backend return ApiResponseDto<bool> so check if success
+    if (response.data?.success || response.status === 200) {
+      return response.data;
     }
+    throw new Error(response.data?.message || 'Delete failed');
   },
 
   // Tura kategori ekle
   addCategory: async (tourId, categoryId) => {
     const response = await api.post(`/tours/${tourId}/categories/${categoryId}`);
     return response.data;
+  },
+
+  // Tur çevirilerini getir (language code ile: 'tr', 'en', 'de', 'nl')
+  getTranslation: async (tourId, languageCode) => {
+    try {
+      // Önce language code'a göre language ID'yi al
+      const langResponse = await api.get(`/languages/code/${languageCode}`);
+      const languageId = langResponse.data?.Data?.id || langResponse.data?.data?.id;
+      
+      if (!languageId) {
+        return null;
+      }
+
+      // Translation'ı getir
+      const response = await api.get(`/tourtranslations/tour/${tourId}/language/${languageId}`);
+      const translation = response.data?.Data || response.data?.data;
+      
+      if (!translation) {
+        return null;
+      }
+
+      // JSON alanları parse et
+      return {
+        ...translation,
+        itineraries: translation.itinerariesJson ? JSON.parse(translation.itinerariesJson) : null,
+        extras: translation.extrasJson ? JSON.parse(translation.extrasJson) : null,
+        highlights: translation.highlightsJson ? JSON.parse(translation.highlightsJson) : null
+      };
+    } catch (error) {
+            return null;
+    }
   },
 
   // Turdan kategori çıkar

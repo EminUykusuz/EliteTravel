@@ -20,8 +20,7 @@ export default function ToursPage() {
       setTours(data);
     } catch (error) {
       showError('Turlar yüklenirken hata oluştu!');
-      console.error(error);
-    } finally {
+          } finally {
       setLoading(false);
     }
   };
@@ -39,8 +38,7 @@ export default function ToursPage() {
       } catch (error) {
         closeLoading();
         showError('Tur silinirken hata oluştu!');
-        console.error(error);
-      }
+              }
     }
   };
 

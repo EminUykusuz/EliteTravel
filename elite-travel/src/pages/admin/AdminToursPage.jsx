@@ -12,8 +12,7 @@ const AdminNewTourPage = () => {
       alert('Tur başarıyla oluşturuldu!');
       navigate('/admin/tours'); // Listeye geri dön
     } catch (error) {
-      console.error(error);
-      alert('Tur eklenirken hata oluştu.');
+            alert('Tur eklenirken hata oluştu.');
     }
   };
 

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { tourService } from '../../../services/tourService';
 import { categoryService } from '../../../services/categoryService';
 import { guideService } from '../../../services/guideService';
+import api from '../../../services/api';
 import { 
   ArrowLeft, Save, X, Upload, Plus, Trash2, 
   MapPin, DollarSign, Users, Calendar, Image as ImageIcon,
@@ -44,6 +45,8 @@ export default function TourFormPage() {
     capacity: '',
     mainImage: null,
     thumbnail: null,
+    galleryPhotos: [],
+    existingGalleryPhotos: [], // Backend'den gelen mevcut URL'ler
     description: '',
     isActive: true,
     guideId: '',
@@ -52,7 +55,7 @@ export default function TourFormPage() {
     departureCity: '',
     highlights: [],
     translations: [
-      { languageId: 1, title: '', description: '', slug: '', itineraries: [], extras: [] }
+      { languageId: 1, title: '', description: '', slug: '', itineraries: [], extras: [], highlights: [] }
     ],
     itineraries: [
       { dayNumber: 1, title: '', description: '', image: null }
@@ -64,6 +67,7 @@ export default function TourFormPage() {
 
   const [mainImagePreview, setMainImagePreview] = useState(null);
   const [thumbnailPreview, setThumbnailPreview] = useState(null);
+  const [galleryPhotosPreview, setGalleryPhotosPreview] = useState([]);
   const [emojiPickerOpen, setEmojiPickerOpen] = useState({ step: null, index: null }); // Emoji picker state
 
   const steps = [
@@ -88,11 +92,8 @@ export default function TourFormPage() {
         const guidesArray = guidesData?.Items || guidesData?.items || guidesData?.data?.Items || guidesData?.data || [];
         setCategories(cats);
         setGuides(guidesArray);
-        console.log('📋 Yüklenen rehberler:', guidesArray.length, guidesArray);
-        console.log('📂 Yüklenen kategoriler:', cats.length, cats);
-      } catch (error) {
-        console.error('Veri yüklenemedi:', error);
-        setCategories([]);
+                      } catch (error) {
+                setCategories([]);
         setGuides([]);
       }
     };
@@ -113,14 +114,14 @@ export default function TourFormPage() {
         const parsedTranslations = (tour.translations || []).map(trans => {
           let itineraries = [];
           let extras = [];
+          let highlights = [];
           
           // ItinerariesJson parse
           if (trans.itinerariesJson) {
             try {
               itineraries = JSON.parse(trans.itinerariesJson);
             } catch (err) {
-              console.error('ItinerariesJson parse hatası:', err);
-            }
+                          }
           }
           
           // ExtrasJson parse
@@ -128,8 +129,15 @@ export default function TourFormPage() {
             try {
               extras = JSON.parse(trans.extrasJson);
             } catch (err) {
-              console.error('ExtrasJson parse hatası:', err);
-            }
+                          }
+          }
+          
+          // HighlightsJson parse
+          if (trans.highlightsJson) {
+            try {
+              highlights = JSON.parse(trans.highlightsJson);
+            } catch (err) {
+                          }
           }
           
           return {
@@ -138,7 +146,8 @@ export default function TourFormPage() {
             description: trans.description || '',
             slug: trans.slug || '',
             itineraries: itineraries,
-            extras: extras
+            extras: extras,
+            highlights: highlights
           };
         });
 
@@ -150,6 +159,7 @@ export default function TourFormPage() {
           capacity: tour.capacity || '',
           mainImage: null,
           thumbnail: null,
+          galleryPhotos: [],
           description: tour.description || '',
           isActive: tour.isActive ?? true,
           guideId: tour.guideId || '',
@@ -166,21 +176,46 @@ export default function TourFormPage() {
           }))
         });
         
-        console.log('✅ Tur yüklendi:', tour);
-        console.log('✅ Çeviriler yüklendi:', parsedTranslations);
-        console.log('✨ Highlights:', tour.highlights);
-        console.log('💰 Extras:', tour.extras);
+                                        
+        // Helper function: relative URL'i tam URL'e çevir
+        const getFullImageUrl = (url) => {
+          if (!url) return null;
+          if (url.startsWith('http')) return url; // Zaten tam URL
+          // Relative URL'leri tam URL'e çevir
+          const baseURL = api.defaults.baseURL.replace('/api', ''); // http://localhost:5067
+          return url.startsWith('/') ? `${baseURL}${url}` : `${baseURL}/${url}`;
+        };
         
         // Görselleri preview'de göster
-        if (tour.mainImage) setMainImagePreview(tour.mainImage);
-        if (tour.thumbnail) setThumbnailPreview(tour.thumbnail);
+        if (tour.mainImage) {
+                    setMainImagePreview(getFullImageUrl(tour.mainImage));
+        }
+        if (tour.thumbnail) {
+                    setThumbnailPreview(getFullImageUrl(tour.thumbnail));
+        }
+        
+        // Gallery Photos'ı parse et
+        let galleryPhotosArray = tour.galleryPhotos || [];
+        if (typeof galleryPhotosArray === 'string') {
+          try {
+            galleryPhotosArray = JSON.parse(galleryPhotosArray);
+                      } catch (e) {
+                        galleryPhotosArray = [];
+          }
+        }
+        
+        if (Array.isArray(galleryPhotosArray) && galleryPhotosArray.length > 0) {
+                    const fullGalleryUrls = galleryPhotosArray.map(getFullImageUrl);
+          setGalleryPhotosPreview(fullGalleryUrls);
+          // Mevcut URL'leri sakla (backend'e gönderilecek - relative URL olarak)
+          setFormData(prev => ({ ...prev, existingGalleryPhotos: galleryPhotosArray }));
+        }
       }
       closeLoading();
     } catch (error) {
       closeLoading();
       showError('Tur bilgileri yüklenemedi');
-      console.error('Error loading tour:', error);
-    }
+          }
   };
 
   const handleImageChange = (e, type) => {
@@ -233,14 +268,12 @@ export default function TourFormPage() {
           validHighlights.forEach(highlight => {
             submitData.append('Highlights', highlight);
           });
-          console.log(`✨ ${validHighlights.length} adet highlight gönderildi:`, validHighlights);
-        }
+                  }
       }
       
       if (formData.guideId) {
         submitData.append('GuideId', parseInt(formData.guideId));
-        console.log('📋 Rehber ID:', formData.guideId);
-      }
+              }
       
       // Görseller (File objects olarak)
       if (formData.mainImage instanceof File) {
@@ -250,13 +283,29 @@ export default function TourFormPage() {
         submitData.append('Thumbnail', formData.thumbnail);
       }
       
+      // Gallery photos (multiple files)
+      if (formData.galleryPhotos && formData.galleryPhotos.length > 0) {
+        const newPhotos = formData.galleryPhotos.filter(p => p instanceof File);
+        newPhotos.forEach((photo) => {
+          submitData.append('GalleryPhotos', photo);
+        });
+        if (newPhotos.length > 0) {
+                  }
+      }
+      
+      // Mevcut galeri fotoğraflarını gönder (update sırasında korunacak)
+      if (isEdit && formData.existingGalleryPhotos && formData.existingGalleryPhotos.length > 0) {
+        formData.existingGalleryPhotos.forEach((photoUrl, index) => {
+          submitData.append(`ExistingGalleryPhotos[${index}]`, photoUrl);
+        });
+              }
+      
       // Kategoriler
       if (formData.categoryIds && formData.categoryIds.length > 0) {
         formData.categoryIds.forEach((catId, index) => {
           submitData.append(`CategoryIds[${index}]`, catId);
         });
-        console.log('📂 Kategori IDs:', formData.categoryIds);
-      }
+              }
       
       // Çeviriler (sadece geçerli çeviriler - index'leri düzenle)
       if (formData.translations && formData.translations.length > 0) {
@@ -272,13 +321,20 @@ export default function TourFormPage() {
           submitData.append(`Translations[${index}].Description`, trans.description || '');
           submitData.append(`Translations[${index}].Slug`, trans.slug || '');
           
+          // HighlightsJson: Eğer bu dilde highlight çevirisi varsa JSON olarak ekle
+          if (trans.highlights && trans.highlights.length > 0) {
+            const validHighlights = trans.highlights.filter(h => h && h.trim() !== '');
+            if (validHighlights.length > 0) {
+              submitData.append(`Translations[${index}].HighlightsJson`, JSON.stringify(validHighlights));
+                          }
+          }
+          
           // ItinerariesJson: Eğer bu dilde itinerary çevirisi varsa JSON olarak ekle
           if (trans.itineraries && trans.itineraries.length > 0) {
             const validItins = trans.itineraries.filter(it => it.title || it.description);
             if (validItins.length > 0) {
               submitData.append(`Translations[${index}].ItinerariesJson`, JSON.stringify(validItins));
-              console.log(`🌍 Dil ${trans.languageId}: ${validItins.length} itinerary çevirisi eklendi`);
-            }
+                          }
           }
           
           // ExtrasJson: Eğer bu dilde extra çevirisi varsa JSON olarak ekle
@@ -286,13 +342,11 @@ export default function TourFormPage() {
             const validExtras = trans.extras.filter(ex => ex.title);
             if (validExtras.length > 0) {
               submitData.append(`Translations[${index}].ExtrasJson`, JSON.stringify(validExtras));
-              console.log(`🌍 Dil ${trans.languageId}: ${validExtras.length} extra çevirisi eklendi`);
-            }
+                          }
           }
         });
         
-        console.log('✅ Toplam çeviri gönderildi:', validTranslations.length);
-      }
+              }
       
       // İtinerary'ler (sadece geçerli itineraryler - index'leri düzenle)
       if (formData.itineraries && formData.itineraries.length > 0) {
@@ -307,37 +361,28 @@ export default function TourFormPage() {
           submitData.append(`Itineraries[${index}].Title`, iter.title);
           submitData.append(`Itineraries[${index}].Description`, iter.description || '');
         });
-        console.log(`📅 ${validItineraries.length} adet itinerary gönderildi`);
-      } else {
-        console.log('⚠️ Hiç itinerary yok!');
-      }
+              } else {
+              }
 
       // Ekstralar (sadece geçerli ekstralar - index'leri düzenle)
-      console.log('🔍 Form Extras Kontrolü:', formData.extras);
-      if (formData.extras && formData.extras.length > 0) {
+            if (formData.extras && formData.extras.length > 0) {
         // Önce valid extra'ları filtrele
         const validExtras = formData.extras.filter(extra => 
           extra.title && extra.title.trim() !== ''
         );
         
-        console.log(`📦 Toplam ${formData.extras.length} extra var, ${validExtras.length} tanesi geçerli`);
-        
+                
         // Ardışık index'lerle gönder
         validExtras.forEach((extra, index) => {
           submitData.append(`Extras[${index}].Title`, extra.title);
           submitData.append(`Extras[${index}].Price`, parseFloat(extra.price) || 0);
           submitData.append(`Extras[${index}].Emoji`, extra.emoji || '✨');
-          console.log(`  ✅ Extra[${index}]: ${extra.emoji} ${extra.title} - ${extra.price}`);
-        });
-        console.log(`💰 ${validExtras.length} adet extra gönderildi`);
-      } else {
-        console.log('⚠️ Hiç extra yok veya boş array!');
-      }
+                  });
+              } else {
+              }
 
-      console.log('Gönderilen FormData:');
-      for (let [key, value] of submitData) {
-        console.log(key, value instanceof File ? `File: ${value.name}` : value);
-      }
+            for (let [key, value] of submitData) {
+              }
 
       if (isEdit) {
         await tourService.update(id, submitData);
@@ -350,8 +395,7 @@ export default function TourFormPage() {
       navigate('/admin/tours');
     } catch (error) {
       closeLoading();
-      console.error('Hata detayı:', error.response?.data);
-      const errorMsg = error.response?.data?.message || 
+            const errorMsg = error.response?.data?.message || 
                        error.response?.data?.errors?.[0] ||
                        'Bir hata oluştu!';
       showError(errorMsg);
@@ -903,6 +947,93 @@ export default function TourFormPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Gallery Photos */}
+              <div className="mt-8">
+                <div className="flex items-center justify-between mb-4">
+                  <label className="block text-sm font-semibold text-gray-700">
+                    📸 Galeri Fotoğrafları (Çoklu)
+                  </label>
+                  <label className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl cursor-pointer hover:shadow-lg transition-all">
+                    <Plus className="w-4 h-4" />
+                    <span className="text-sm font-medium">Fotoğraf Ekle</span>
+                    <input
+                      type="file"
+                      multiple
+                      className="hidden"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files);
+                        if (files.length > 0) {
+                          const newPhotos = [...formData.galleryPhotos, ...files];
+                          setFormData({ ...formData, galleryPhotos: newPhotos });
+                          
+                          // Preview oluştur
+                          files.forEach(file => {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                              setGalleryPhotosPreview(prev => [...prev, reader.result]);
+                            };
+                            reader.readAsDataURL(file);
+                          });
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
+                
+                {/* Preview Grid */}
+                {galleryPhotosPreview.length > 0 && (
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    {galleryPhotosPreview.map((photo, index) => (
+                      <div key={index} className="relative group">
+                        <img
+                          src={photo}
+                          alt={`Gallery ${index + 1}`}
+                          className="w-full h-32 object-cover rounded-xl border-2 border-gray-200"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            // Preview'daki URL mevcut fotoğraf mı yoksa yeni mi?
+                            const photoUrl = galleryPhotosPreview[index];
+                            const isExisting = formData.existingGalleryPhotos.includes(photoUrl);
+                            
+                            if (isExisting) {
+                              // Mevcut fotoğrafı existing listesinden çıkar
+                              const newExisting = formData.existingGalleryPhotos.filter(p => p !== photoUrl);
+                              setFormData({ ...formData, existingGalleryPhotos: newExisting });
+                            } else {
+                              // Yeni fotoğrafı galleryPhotos'dan çıkar
+                              const photoFile = formData.galleryPhotos[index - formData.existingGalleryPhotos.length];
+                              const newPhotos = formData.galleryPhotos.filter(p => p !== photoFile);
+                              setFormData({ ...formData, galleryPhotos: newPhotos });
+                            }
+                            
+                            // Preview'dan kaldır
+                            const newPreviews = galleryPhotosPreview.filter((_, i) => i !== index);
+                            setGalleryPhotosPreview(newPreviews);
+                          }}
+                          className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                        <div className="absolute bottom-2 left-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                          {index + 1}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                {galleryPhotosPreview.length === 0 && (
+                  <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center">
+                    <ImageIcon className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+                    <p className="text-sm text-gray-600">Henüz galeri fotoğrafı eklenmedi</p>
+                    <p className="text-xs text-gray-400 mt-1">Yukarıdaki butonu kullanarak birden fazla fotoğraf ekleyebilirsiniz</p>
+                  </div>
+                )}
+              </div>
             </motion.div>
           )}
 
@@ -933,7 +1064,8 @@ export default function TourFormPage() {
                     description: '',
                     slug: '',
                     itineraries: formData.itineraries.map(it => ({ dayNumber: it.dayNumber, title: '', description: '' })),
-                    extras: formData.extras.map(() => ({ title: '', price: '' }))
+                    extras: formData.extras.map(() => ({ title: '', price: '' })),
+                    highlights: formData.highlights.map(() => '')
                   };
 
                   return (
@@ -958,34 +1090,22 @@ export default function TourFormPage() {
                           </h3>
                           
                           {lang.code === 'TR' ? (
-                            // Türkçe için normal input (orijinal içerik)
+                            // Türkçe için formData'dan al (orijinal içerik)
                             <>
                               <input
                                 type="text"
                                 placeholder="Türkçe başlık"
-                                value={translation.title}
+                                value={formData.title}
                                 onChange={(e) => {
-                                  const updated = formData.translations.map(t =>
-                                    t.languageId === lang.id ? { ...t, title: e.target.value } : t
-                                  );
-                                  if (!updated.find(t => t.languageId === lang.id)) {
-                                    updated.push({ ...translation, title: e.target.value });
-                                  }
-                                  setFormData({ ...formData, translations: updated });
+                                  setFormData({ ...formData, title: e.target.value });
                                 }}
                                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                               />
                               <textarea
                                 placeholder="Türkçe açıklama"
-                                value={translation.description}
+                                value={formData.description}
                                 onChange={(e) => {
-                                  const updated = formData.translations.map(t =>
-                                    t.languageId === lang.id ? { ...t, description: e.target.value } : t
-                                  );
-                                  if (!updated.find(t => t.languageId === lang.id)) {
-                                    updated.push({ ...translation, description: e.target.value });
-                                  }
-                                  setFormData({ ...formData, translations: updated });
+                                  setFormData({ ...formData, description: e.target.value });
                                 }}
                                 className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                 rows="4"
@@ -1174,6 +1294,84 @@ export default function TourFormPage() {
                                         }}
                                         className="w-full px-3 py-2 border-2 border-orange-200 rounded-lg text-sm focus:ring-2 focus:ring-orange-500"
                                         rows="2"
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {/* Highlights Çevirileri */}
+                        <div className="space-y-4">
+                          <h3 className="font-semibold text-gray-800 flex items-center gap-2">
+                            <span className="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                            Öne Çıkan Özellikler ({(formData.highlights || []).length} adet)
+                          </h3>
+                          {(formData.highlights || []).map((baseHighlight, idx) => {
+                            // Translation'dan bu highlight'ı bul - eğer yoksa boş string
+                            const highlightTranslation = translation.highlights?.[idx] || '';
+                            
+                            return (
+                              <div key={idx} className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                {lang.code === 'TR' ? (
+                                  // Türkçe için direkt input (orijinal içerik)
+                                  <input
+                                    type="text"
+                                    placeholder={`Özellik ${idx + 1}`}
+                                    value={highlightTranslation}
+                                    onChange={(e) => {
+                                      const updatedTrans = formData.translations.map(t => {
+                                        if (t.languageId === lang.id) {
+                                          const newHighlights = [...(t.highlights || [])];
+                                          newHighlights[idx] = e.target.value;
+                                          return { ...t, highlights: newHighlights };
+                                        }
+                                        return t;
+                                      });
+                                      if (!updatedTrans.find(t => t.languageId === lang.id)) {
+                                        const newHighlights = formData.highlights.map((_, i) => i === idx ? e.target.value : '');
+                                        updatedTrans.push({ ...translation, highlights: newHighlights });
+                                      }
+                                      setFormData({ ...formData, translations: updatedTrans });
+                                    }}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm"
+                                  />
+                                ) : (
+                                  // Diğer diller için sol-sağ layout
+                                  <div className="grid grid-cols-2 gap-4">
+                                    {/* Sol: Orijinal Türkçe */}
+                                    <div>
+                                      <label className="text-xs text-gray-600 mb-1 block">🇹🇷 Orijinal</label>
+                                      <div className="px-3 py-2 bg-white border border-gray-200 rounded-lg text-sm text-gray-800">
+                                        ✓ {baseHighlight || 'Özellik yok'}
+                                      </div>
+                                    </div>
+                                    
+                                    {/* Sağ: Çeviri Input */}
+                                    <div>
+                                      <label className="text-xs text-gray-600 mb-1 block">{lang.code === 'EN' ? '🇬🇧' : lang.code === 'NL' ? '🇳🇱' : '🇩🇪'} Çeviri</label>
+                                      <input
+                                        type="text"
+                                        placeholder={`Özellik (${lang.name})`}
+                                        value={highlightTranslation}
+                                        onChange={(e) => {
+                                          const updatedTrans = formData.translations.map(t => {
+                                            if (t.languageId === lang.id) {
+                                              const newHighlights = [...(t.highlights || [])];
+                                              newHighlights[idx] = e.target.value;
+                                              return { ...t, highlights: newHighlights };
+                                            }
+                                            return t;
+                                          });
+                                          if (!updatedTrans.find(t => t.languageId === lang.id)) {
+                                            const newHighlights = formData.highlights.map((_, i) => i === idx ? e.target.value : '');
+                                            updatedTrans.push({ ...translation, highlights: newHighlights });
+                                          }
+                                          setFormData({ ...formData, translations: updatedTrans });
+                                        }}
+                                        className="w-full px-3 py-2 border-2 border-yellow-200 rounded-lg text-sm focus:ring-2 focus:ring-yellow-500"
                                       />
                                     </div>
                                   </div>
@@ -1514,8 +1712,7 @@ export default function TourFormPage() {
               exit={{ opacity: 0, x: -50 }}
               className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100"
               onAnimationComplete={() => {
-                console.log('💎 Ekstralar step açıldı, mevcut extras:', formData.extras);
-              }}
+                              }}
             >
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">

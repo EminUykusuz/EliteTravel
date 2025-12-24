@@ -18,10 +18,8 @@ export const bookingService = {
   },
 
   create: async (bookingData) => {
-    console.log('🔵 bookingService.create - Gönderilen data:', bookingData);
-    const response = await api.post('/bookings', bookingData);
-    console.log('🟢 bookingService.create - Backend yanıtı:', response.data);
-    return response.data;
+        const response = await api.post('/bookings', bookingData);
+        return response.data;
   },
 
   updateStatus: async (id, status) => {

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using EliteTravel.Core.DTOs;
+using EliteTravel.Core.Services;
 
 
 namespace EliteTravel.API.Controllers
@@ -8,16 +9,29 @@ namespace EliteTravel.API.Controllers
     [ApiController]
     public class TourTranslationsController : ControllerBase
     {
+        private readonly ITourTranslationService _tourTranslationService;
+
+        public TourTranslationsController(ITourTranslationService tourTranslationService)
+        {
+            _tourTranslationService = tourTranslationService;
+        }
+
         [HttpGet("tour/{tourId}")]
         public async Task<ActionResult<List<TourTranslationResponseDto>>> GetByTourId(int tourId)
         {
-            return Ok(new List<TourTranslationResponseDto>());
+            var translations = await _tourTranslationService.GetTranslationsByTourIdAsync(tourId);
+            return Ok(translations);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ApiResponseDto<TourTranslationResponseDto>>> GetById(int id)
         {
-            return Ok(ApiResponseDto<TourTranslationResponseDto>.SuccessResponse(null, "Translation found"));
+            var translation = await _tourTranslationService.GetTranslationByIdAsync(id);
+            
+            if (translation == null)
+                return NotFound(ApiResponseDto<TourTranslationResponseDto>.ErrorResponse("Translation not found"));
+
+            return Ok(ApiResponseDto<TourTranslationResponseDto>.SuccessResponse(translation, "Translation found"));
         }
 
         [HttpGet("tour/{tourId}/language/{languageId}")]
@@ -25,7 +39,13 @@ namespace EliteTravel.API.Controllers
             int tourId, 
             int languageId)
         {
-            return Ok(ApiResponseDto<TourTranslationResponseDto>.SuccessResponse(null, "Translation found"));
+            var translations = await _tourTranslationService.GetTranslationsByTourIdAsync(tourId);
+            var translation = translations.FirstOrDefault(t => t.LanguageId == languageId);
+
+            if (translation == null)
+                return NotFound(ApiResponseDto<TourTranslationResponseDto>.ErrorResponse("Translation not found"));
+
+            return Ok(ApiResponseDto<TourTranslationResponseDto>.SuccessResponse(translation, "Translation found"));
         }
 
         [HttpPost]
@@ -34,8 +54,10 @@ namespace EliteTravel.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ApiResponseDto<TourTranslationResponseDto>.ErrorResponse("Validation failed"));
 
-            return CreatedAtAction(nameof(GetById), new { id = 1 },
-                ApiResponseDto<TourTranslationResponseDto>.SuccessResponse(null, "Translation created"));
+            var createdTranslation = await _tourTranslationService.CreateTranslationAsync(dto);
+
+            return CreatedAtAction(nameof(GetById), new { id = createdTranslation.Id },
+                ApiResponseDto<TourTranslationResponseDto>.SuccessResponse(createdTranslation, "Translation created"));
         }
 
         [HttpPut("{id}")]
@@ -47,12 +69,22 @@ namespace EliteTravel.API.Controllers
             if (id != dto.Id)
                 return BadRequest(ApiResponseDto<TourTranslationResponseDto>.ErrorResponse("ID mismatch"));
 
-            return Ok(ApiResponseDto<TourTranslationResponseDto>.SuccessResponse(null, "Translation updated"));
+            var updatedTranslation = await _tourTranslationService.UpdateTranslationAsync(dto);
+
+            if (updatedTranslation == null)
+                return NotFound(ApiResponseDto<TourTranslationResponseDto>.ErrorResponse("Translation not found"));
+
+            return Ok(ApiResponseDto<TourTranslationResponseDto>.SuccessResponse(updatedTranslation, "Translation updated"));
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<ApiResponseDto<bool>>> Delete(int id)
         {
+            var result = await _tourTranslationService.DeleteTranslationAsync(id);
+
+            if (!result)
+                return NotFound(ApiResponseDto<bool>.ErrorResponse("Translation not found"));
+
             return Ok(ApiResponseDto<bool>.SuccessResponse(true, "Translation deleted"));
         }
     }

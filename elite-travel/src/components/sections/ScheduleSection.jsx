@@ -6,13 +6,10 @@ export default function ScheduleSection({ itinerary }) {
   const { t } = useTranslation('common');
   
   if (!itinerary || !Array.isArray(itinerary) || itinerary.length === 0) {
-    console.log('ScheduleSection: No itinerary data', itinerary);
-    return null;
+        return null;
   }
 
-  console.log('ScheduleSection rendering with itinerary:', itinerary);
-
-  return (
+    return (
     <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100">
       <h2 className="text-2xl font-bold text-elite-dark mb-8 flex items-center gap-3">
         <span className="w-2 h-8 bg-elite-gold rounded-full inline-block"></span>

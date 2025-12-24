@@ -30,19 +30,16 @@ api.interceptors.request.use((config) => {
       config.headers['Content-Type'] = 'application/json';
     }
     
-    console.log('Request:', config.url, config.data instanceof FormData ? 'FormData' : config.data);
-    return config;
+        return config;
 });
 
 // Response interceptor - debug
 api.interceptors.response.use(
     (response) => {
-        console.log('Response OK:', response.data);
-        return response;
+                return response;
     },
     (error) => {
-        console.log('Response Error:', error.response?.data);
-        return Promise.reject(error);
+                return Promise.reject(error);
     }
 );
 

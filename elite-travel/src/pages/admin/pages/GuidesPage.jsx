@@ -37,7 +37,7 @@ export default function GuidesPage() {
       const response = await guideService.getAll();
       
       // 👇 DÜZELTME: Backend PaginatedResultDto dönüyor
-      console.log('API Response:', response); // Debug için
+       // Debug için
       
       let guidesData = [];
       if (response.items) {
@@ -52,12 +52,11 @@ export default function GuidesPage() {
         guidesData = response.data;
       }
       
-      console.log('Parsed Guides:', guidesData); // Debug için
+       // Debug için
       setGuides(guidesData);
     } catch (error) {
       showError('Rehberler yüklenirken hata oluştu!');
-      console.error('Error loading guides:', error);
-      setGuides([]); 
+            setGuides([]); 
     } finally {
       setLoading(false);
     }
@@ -75,8 +74,7 @@ export default function GuidesPage() {
       } catch (error) {
         closeLoading();
         showError('Rehber silinirken hata oluştu!');
-        console.error(error);
-      }
+              }
     }
   };
 
@@ -119,8 +117,7 @@ export default function GuidesPage() {
       loadGuides();
     } catch (error) {
       closeLoading();
-      console.error('Rehber işlemi hatası:', error);
-      console.error('Error response:', error.response); // Debug
+             // Debug
       const errorMsg = error.response?.data?.message || 
                        error.response?.data?.errors?.[0] ||
                        'İşlem sırasında hata oluştu!';
@@ -257,8 +254,7 @@ export default function GuidesPage() {
                   alt={guide.name} 
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    console.error('Image load error:', guide.image);
-                    e.target.style.display = 'none';
+                                        e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'flex';
                   }}
                 />

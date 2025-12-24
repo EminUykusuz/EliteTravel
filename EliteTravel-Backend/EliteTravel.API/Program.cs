@@ -1,6 +1,11 @@
 using EliteTravel.Data.Contexts;
 using EliteTravel.Core.Entities;
 using EliteTravel.Core.Services;
+using EliteTravel.Data.Services;
+using EliteTravel.Core.Repositories;
+using EliteTravel.Core.UnitOfWork;
+using EliteTravel.Data.Repositories;
+using EliteTravel.Data.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -45,6 +50,14 @@ builder.Services.AddDbContext<AppDbContext>(x =>
 
 // 5. Email Service
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+// 6. Repository & UnitOfWork
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+// 7. Translation Services
+builder.Services.AddScoped<ITourTranslationService, TourTranslationService>();
+builder.Services.AddScoped<ILanguageService, LanguageService>();
 
 var app = builder.Build();
 

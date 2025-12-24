@@ -21,13 +21,11 @@ export default function BookingForm({ tour }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(`🔄 Input değişti - ${name}: "${value}"`);
-    setFormData(prev => ({
+        setFormData(prev => ({
       ...prev,
       [name]: value
     }));
-    console.log('📋 Güncel formData:', { ...formData, [name]: value });
-  };
+      };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,10 +48,7 @@ export default function BookingForm({ tour }) {
         specialRequests: formData.specialRequests
       };
 
-      console.log('📤 Backend\'e gönderilen booking data:', bookingData);
-      console.log('📝 Form state:', formData);
-
-      await bookingService.create(bookingData);
+                  await bookingService.create(bookingData);
       
       setSuccess(true);
       
@@ -71,8 +66,7 @@ export default function BookingForm({ tour }) {
       setTimeout(() => setSuccess(false), 5000);
 
     } catch (err) {
-      console.error('Booking error:', err);
-      setError(err.response?.data?.message || t('common.error') || 'Bir hata oluştu');
+            setError(err.response?.data?.message || t('common.error') || 'Bir hata oluştu');
     } finally {
       setLoading(false);
     }

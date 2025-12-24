@@ -148,6 +148,8 @@
   "tourDetail": {
     "about": "Über die Tour",
     "highlights": "Tour-Höhepunkte",
+    "gallery": "Tour-Galerie",
+    "share": "Teilen",
     "extras": "Zusatzleistungen",
     "extrasInfo": "Sie können gewünschte Zusatzleistungen bei der Buchung auswählen.",
     "extrasNote": "Wenn Sie Zusatzleistungen wünschen, geben Sie diese bitte im Buchungsformular unter 'Spezielle Wünsche' an.",

@@ -15,6 +15,7 @@ namespace EliteTravel.Core.DTOs
         // JSON alanları - çeviriler için
         public string? ItinerariesJson { get; set; }
         public string? ExtrasJson { get; set; }
+        public string? HighlightsJson { get; set; }
 
         public LanguageResponseDto? Language { get; set; }
     }
