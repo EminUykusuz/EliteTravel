@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { MapPin, Phone, Send, MessageCircle, AlertCircle, CheckCircle } from 'lucide-react';
+import { MapPin, Phone, Send, MessageCircle, AlertCircle, CheckCircle, Mail } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import api from '../services/api';
 
 export default function ContactPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -13,6 +13,24 @@ export default function ContactPage() {
   });
   const [loading, setLoading] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [submissionCount, setSubmissionCount] = useState(0);
+  const MAX_SUBMISSIONS = 10;
+
+  // Check submission count from localStorage
+  React.useEffect(() => {
+    const count = parseInt(localStorage.getItem('contactSubmissionCount') || '0');
+    const lastReset = localStorage.getItem('contactSubmissionReset');
+    const today = new Date().toDateString();
+    
+    // Reset count if it's a new day
+    if (lastReset !== today) {
+      localStorage.setItem('contactSubmissionCount', '0');
+      localStorage.setItem('contactSubmissionReset', today);
+      setSubmissionCount(0);
+    } else {
+      setSubmissionCount(count);
+    }
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,6 +42,12 @@ export default function ContactPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Check submission limit
+    if (submissionCount >= MAX_SUBMISSIONS) {
+      alert('Günlük mesaj gönderme limitine ulaştınız. Lütfen yarın tekrar deneyiniz.');
+      return;
+    }
     
     if (!formData.name || !formData.email || !formData.message) {
       alert('Lütfen zorunlu alanları doldurunuz');
@@ -37,16 +61,29 @@ export default function ContactPage() {
       const [firstName, ...lastNameParts] = formData.name.trim().split(' ');
       const lastName = lastNameParts.join(' ') || firstName;
 
-      const response = await api.post('/contacts', {
+      const payload = {
         firstName: firstName,
         lastName: lastName,
         email: formData.email,
-        phone: formData.phone || undefined,
         message: formData.message,
-        recaptchaToken: 'dummy-token'
-      });
+        language: i18n.language // Kullanıcının seçtiği dil
+      };
 
-      if (response.data.success) {
+      // Sadece telefon varsa ekle
+      if (formData.phone && formData.phone.trim()) {
+        payload.phone = formData.phone;
+      }
+
+      console.log('Sending payload:', payload); // Debug için
+
+      const response = await api.post('/contacts', payload);
+
+      if (response.data.success || response.data) {
+        // Increment submission count
+        const newCount = submissionCount + 1;
+        setSubmissionCount(newCount);
+        localStorage.setItem('contactSubmissionCount', newCount.toString());
+        
         setSubmitStatus('success');
         setFormData({
           name: '',
@@ -59,6 +96,7 @@ export default function ContactPage() {
       }
     } catch (error) {
       console.error('Failed to submit contact form:', error);
+      console.error('Error response:', error.response?.data); // Backend hatasını göster
       setSubmitStatus('error');
       setTimeout(() => setSubmitStatus(null), 5000);
     } finally {
@@ -94,11 +132,22 @@ export default function ContactPage() {
             </p>
 
             {submitStatus === 'success' && (
-              <div className="mb-5 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 rounded-lg flex items-start gap-3 text-green-800 shadow-sm">
-                <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-bold text-sm">{t('contact.successTitle')}</p>
-                  <p className="text-xs mt-1">{t('contact.successMessage')}</p>
+              <div className="mb-5 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border-l-4 border-green-500 rounded-lg shadow-md">
+                <div className="flex items-start gap-3 text-green-800 mb-3">
+                  <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-bold text-sm">{t('contact.successTitle')}</p>
+                    <p className="text-xs mt-1">{t('contact.successMessage')}</p>
+                  </div>
+                </div>
+                <div className="bg-white/60 rounded-lg p-3 border border-green-200">
+                  <p className="text-xs text-green-900 flex items-start gap-2">
+                    <Mail className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                    <span>
+                      📧 <strong>Email bildirimi:</strong> Mesajınız email olarak tarafımıza iletilmiştir. 
+                      En kısa sürede size dönüş yapacağız.
+                    </span>
+                  </p>
                 </div>
               </div>
             )}

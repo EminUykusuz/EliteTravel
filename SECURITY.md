@@ -22,6 +22,15 @@ Bu dosyalar GİT'e **ASLA** eklenMEMELİ:
   "JwtSettings": {
     "Secret": "GERÇEK_JWT_SECRET_KEY",
     "ExpiryMinutes": 1440
+  },
+  "EmailSettings": {
+    "SmtpHost": "smtp.gmail.com",
+    "SmtpPort": "587",
+    "SmtpUsername": "your-email@gmail.com",
+    "SmtpPassword": "your-app-password",
+    "FromEmail": "noreply@elitetravel.com",
+    "FromName": "Elite Travel",
+    "AdminEmail": "admin@elitetravel.com"
   }
 }
 ```
@@ -36,6 +45,33 @@ Bu dosyalar GİT'e **ASLA** eklenMEMELİ:
    - Azure: App Configuration / Key Vault
    - AWS: Secrets Manager
    - Docker: Environment variables
+
+4. **Email Ayarları (Gmail için)**:
+   - Gmail hesabınızdan "App Password" oluşturun
+   - 2FA etkinleştirin
+   - Güvenlik > App Passwords > Yeni uygulama şifresi oluştur
+   - Bu şifreyi `SmtpPassword` olarak kullanın
+
+## 📧 Email Sistemi
+
+Proje 4 dilde email gönderebilir (TR, EN, DE, NL):
+
+### Özellikler:
+- ✉️ Yeni mesaj geldiğinde admin'e bildirim
+- 📬 Admin yanıt verdiğinde müşteriye email
+- 🌍 Çok dilli email template'leri
+- 🎨 Profesyonel HTML email tasarımı
+
+### Email Template'leri:
+1. **Contact Notification** - Yeni mesaj admin'e bildirim
+2. **Contact Reply** - Müşteriye yanıt
+
+### Test:
+```bash
+# SMTP ayarlarını test et
+# Gmail için: smtp.gmail.com:587
+# Outlook için: smtp.office365.com:587
+```
 
 ## ⚠️ Önemli
 Repository'ye push edilmiş hassas bilgiler varsa:

@@ -25,7 +25,11 @@ namespace EliteTravel.Core.DTOs
         [MinLength(10, ErrorMessage = "Mesaj en az 10 karakter olmalıdır")]
         public string Message { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "reCAPTCHA token zorunludur")]
-        public string RecaptchaToken { get; set; } = string.Empty;
+        // Email language (tr, en, de, nl)
+        [MaxLength(5)]
+        public string? Language { get; set; } = "tr";
+
+        // reCAPTCHA token (optional - rate limiting ile değiştirildi)
+        public string? RecaptchaToken { get; set; }
     }
 }

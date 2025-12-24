@@ -128,8 +128,26 @@ namespace EliteTravel.API.Controllers
         {
             try
             {
+                Console.WriteLine("📥 ========== BOOKING CREATE REQUEST ==========");
+                Console.WriteLine($"📝 FullName: {dto.FullName}");
+                Console.WriteLine($"📧 Email: {dto.Email}");
+                Console.WriteLine($"📞 Phone: {dto.Phone}");
+                Console.WriteLine($"🎫 TourId: {dto.TourId}");
+                Console.WriteLine($"👥 NumberOfPeople: {dto.NumberOfPeople}");
+                Console.WriteLine($"💰 TotalPrice: {dto.TotalPrice}");
+                Console.WriteLine($"📅 BookingDate: {dto.BookingDate}");
+                Console.WriteLine($"📝 SpecialRequests: {dto.SpecialRequests}");
+                Console.WriteLine("==============================================");
+
                 if (!ModelState.IsValid)
+                {
+                    Console.WriteLine("❌ ModelState is invalid!");
+                    foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        Console.WriteLine($"   - {error.ErrorMessage}");
+                    }
                     return BadRequest(ApiResponseDto<BookingResponseDto>.ErrorResponse("Validation failed"));
+                }
 
                 // Check if tour exists
                 var tour = await _context.Tours.FindAsync(dto.TourId);

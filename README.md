@@ -2,6 +2,30 @@
 
 Elite Travel, modern web teknolojileri kullanılarak geliştirilmiş kapsamlı bir tur rezervasyon ve yönetim platformudur. Çok dilli destek, admin paneli, 2FA güvenlik ve SEO optimizasyonu ile tam donanımlı bir çözüm sunar.
 
+## 📋 Son Güncellemeler (24 Aralık 2025)
+
+### 🎨 UI/UX İyileştirmeleri
+- ✅ TourCard'dan favori (kalp) ikonu kaldırıldı - daha minimal tasarım
+- ✅ TourDetailPage'de highlights tasarımı güncellendi (CheckCircle ikonu)
+- ✅ Highlights bölümü en üste taşındı, description en alta alındı
+- ✅ Ekstra hizmetler bölümü basitleştirildi (2 sütunlu, minimal tasarım)
+- ✅ Ekstra hizmetler için kullanıcı bilgilendirme notu eklendi
+
+### 🔧 Backend İyileştirmeleri
+- ✅ Highlights alanı düzeltildi - FormData'da string array olarak gönderilecek şekilde güncellendi
+- ✅ Category slug-based filtering - Parent kategoriler child kategorileri de içerecek şekilde güncellendi
+- ✅ ToursController'da kategori filtreleme optimize edildi
+
+### 🌐 Çok Dilli Destek
+- ✅ TourDetail extras notları 4 dilde eklendi (TR/EN/DE/NL)
+- ✅ Booking form extras bilgilendirme metinleri eklendi
+
+### 📱 Kategori Sistemi
+- ✅ Hierarchical kategori yapısı (parent/child ilişkisi)
+- ✅ Admin panelinde flat endpoint kullanılarak tüm kategoriler gösteriliyor
+- ✅ Tour form'da accordion yapısı ile kategori seçimi
+- ✅ Slug-based URL yapısı (`/tours?category=yurt-disi`)
+
 ## 📋 İçindekiler
 
 - [Proje Yapısı](#-proje-yapısı)
@@ -117,7 +141,14 @@ Elite Travel/
 ### 📞 İletişim
 - İletişim formu
 - Dinamik harita entegrasyonu
-- E-posta bildirimleri
+- **📧 Email Bildirim Sistemi**:
+  - Yeni mesaj geldiğinde admin'e otomatik email
+  - Admin yanıtı müşteriye otomatik email
+  - 4 dilde (TR/EN/DE/NL) email şablonları
+  - Elite Travel branding ile profesyonel tasarım
+  - SMTP desteği (Gmail, Outlook, SendGrid, AWS SES)
+- Rate limiting (günde max 10 mesaj)
+- WhatsApp entegrasyonu
 
 ### 🎨 UI Bileşenleri
 - Custom button components

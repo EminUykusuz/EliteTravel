@@ -26,9 +26,12 @@ namespace EliteTravel.API.Controllers
             [FromQuery] int pageNumber = 1,
             [FromQuery] int pageSize = 10,
             [FromQuery] int? categoryId = null,
+            [FromQuery] string? category = null, // Slug ile kategori filtreleme
             [FromQuery] bool? isActive = null,
             [FromQuery] string? languageCode = null)
         {
+            Console.WriteLine($"🔍 GetAll çağrıldı - categoryId: {categoryId}, category: {category}, isActive: {isActive}, languageCode: {languageCode}");
+            
             int? languageId = null;
             if (!string.IsNullOrWhiteSpace(languageCode))
             {
@@ -45,9 +48,37 @@ namespace EliteTravel.API.Controllers
                 .Include(t => t.TourTranslations)
                 .Where(t => !t.IsDeleted);
 
-            // Kategori filtresi
-            if (categoryId.HasValue)
+            // Kategori filtresi (slug ile)
+            if (!string.IsNullOrWhiteSpace(category))
             {
+                Console.WriteLine($"📦 Kategori slug filtresi uygulanıyor: Category = {category}");
+                
+                // Kategoriyi bul
+                var categoryEntity = await _context.Categories
+                    .Include(c => c.Children)
+                    .FirstOrDefaultAsync(c => c.Slug == category && !c.IsDeleted);
+                
+                if (categoryEntity != null)
+                {
+                    // Eğer parent kategori ise, hem kendisini hem child'larını al
+                    var categoryIds = new List<int> { categoryEntity.Id };
+                    if (categoryEntity.Children != null && categoryEntity.Children.Any())
+                    {
+                        categoryIds.AddRange(categoryEntity.Children.Select(c => c.Id));
+                        Console.WriteLine($"👶 Parent kategori - Alt kategoriler dahil: {string.Join(", ", categoryIds)}");
+                    }
+                    
+                    query = query.Where(t => t.TourCategories.Any(tc => categoryIds.Contains(tc.CategoryId)));
+                }
+                else
+                {
+                    Console.WriteLine($"⚠️ Kategori bulunamadı: {category}");
+                }
+            }
+            // Kategori filtresi (ID ile - backward compatibility)
+            else if (categoryId.HasValue)
+            {
+                Console.WriteLine($"📦 Kategori ID filtresi uygulanıyor: CategoryId = {categoryId.Value}");
                 query = query.Where(t => t.TourCategories.Any(tc => tc.CategoryId == categoryId.Value));
             }
 
@@ -79,6 +110,13 @@ namespace EliteTravel.API.Controllers
                     GuideName = t.Guide != null ? t.Guide.Name : null
                 })
                 .ToListAsync();
+
+            Console.WriteLine($"✅ Sorgu sonucu: {tours.Count} tur bulundu");
+            if (categoryId.HasValue && tours.Any())
+            {
+                var firstTour = tours.First();
+                Console.WriteLine($"📋 İlk turun adı: {firstTour.Title}");
+            }
 
             return Ok(tours);
         }
@@ -395,16 +433,153 @@ namespace EliteTravel.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult<ApiResponseDto<TourResponseDto>>> Update(int id, [FromBody] UpdateTourDto dto)
+        public async Task<ActionResult<ApiResponseDto<TourResponseDto>>> Update(int id, [FromForm] CreateTourFormRequest request)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ApiResponseDto<TourResponseDto>.ErrorResponse("Validation failed"));
+            Console.WriteLine($"=== UPDATE TOUR REQUEST (ID: {id}) ===");
+            Console.WriteLine($"Title: {request.Title}");
+            Console.WriteLine($"Extras: {request.Extras?.Count ?? 0}");
+            
+            try
+            {
+                var tour = await _context.Tours
+                    .Include(t => t.TourTranslations)
+                    .Include(t => t.TourCategories)
+                    .Include(t => t.Itineraries)
+                    .Include(t => t.TourExtras)
+                    .FirstOrDefaultAsync(t => t.Id == id && !t.IsDeleted);
 
-            if (id != dto.Id)
-                return BadRequest(ApiResponseDto<TourResponseDto>.ErrorResponse("ID mismatch"));
+                if (tour == null)
+                    return NotFound(ApiResponseDto<TourResponseDto>.ErrorResponse("Tur bulunamadı"));
 
-            // TODO: Implement
-            return Ok(ApiResponseDto<TourResponseDto>.SuccessResponse(null, "Tour updated"));
+                // Eski dosyaları sakla (yeni yükleme yoksa kullanılacak)
+                var oldMainImage = tour.MainImage;
+                var oldThumbnail = tour.Thumbnail;
+
+                // Yeni dosyalar varsa kaydet
+                if (request.MainImage != null)
+                {
+                    if (!string.IsNullOrEmpty(oldMainImage))
+                        DeleteFile(oldMainImage);
+                    tour.MainImage = await SaveFileAsync(request.MainImage);
+                }
+                if (request.Thumbnail != null)
+                {
+                    if (!string.IsNullOrEmpty(oldThumbnail))
+                        DeleteFile(oldThumbnail);
+                    tour.Thumbnail = await SaveFileAsync(request.Thumbnail);
+                }
+
+                // Temel bilgileri güncelle
+                tour.Title = request.Title;
+                tour.Slug = request.Slug ?? request.Title.ToLower().Replace(" ", "-");
+                tour.Price = request.Price;
+                tour.Currency = request.Currency ?? "EUR";
+                tour.Capacity = request.Capacity;
+                tour.Description = request.Description;
+                tour.IsActive = request.IsActive;
+                tour.GuideId = request.GuideId;
+                tour.DatesText = request.DatesText;
+                tour.DepartureCity = request.DepartureCity;
+                tour.HighlightsJson = request.Highlights != null && request.Highlights.Any() 
+                    ? JsonSerializer.Serialize(request.Highlights) 
+                    : null;
+                tour.UpdatedDate = DateTime.UtcNow;
+
+                // Kategorileri güncelle - önce eskilerini sil
+                _context.TourCategories.RemoveRange(tour.TourCategories);
+                if (request.CategoryIds != null && request.CategoryIds.Any())
+                {
+                    foreach (var categoryId in request.CategoryIds)
+                    {
+                        _context.TourCategories.Add(new TourCategory
+                        {
+                            TourId = tour.Id,
+                            CategoryId = categoryId
+                        });
+                    }
+                }
+
+                // Çevirileri güncelle - önce eskilerini sil
+                _context.TourTranslations.RemoveRange(tour.TourTranslations);
+                if (request.Translations != null && request.Translations.Any())
+                {
+                    foreach (var translation in request.Translations)
+                    {
+                        if (translation.LanguageId <= 0 || string.IsNullOrWhiteSpace(translation.Title))
+                            continue;
+
+                        _context.TourTranslations.Add(new TourTranslation
+                        {
+                            TourId = tour.Id,
+                            LanguageId = translation.LanguageId,
+                            Title = translation.Title,
+                            Description = translation.Description,
+                            Slug = translation.Slug,
+                            ItinerariesJson = translation.ItinerariesJson,
+                            ExtrasJson = translation.ExtrasJson
+                        });
+                    }
+                }
+
+                // İtinerary'leri güncelle - önce eskilerini sil
+                _context.Itineraries.RemoveRange(tour.Itineraries);
+                if (request.Itineraries != null && request.Itineraries.Any())
+                {
+                    foreach (var itinerary in request.Itineraries)
+                    {
+                        if (itinerary.DayNumber <= 0 || string.IsNullOrWhiteSpace(itinerary.Title))
+                            continue;
+
+                        _context.Itineraries.Add(new Itinerary
+                        {
+                            TourId = tour.Id,
+                            DayNumber = itinerary.DayNumber,
+                            Title = itinerary.Title,
+                            Description = itinerary.Description
+                        });
+                    }
+                }
+
+                // Ekstraları güncelle - önce eskilerini sil
+                _context.TourExtras.RemoveRange(tour.TourExtras);
+                if (request.Extras != null && request.Extras.Any())
+                {
+                    Console.WriteLine($"📦 {request.Extras.Count} adet Extra geldi (UPDATE)");
+                    foreach (var extra in request.Extras)
+                    {
+                        if (string.IsNullOrWhiteSpace(extra.Title))
+                            continue;
+
+                        _context.TourExtras.Add(new TourExtra
+                        {
+                            TourId = tour.Id,
+                            Title = extra.Title,
+                            Price = extra.Price,
+                            Emoji = extra.Emoji
+                        });
+                        Console.WriteLine($"  ✅ Extra eklendi: {extra.Emoji} {extra.Title}");
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                Console.WriteLine($"✅ Tour ID {id} güncellendi");
+
+                var response = new TourResponseDto
+                {
+                    Id = tour.Id,
+                    Title = tour.Title,
+                    Price = tour.Price,
+                    Capacity = tour.Capacity,
+                    IsActive = tour.IsActive
+                };
+
+                return Ok(ApiResponseDto<TourResponseDto>.SuccessResponse(response, "Tour updated successfully"));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Update Error: {ex.Message}");
+                return BadRequest(ApiResponseDto<TourResponseDto>.ErrorResponse($"Error updating tour: {ex.Message}"));
+            }
         }
 
         [HttpDelete("{id}")]

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { menuService, settingsService } from '../../serivces/genericService';
 
 export default function Footer() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const currentYear = new Date().getFullYear();
   const [footerMenus, setFooterMenus] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,6 +15,26 @@ export default function Footer() {
     twitterUrl: '',
     youtubeUrl: ''
   });
+  const [contactInfo, setContactInfo] = useState({
+    address: '',
+    phone: '',
+    email: ''
+  });
+
+  // Menü öğesinin çevirisini al
+  const getTranslatedTitle = (item) => {
+    if (!item) return '';
+    
+    // Aktif dil kodunu al (örn: "tr", "en")
+    const lang = (i18n.language || 'tr').split('-')[0].toLowerCase();
+    
+    // Translations array'i varsa ve içinde çeviri varsa
+    const translations = item?.translations || [];
+    const match = translations.find(tr => (tr?.languageCode || '').toLowerCase() === lang);
+    
+    // Çeviri varsa döndür, yoksa varsayılan title
+    return (match?.title || item?.title || item?.name || '').trim();
+  };
 
   // Menü öğelerini ve sosyal medya ayarlarını yükle
   useEffect(() => {
@@ -23,6 +43,7 @@ export default function Footer() {
         // Menü öğelerini yükle
         const response = await menuService.getAll();
         const items = response.data || response;
+        console.log('Footer Menu Items:', items); // Debug için
         const visibleItems = items.filter(item => !item.parentId && !item.isDeleted);
         setFooterMenus(visibleItems);
 
@@ -36,6 +57,11 @@ export default function Footer() {
             twitterUrl: settings.twitterUrl || '',
             youtubeUrl: settings.youtubeUrl || ''
           });
+          setContactInfo({
+            address: settings.address || '',
+            phone: settings.sitePhone || '',
+            email: settings.siteEmail || ''
+          });
         }
       } catch (error) {
         console.error('Veri yüklenilemedi:', error);
@@ -45,7 +71,7 @@ export default function Footer() {
     };
 
     loadData();
-  }, []);
+  }, [i18n.language]); // Dil değiştiğinde yeniden yükle
 
   return (
     // ZEMİN: #163a58 (Lacivert), ÇİZGİ: #dca725 (Altın)
@@ -109,7 +135,7 @@ export default function Footer() {
                 footerMenus.filter(item => !item.parentId).map(item => (
                   <li key={item.id}>
                     <Link to={item.url || '#'} className="text-gray-300 hover:text-[#dca725] transition-colors duration-300 flex items-center gap-2">
-                      <ArrowRight size={14} className="text-[#dca725]"/> {item.title || item.name}
+                      <ArrowRight size={14} className="text-[#dca725]"/> {getTranslatedTitle(item)}
                     </Link>
                   </li>
                 ))
@@ -128,20 +154,24 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-bold text-[#dca725] mb-6 border-b border-white/10 inline-block pb-2">{t('footer.contactUs')}</h3>
             <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-gray-300">
-                <div className="shrink-0 mt-1"><MapPin size={18} className="text-[#dca725]" /></div>
-                <span className="text-sm">{t('footer.addressLine1')}<br/>{t('footer.addressLine2')}</span>
-              </li>
-              <li className="flex items-center gap-3 text-gray-300">
-                <div className="shrink-0"><Phone size={18} className="text-[#dca725]" /></div>
-                {/* Telefon Hover */}
-                <a href="tel:+31621525757" className="text-sm hover:text-white transition-colors duration-300">+31 6 21525757</a>
-              </li>
-              <li className="flex items-center gap-3 text-gray-300">
-                <div className="shrink-0"><Mail size={18} className="text-[#dca725]" /></div>
-                {/* Mail Hover */}
-                <a href="mailto:info@elitetravel.com" className="text-sm hover:text-white transition-colors duration-300">info@elitetravel.com</a>
-              </li>
+              {contactInfo.address && (
+                <li className="flex items-start gap-3 text-gray-300">
+                  <div className="shrink-0 mt-1"><MapPin size={18} className="text-[#dca725]" /></div>
+                  <span className="text-sm">{contactInfo.address}</span>
+                </li>
+              )}
+              {contactInfo.phone && (
+                <li className="flex items-center gap-3 text-gray-300">
+                  <div className="shrink-0"><Phone size={18} className="text-[#dca725]" /></div>
+                  <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} className="text-sm hover:text-white transition-colors duration-300">{contactInfo.phone}</a>
+                </li>
+              )}
+              {contactInfo.email && (
+                <li className="flex items-center gap-3 text-gray-300">
+                  <div className="shrink-0"><Mail size={18} className="text-[#dca725]" /></div>
+                  <a href={`mailto:${contactInfo.email}`} className="text-sm hover:text-white transition-colors duration-300">{contactInfo.email}</a>
+                </li>
+              )}
             </ul>
           </div>
         </div>

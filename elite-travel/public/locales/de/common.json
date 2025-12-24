@@ -148,6 +148,10 @@
   "tourDetail": {
     "about": "Über die Tour",
     "highlights": "Tour-Höhepunkte",
+    "extras": "Zusatzleistungen",
+    "extrasInfo": "Sie können gewünschte Zusatzleistungen bei der Buchung auswählen.",
+    "extrasNote": "Wenn Sie Zusatzleistungen wünschen, geben Sie diese bitte im Buchungsformular unter 'Spezielle Wünsche' an.",
+    "bookNow": "Jetzt Buchen",
     "notFound": "Tour nicht gefunden.",
     "departure": "Abfahrtsort",
     "startingPrice": "Startpreis",
@@ -161,6 +165,17 @@
 
   "booking": {
     "title": "Jetzt Reservieren",
+    "fullName": "Vollständiger Name",
+    "fullNamePlaceholder": "Max Mustermann",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "numberOfPeople": "Anzahl der Personen",
+    "tourDate": "Tour-Datum",
+    "specialRequests": "Spezielle Wünsche",
+    "specialRequestsPlaceholder": "Diätwünsche, Barrierefreiheit, usw.",    "extrasNote": "Bitte geben Sie an, wenn Sie Zusatzleistungen wünschen.",    "pricePerPerson": "Pro Person",
+    "totalPrice": "Gesamtpreis",
+    "confirmBooking": "Buchung Bestätigen",
+    "disclaimer": "Sie werden per E-Mail und Telefon benachrichtigt, sobald Ihre Buchung bestätigt ist.",
     "guest": "Gast",
     "guest_one": "Gast",
     "guest_other": "Gäste",
@@ -237,13 +252,14 @@
     "save": "Speichern",
     "delete": "Löschen",
     "edit": "Bearbeiten",
-    "back": "Zurück",
-    "name": "Name",
+    "back": "Zurück",    "viewAll": "Alle Touren",    "name": "Name",
     "description": "Beschreibung",
     "price": "Preis",
     "days": "Tage",
     "reviews": "Bewertungen",
-    "perPerson": "pro Person"
+    "perPerson": "pro Person",
+    "optional": "Optional",
+    "processing": "Verarbeitung..."
   },
   "schedule": {
     "title": "Reiseverlauf",

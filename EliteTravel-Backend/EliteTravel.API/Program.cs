@@ -1,8 +1,12 @@
 using EliteTravel.Data.Contexts;
 using EliteTravel.Core.Entities;
+using EliteTravel.Core.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Load appsettings.local.json if exists
+builder.Configuration.AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true);
 
 // 1. CORS
 builder.Services.AddCors(options =>
@@ -38,6 +42,9 @@ builder.Services.AddDbContext<AppDbContext>(x =>
         option.MigrationsAssembly("EliteTravel.Data");
     });
 });
+
+// 5. Email Service
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 var app = builder.Build();
 

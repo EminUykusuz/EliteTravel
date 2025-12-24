@@ -23,7 +23,9 @@ export default function CategoriesPage() {
   const loadCategories = async () => {
     try {
       setLoading(true);
-      const data = await categoryService.getAll();
+      const data = await categoryService.getFlat(); // Flat endpoint kullan - tüm kategorileri al
+      
+      console.log('🔍 Backend\'den gelen kategoriler:', data);
       
       // Normalize data - backend PascalCase döndürüyorsa camelCase'e çevir
       const normalizedData = data.map(cat => ({
@@ -36,6 +38,10 @@ export default function CategoriesPage() {
         children: cat.children || cat.Children,
         tourCategories: cat.tourCategories || cat.TourCategories
       }));
+      
+      console.log('✅ Normalize edilmiş kategoriler:', normalizedData);
+      console.log('📊 Parent kategoriler:', normalizedData.filter(c => !c.parentId));
+      console.log('📊 Alt kategoriler:', normalizedData.filter(c => c.parentId));
       
       setCategories(normalizedData);
     } catch (error) {
@@ -110,7 +116,9 @@ export default function CategoriesPage() {
 
   const parentCategories = categories.filter(c => !c.parentId);
   const getChildCategories = (parentId) => {
-    return categories.filter(c => c.parentId === parentId);
+    const children = categories.filter(c => c.parentId === parentId);
+    console.log(`👶 Parent ${parentId} için alt kategoriler:`, children);
+    return children;
   };
 
   if (loading) {
@@ -140,7 +148,7 @@ export default function CategoriesPage() {
             setFormData({ name: '', slug: '', parentId: null, description: '' });
             setShowForm(true);
           }}
-          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-medium shadow-lg"
+          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-500 to-yellow-600 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-shadow"
         >
           <Plus className="w-5 h-5" />
           Yeni Kategori
@@ -150,7 +158,7 @@ export default function CategoriesPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-yellow-600 rounded-xl flex items-center justify-center">
               <Tag className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -162,7 +170,7 @@ export default function CategoriesPage() {
 
         <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+            <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-amber-600 rounded-xl flex items-center justify-center">
               <ChevronRight className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -206,9 +214,9 @@ export default function CategoriesPage() {
                   animate={{ opacity: 1, y: 0 }}
                   className="border-2 border-gray-200 rounded-xl overflow-hidden"
                 >
-                  <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 flex items-center justify-between">
+                  <div className="bg-gradient-to-r from-amber-50 to-yellow-50 p-4 flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                      <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-yellow-600 rounded-lg flex items-center justify-center">
                         <Tag className="w-5 h-5 text-white" />
                       </div>
                       <div>
@@ -221,7 +229,7 @@ export default function CategoriesPage() {
                     <div className="flex gap-2">
                       <button 
                         onClick={() => handleEdit(parent)}
-                        className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
+                        className="p-2 text-amber-600 hover:bg-amber-100 rounded-lg transition-colors"
                       >
                         <Edit className="w-5 h-5" />
                       </button>
@@ -333,11 +341,20 @@ export default function CategoriesPage() {
                   onChange={(e) => setFormData({ ...formData, parentId: e.target.value ? Number(e.target.value) : null })}
                   className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="">Ana Kategori</option>
-                  {parentCategories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>{cat.name}</option>
-                  ))}
+                  <option value="">Ana Kategori (Üst kategori yok)</option>
+                  {parentCategories
+                    .filter(cat => editingCategory ? cat.id !== editingCategory.id : true) // Kendi kendisini seçmesin
+                    .map((cat) => (
+                      <option key={cat.id} value={cat.id}>{cat.name}</option>
+                    ))
+                  }
                 </select>
+                <p className="text-xs text-gray-500 mt-1">
+                  {formData.parentId 
+                    ? '✓ Bu bir alt kategori olacak' 
+                    : 'Bu bir ana kategori olacak ve altında alt kategoriler olabilir'
+                  }
+                </p>
               </div>
 
               <div>
@@ -363,7 +380,7 @@ export default function CategoriesPage() {
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all"
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-amber-500 to-yellow-600 text-white rounded-xl font-medium shadow-lg hover:shadow-xl transition-all"
                 >
                   {editingCategory ? 'Güncelle' : 'Kaydet'}
                 </button>

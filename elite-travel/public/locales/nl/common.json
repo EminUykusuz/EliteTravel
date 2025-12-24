@@ -148,6 +148,10 @@
   "tourDetail": {
     "about": "Over de Tour",
     "highlights": "Hoogtepunten Van de Tour",
+    "extras": "Extra Services",
+    "extrasInfo": "U kunt tijdens het boeken uw gewenste extra services kiezen.",
+    "extrasNote": "Als u extra services wilt toevoegen, vermeld deze dan in het gedeelte 'Speciale Verzoeken' van het boekingsformulier.",
+    "bookNow": "Nu Boeken",
     "notFound": "Tour niet gevonden.",
     "departure": "Vertrekplaats",
     "startingPrice": "Startprijs",
@@ -161,6 +165,19 @@
 
   "booking": {
     "title": "Nu Reserveren",
+    "fullName": "Volledige Naam",
+    "fullNamePlaceholder": "Jan Jansen",
+    "email": "E-mail",
+    "phone": "Telefoon",
+    "numberOfPeople": "Aantal Personen",
+    "tourDate": "Tour Datum",
+    "specialRequests": "Speciale Verzoeken",
+    "specialRequestsPlaceholder": "Dieetwensen, toegankelijkheidsbehoeften, enz.",
+    "extrasNote": "Vermeld alstublieft als u extra services wilt toevoegen.",
+    "pricePerPerson": "Per Persoon",
+    "totalPrice": "Totale Prijs",
+    "confirmBooking": "Boeking Bevestigen",
+    "disclaimer": "U wordt via e-mail en telefoon op de hoogte gebracht zodra uw boeking is bevestigd.",
     "guest": "Gast",
     "guest_one": "Gast",
     "guest_other": "Gasten",
@@ -238,12 +255,15 @@
     "delete": "Verwijderen",
     "edit": "Bewerken",
     "back": "Terug",
+    "viewAll": "Alle Tours",
     "name": "Naam",
     "description": "Beschrijving",
     "price": "Prijs",
     "days": "dagen",
     "reviews": "reviews",
-    "perPerson": "per persoon"
+    "perPerson": "per persoon",
+    "optional": "Optioneel",
+    "processing": "Verwerken..."
   },
   "schedule": {
     "title": "Reisroute",

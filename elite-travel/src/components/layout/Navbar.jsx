@@ -145,7 +145,7 @@ const Navbar = () => {
 
           {/* Aksiyon Butonu (Bize Ulaşın) */}
           <a 
-            href="/iletisim" 
+            href="/contact" 
             // bg-[#163a58] ve text-white ile renkleri sabitledik.
             className="hidden lg:flex items-center gap-2 px-6 py-2.5 bg-[#163a58] text-white text-sm font-bold rounded-lg hover:bg-[#dca725] hover:text-[#163a58] transition-all duration-300 shadow-lg shadow-[#163a58]/20 group"
           >

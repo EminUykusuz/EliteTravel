@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, MessageCircle, Trash2, Send, X, Eye, EyeOff } from 'lucide-react';
+import { Mail, MessageCircle, Trash2, Send, X, Eye, EyeOff, Clock, User, Phone as PhoneIcon } from 'lucide-react';
 import api from '../../../services/api';
 
 export default function ContactMessagesPage() {
@@ -9,6 +9,7 @@ export default function ContactMessagesPage() {
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [replyText, setReplyText] = useState('');
   const [replyingId, setReplyingId] = useState(null);
+  const [replyLanguage, setReplyLanguage] = useState('tr'); // Email dili
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const pageSize = 10;
@@ -61,13 +62,14 @@ export default function ContactMessagesPage() {
 
   const handleReply = async () => {
     if (!replyText.trim()) {
-      alert('Please enter a reply message');
+      alert('Lütfen bir yanıt mesajı girin');
       return;
     }
 
     try {
       await api.post(`/contacts/${selectedMessage.id}/reply`, {
-        replyMessage: replyText
+        replyMessage: replyText,
+        language: replyLanguage // Seçilen dilde email gönder
       });
       
       // Update the message
@@ -75,25 +77,25 @@ export default function ContactMessagesPage() {
       selectedMessage.repliedDate = new Date().toISOString();
       setReplyText('');
       setReplyingId(null);
-      alert('Reply sent successfully');
+      alert('✅ Yanıt başarıyla gönderildi!\n📧 Müşteriye email olarak iletilmiştir.');
       fetchMessages(); // Refresh the list
     } catch (error) {
       console.error('Failed to send reply:', error);
-      alert('Failed to send reply');
+      alert('❌ Yanıt gönderilemedi. Lütfen tekrar deneyin.');
     }
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this message?')) return;
+    if (!window.confirm('Bu mesajı silmek istediğinizden emin misiniz?')) return;
 
     try {
       await api.delete(`/contacts/${id}`);
       setMessages(messages.filter(msg => msg.id !== id));
       if (selectedMessage?.id === id) setSelectedMessage(null);
-      alert('Message deleted successfully');
+      alert('Mesaj başarıyla silindi');
     } catch (error) {
       console.error('Failed to delete message:', error);
-      alert('Failed to delete message');
+      alert('Mesaj silinemedi');
     }
   };
 
@@ -102,57 +104,72 @@ export default function ContactMessagesPage() {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
-            <Mail className="w-8 h-8" />
-            Contact Messages
+        <div className="mb-8 bg-white p-6 rounded-xl shadow-md border-l-4 border-[#dca725]">
+          <h1 className="text-3xl font-bold text-[#163a58] flex items-center gap-3">
+            <div className="p-2 bg-[#dca725]/10 rounded-lg">
+              <Mail className="w-8 h-8 text-[#dca725]" />
+            </div>
+            İletişim Mesajları
           </h1>
-          <p className="text-gray-600 mt-2">Manage contact form submissions and customer inquiries</p>
+          <p className="text-gray-600 mt-2 ml-14">Müşteri mesajlarını görüntüleyin ve yanıtlayın</p>
         </div>
 
         {/* Filter Tabs */}
-        <div className="flex gap-2 mb-6">
-          {['all', 'unread', 'read'].map(tab => (
+        <div className="flex gap-3 mb-6">
+          {[
+            { key: 'all', label: 'Tümü' },
+            { key: 'unread', label: 'Okunmamış' },
+            { key: 'read', label: 'Okunmuş' }
+          ].map(tab => (
             <button
-              key={tab}
-              onClick={() => { setFilter(tab); setPage(1); }}
-              className={`px-4 py-2 rounded-lg font-medium transition ${
-                filter === tab
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+              key={tab.key}
+              onClick={() => { setFilter(tab.key); setPage(1); }}
+              className={`px-6 py-2.5 rounded-lg font-semibold transition-all shadow-sm ${
+                filter === tab.key
+                  ? 'bg-[#163a58] text-white shadow-lg scale-105'
+                  : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50 hover:border-[#dca725]'
               }`}
             >
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              {tab.label}
             </button>
           ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Messages List */}
-          <div className="lg:col-span-1 bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
-            <div className="p-4 border-b border-gray-200 bg-gray-50">
-              <h2 className="font-semibold text-gray-900">Messages ({messages.length})</h2>
+          <div className="lg:col-span-1 bg-white rounded-xl shadow-lg overflow-hidden flex flex-col border border-gray-200">
+            <div className="p-4 border-b border-gray-200 bg-gradient-to-r from-[#163a58] to-[#1e4a6a]">
+              <h2 className="font-bold text-white flex items-center gap-2">
+                <MessageCircle className="w-5 h-5" />
+                Mesajlar ({messages.length})
+              </h2>
             </div>
 
-            <div className="flex-1 overflow-y-auto">
+            <div className="flex-1 overflow-y-auto max-h-[600px]">
               {loading ? (
-                <div className="p-4 text-center text-gray-500">Loading...</div>
+                <div className="p-8 text-center">
+                  <div className="animate-spin w-8 h-8 border-4 border-[#dca725] border-t-transparent rounded-full mx-auto mb-3"></div>
+                  <p className="text-gray-500 text-sm">Yükleniyor...</p>
+                </div>
               ) : messages.length === 0 ? (
-                <div className="p-4 text-center text-gray-500">No messages found</div>
+                <div className="p-8 text-center">
+                  <Mail className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                  <p className="text-gray-500">Mesaj bulunamadı</p>
+                </div>
               ) : (
                 messages.map(msg => (
                   <button
                     key={msg.id}
                     onClick={() => handleSelectMessage(msg)}
-                    className={`w-full text-left p-3 border-b border-gray-100 hover:bg-gray-50 transition flex items-start gap-3 ${
-                      selectedMessage?.id === msg.id ? 'bg-blue-50 border-l-4 border-l-blue-600' : ''
+                    className={`w-full text-left p-4 border-b border-gray-100 hover:bg-gradient-to-r hover:from-blue-50 hover:to-transparent transition-all flex items-start gap-3 ${
+                      selectedMessage?.id === msg.id ? 'bg-gradient-to-r from-[#dca725]/10 to-transparent border-l-4 border-l-[#dca725]' : ''
                     }`}
                   >
                     {!msg.isRead && (
-                      <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                      <div className="w-2.5 h-2.5 bg-[#dca725] rounded-full mt-2 flex-shrink-0 animate-pulse shadow-lg shadow-[#dca725]/50"></div>
                     )}
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm font-medium truncate ${!msg.isRead ? 'text-gray-900' : 'text-gray-700'}`}>
@@ -170,23 +187,23 @@ export default function ContactMessagesPage() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="p-3 border-t border-gray-200 flex gap-2">
+              <div className="p-3 border-t border-gray-200 bg-gray-50 flex justify-between items-center">
                 <button
                   onClick={() => setPage(Math.max(1, page - 1))}
                   disabled={page === 1}
-                  className="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                  className="px-4 py-2 text-sm bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-[#163a58] hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                 >
-                  Prev
+                  ← Önceki
                 </button>
-                <span className="px-3 py-1 text-sm text-gray-600">
+                <span className="px-4 py-2 text-sm text-gray-700 font-semibold bg-white rounded-lg border border-gray-200">
                   {page} / {totalPages}
                 </span>
                 <button
                   onClick={() => setPage(Math.min(totalPages, page + 1))}
                   disabled={page === totalPages}
-                  className="px-3 py-1 text-sm bg-gray-200 text-gray-700 rounded hover:bg-gray-300 disabled:opacity-50"
+                  className="px-4 py-2 text-sm bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-[#163a58] hover:text-white transition disabled:opacity-50 disabled:cursor-not-allowed font-medium"
                 >
-                  Next
+                  Sonraki →
                 </button>
               </div>
             )}
@@ -195,35 +212,50 @@ export default function ContactMessagesPage() {
           {/* Message Details & Reply */}
           <div className="lg:col-span-2">
             {selectedMessage ? (
-              <div className="bg-white rounded-lg shadow-md p-6 space-y-4">
+              <div className="bg-white rounded-xl shadow-lg p-6 space-y-5 border border-gray-200">
                 {/* Contact Info */}
-                <div className="pb-4 border-b border-gray-200">
+                <div className="pb-4 border-b-2 border-gray-100">
                   <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600">Name</label>
-                      <p className="text-gray-900">{selectedMessage.firstName} {selectedMessage.lastName}</p>
+                    <div className="bg-gradient-to-br from-blue-50 to-white p-3 rounded-lg">
+                      <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1 flex items-center gap-1">
+                        <User className="w-3 h-3" />
+                        Ad Soyad
+                      </label>
+                      <p className="text-[#163a58] font-semibold">{selectedMessage.firstName} {selectedMessage.lastName}</p>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600">Email</label>
-                      <a href={`mailto:${selectedMessage.email}`} className="text-blue-600 hover:underline">
+                    <div className="bg-gradient-to-br from-green-50 to-white p-3 rounded-lg">
+                      <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1 flex items-center gap-1">
+                        <Mail className="w-3 h-3" />
+                        E-posta
+                      </label>
+                      <a href={`mailto:${selectedMessage.email}`} className="text-[#dca725] hover:underline font-semibold text-sm">
                         {selectedMessage.email}
                       </a>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600">Phone</label>
-                      <p className="text-gray-900">{selectedMessage.phone || 'N/A'}</p>
+                    <div className="bg-gradient-to-br from-purple-50 to-white p-3 rounded-lg">
+                      <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1 flex items-center gap-1">
+                        <PhoneIcon className="w-3 h-3" />
+                        Telefon
+                      </label>
+                      <p className="text-[#163a58] font-semibold">{selectedMessage.phone || 'Yok'}</p>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-600">Submitted</label>
-                      <p className="text-gray-900">{formatDate(selectedMessage.createdDate)}</p>
+                    <div className="bg-gradient-to-br from-orange-50 to-white p-3 rounded-lg">
+                      <label className="block text-xs font-bold text-gray-500 uppercase tracking-wide mb-1 flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        Tarih
+                      </label>
+                      <p className="text-[#163a58] font-semibold text-sm">{formatDate(selectedMessage.createdDate)}</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Original Message */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-900 mb-2">Message</label>
-                  <div className="bg-gray-50 p-4 rounded-lg border border-gray-200 whitespace-pre-wrap text-gray-800">
+                  <label className="block text-sm font-bold text-[#163a58] mb-2 flex items-center gap-2">
+                    <MessageCircle className="w-4 h-4 text-[#dca725]" />
+                    Gönderilen Mesaj
+                  </label>
+                  <div className="bg-gradient-to-br from-gray-50 to-white p-4 rounded-lg border-l-4 border-[#dca725] shadow-sm whitespace-pre-wrap text-gray-800">
                     {selectedMessage.message}
                   </div>
                 </div>
@@ -231,14 +263,15 @@ export default function ContactMessagesPage() {
                 {/* Reply Section */}
                 {selectedMessage.replyMessage && (
                   <div>
-                    <label className="text-sm font-medium text-gray-900 mb-2 flex items-center gap-2">
-                      <Send className="w-4 h-4" />
-                      Your Reply
+                    <label className="text-sm font-bold text-[#163a58] mb-2 flex items-center gap-2">
+                      <Send className="w-4 h-4 text-green-600" />
+                      Yanıtınız
                     </label>
-                    <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                    <div className="bg-gradient-to-br from-green-50 to-white p-4 rounded-lg border-l-4 border-green-500 shadow-sm">
                       <p className="text-gray-800 whitespace-pre-wrap">{selectedMessage.replyMessage}</p>
-                      <p className="text-xs text-gray-500 mt-2">
-                        Sent: {formatDate(selectedMessage.repliedDate)}
+                      <p className="text-xs text-gray-500 mt-3 flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        Gönderildi: {formatDate(selectedMessage.repliedDate)}
                       </p>
                     </div>
                   </div>
@@ -249,37 +282,57 @@ export default function ContactMessagesPage() {
                   replyingId !== selectedMessage.id && !selectedMessage.replyMessage && (
                     <button
                       onClick={() => setReplyingId(selectedMessage.id)}
-                      className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium flex items-center justify-center gap-2"
+                      className="w-full py-3 px-4 bg-gradient-to-r from-[#163a58] to-[#1e4a6a] text-white rounded-lg hover:shadow-xl transition-all font-bold flex items-center justify-center gap-2"
                     >
-                      <MessageCircle className="w-4 h-4" />
-                      Reply to This Message
+                      <MessageCircle className="w-5 h-5" />
+                      Bu Mesajı Yanıtla
                     </button>
                   )
                 ) : replyingId === selectedMessage.id ? (
                   <div className="space-y-3">
+                    {/* Dil Seçimi */}
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
+                        📧 Email Dili
+                      </label>
+                      <select
+                        value={replyLanguage}
+                        onChange={(e) => setReplyLanguage(e.target.value)}
+                        className="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-[#dca725] focus:border-transparent transition bg-white"
+                      >
+                        <option value="tr">🇹🇷 Türkçe</option>
+                        <option value="en">🇬🇧 English</option>
+                        <option value="de">🇩🇪 Deutsch</option>
+                        <option value="nl">🇳🇱 Nederlands</option>
+                      </select>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Müşteriye gönderilecek email bu dilde olacaktır
+                      </p>
+                    </div>
+
                     <textarea
                       value={replyText}
                       onChange={(e) => setReplyText(e.target.value)}
-                      placeholder="Write your reply..."
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      rows="4"
+                      placeholder="Yanıtınızı yazın..."
+                      className="w-full p-4 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-[#dca725] focus:border-transparent transition"
+                      rows="5"
                     />
-                    <div className="flex gap-2">
+                    <div className="flex gap-3">
                       <button
                         onClick={handleReply}
-                        className="flex-1 py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium flex items-center justify-center gap-2"
+                        className="flex-1 py-3 px-4 bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg hover:shadow-xl transition-all font-bold flex items-center justify-center gap-2"
                       >
-                        <Send className="w-4 h-4" />
-                        Send Reply
+                        <Send className="w-5 h-5" />
+                        Yanıtı Gönder
                       </button>
                       <button
                         onClick={() => {
                           setReplyingId(null);
                           setReplyText('');
                         }}
-                        className="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition font-medium"
+                        className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-bold"
                       >
-                        Cancel
+                        İptal
                       </button>
                     </div>
                   </div>
@@ -288,16 +341,18 @@ export default function ContactMessagesPage() {
                 {/* Delete Button */}
                 <button
                   onClick={() => handleDelete(selectedMessage.id)}
-                  className="w-full py-2 px-4 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition font-medium flex items-center justify-center gap-2"
+                  className="w-full py-3 px-4 bg-gradient-to-r from-red-50 to-red-100 text-red-600 rounded-lg hover:from-red-100 hover:to-red-200 transition-all font-bold flex items-center justify-center gap-2 border-2 border-red-200"
                 >
-                  <Trash2 className="w-4 h-4" />
-                  Delete Message
+                  <Trash2 className="w-5 h-5" />
+                  Mesajı Sil
                 </button>
               </div>
             ) : (
-              <div className="bg-white rounded-lg shadow-md p-8 text-center">
-                <Mail className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-                <p className="text-gray-500">Select a message to view details and reply</p>
+              <div className="bg-white rounded-xl shadow-lg p-12 text-center border border-gray-200">
+                <div className="bg-gradient-to-br from-gray-50 to-white w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Mail className="w-10 h-10 text-gray-300" />
+                </div>
+                <p className="text-gray-500 text-lg">Detayları görüntülemek için bir mesaj seçin</p>
               </div>
             )}
           </div>

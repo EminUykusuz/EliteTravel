@@ -7,7 +7,7 @@ import { guideService } from '../../../services/guideService';
 import { 
   ArrowLeft, Save, X, Upload, Plus, Trash2, 
   MapPin, DollarSign, Users, Calendar, Image as ImageIcon,
-  FileText, Settings, CheckCircle
+  FileText, Settings, CheckCircle, ChevronDown, ChevronUp
 } from 'lucide-react';
 import { showSuccess, showError, showLoading, closeLoading } from '../../../utils/alerts';
 
@@ -35,6 +35,7 @@ export default function TourFormPage() {
   const [categories, setCategories] = useState([]);
   const [guides, setGuides] = useState([]);
   const [currentStep, setCurrentStep] = useState(0);
+  const [expandedCategories, setExpandedCategories] = useState({}); // Kategori accordion state
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
@@ -49,9 +50,9 @@ export default function TourFormPage() {
     categoryIds: [],
     datesText: '',
     departureCity: '',
-    highlights: [''],
+    highlights: [],
     translations: [
-      { languageId: 1, title: '', description: '', slug: '' }
+      { languageId: 1, title: '', description: '', slug: '', itineraries: [], extras: [] }
     ],
     itineraries: [
       { dayNumber: 1, title: '', description: '', image: null }
@@ -78,7 +79,7 @@ export default function TourFormPage() {
     const loadData = async () => {
       try {
         const [categoriesData, guidesData] = await Promise.all([
-          categoryService.getAll(),
+          categoryService.getFlat(), // Flat endpoint kullan - tüm kategorileri al
           guideService.getAll()
         ]);
         // Extract data correctly - might come as { data: [...] } or direct array
@@ -147,18 +148,28 @@ export default function TourFormPage() {
           price: tour.price || '',
           currency: tour.currency || 'EUR',
           capacity: tour.capacity || '',
-          mainImage: null, // Dosya direkt yüklenemiyor
+          mainImage: null,
           thumbnail: null,
           description: tour.description || '',
           isActive: tour.isActive ?? true,
           guideId: tour.guideId || '',
           categoryIds: tour.categoryIds || [],
+          datesText: tour.datesText || '',
+          departureCity: tour.departureCity || '',
+          highlights: tour.highlights || [],
           translations: parsedTranslations,
           itineraries: tour.itineraries || [{ dayNumber: 1, title: '', description: '' }],
-          extras: tour.extras || [{ title: '', price: '' }]
+          extras: (tour.extras || []).map(ex => ({
+            title: ex.title || '',
+            price: ex.price || '',
+            emoji: ex.emoji || '✨'
+          }))
         });
         
+        console.log('✅ Tur yüklendi:', tour);
         console.log('✅ Çeviriler yüklendi:', parsedTranslations);
+        console.log('✨ Highlights:', tour.highlights);
+        console.log('💰 Extras:', tour.extras);
         
         // Görselleri preview'de göster
         if (tour.mainImage) setMainImagePreview(tour.mainImage);
@@ -215,13 +226,15 @@ export default function TourFormPage() {
       submitData.append('DatesText', formData.datesText || '');
       submitData.append('DepartureCity', formData.departureCity || '');
       
-      // Highlights (array olarak gönder)
+      // Highlights - string array olarak gönder
       if (formData.highlights && formData.highlights.length > 0) {
         const validHighlights = formData.highlights.filter(h => h && h.trim() !== '');
-        validHighlights.forEach((highlight, index) => {
-          submitData.append(`Highlights[${index}]`, highlight);
-        });
-        console.log(`✨ ${validHighlights.length} adet highlight gönderildi`);
+        if (validHighlights.length > 0) {
+          validHighlights.forEach(highlight => {
+            submitData.append('Highlights', highlight);
+          });
+          console.log(`✨ ${validHighlights.length} adet highlight gönderildi:`, validHighlights);
+        }
       }
       
       if (formData.guideId) {
@@ -300,17 +313,25 @@ export default function TourFormPage() {
       }
 
       // Ekstralar (sadece geçerli ekstralar - index'leri düzenle)
+      console.log('🔍 Form Extras Kontrolü:', formData.extras);
       if (formData.extras && formData.extras.length > 0) {
         // Önce valid extra'ları filtrele
         const validExtras = formData.extras.filter(extra => 
           extra.title && extra.title.trim() !== ''
         );
         
+        console.log(`📦 Toplam ${formData.extras.length} extra var, ${validExtras.length} tanesi geçerli`);
+        
         // Ardışık index'lerle gönder
         validExtras.forEach((extra, index) => {
           submitData.append(`Extras[${index}].Title`, extra.title);
-          submitData.append(`Extras[${index}].Price`, extra.price || 0);
+          submitData.append(`Extras[${index}].Price`, parseFloat(extra.price) || 0);
+          submitData.append(`Extras[${index}].Emoji`, extra.emoji || '✨');
+          console.log(`  ✅ Extra[${index}]: ${extra.emoji} ${extra.title} - ${extra.price}`);
         });
+        console.log(`💰 ${validExtras.length} adet extra gönderildi`);
+      } else {
+        console.log('⚠️ Hiç extra yok veya boş array!');
       }
 
       console.log('Gönderilen FormData:');
@@ -369,12 +390,12 @@ export default function TourFormPage() {
   const addHighlight = () => {
     setFormData({
       ...formData,
-      highlights: [...formData.highlights, '']
+      highlights: [...(formData.highlights || []), '']
     });
   };
 
   const removeHighlight = (index) => {
-    const newHighlights = formData.highlights.filter((_, i) => i !== index);
+    const newHighlights = (formData.highlights || []).filter((_, i) => i !== index);
     setFormData({ ...formData, highlights: newHighlights });
   };
 
@@ -459,7 +480,15 @@ export default function TourFormPage() {
       </motion.div>
 
       {/* Form */}
-      <form onSubmit={handleSubmit}>
+      <form 
+        onSubmit={handleSubmit}
+        onKeyDown={(e) => {
+          // Enter tuşuna basıldığında sadece son step'te submit olsun
+          if (e.key === 'Enter' && currentStep < steps.length - 1) {
+            e.preventDefault();
+          }
+        }}
+      >
         <AnimatePresence mode="wait">
           {/* Step 0: Temel Bilgiler */}
           {currentStep === 0 && (
@@ -566,28 +595,107 @@ export default function TourFormPage() {
                   <label className="block text-sm font-semibold text-gray-700 mb-3">
                     Kategoriler
                   </label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {categories.map(cat => (
-                      <label 
-                        key={cat.id || cat.Id}
-                        className="flex items-center gap-2 p-3 border-2 border-gray-200 rounded-xl hover:border-blue-400 cursor-pointer transition-all"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={formData.categoryIds.includes(cat.id || cat.Id)}
-                          onChange={(e) => {
-                            const catId = cat.id || cat.Id;
-                            if (e.target.checked) {
-                              setFormData({ ...formData, categoryIds: [...formData.categoryIds, catId] });
-                            } else {
-                              setFormData({ ...formData, categoryIds: formData.categoryIds.filter(id => id !== catId) });
-                            }
-                          }}
-                          className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500"
-                        />
-                        <span className="text-sm font-medium text-gray-700">{cat.name || cat.Name}</span>
-                      </label>
-                    ))}
+                  <div className="space-y-3">
+                    {/* Parent Kategoriler */}
+                    {categories.filter(cat => !(cat.parentId || cat.ParentId)).map(parent => {
+                      const parentId = parent.id || parent.Id;
+                      const children = categories.filter(cat => (cat.parentId || cat.ParentId) === parentId);
+                      const isExpanded = expandedCategories[parentId];
+                      const isParentChecked = formData.categoryIds.includes(parentId);
+                      
+                      return (
+                        <div key={parentId} className="border-2 border-gray-200 rounded-xl overflow-hidden transition-all hover:border-amber-300">
+                          {/* Parent Kategori Header - Tıklanabilir */}
+                          <div 
+                            className={`flex items-center justify-between p-4 cursor-pointer transition-all ${
+                              isParentChecked 
+                                ? 'bg-gradient-to-r from-amber-50 to-yellow-50' 
+                                : 'bg-gray-50 hover:bg-amber-50'
+                            }`}
+                            onClick={() => {
+                              setExpandedCategories(prev => ({
+                                ...prev,
+                                [parentId]: !prev[parentId]
+                              }));
+                            }}
+                          >
+                            <div className="flex items-center gap-3">
+                              <input
+                                type="checkbox"
+                                checked={isParentChecked}
+                                onChange={(e) => {
+                                  e.stopPropagation();
+                                  if (e.target.checked) {
+                                    setFormData({ ...formData, categoryIds: [...formData.categoryIds, parentId] });
+                                  } else {
+                                    setFormData({ ...formData, categoryIds: formData.categoryIds.filter(id => id !== parentId) });
+                                  }
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                                className="w-5 h-5 text-amber-600 rounded focus:ring-2 focus:ring-amber-500 cursor-pointer"
+                              />
+                              <span className="text-base font-bold text-gray-800 uppercase tracking-wide">
+                                {parent.name || parent.Name}
+                              </span>
+                              {children.length > 0 && (
+                                <span className="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded-full font-semibold">
+                                  {children.length}
+                                </span>
+                              )}
+                            </div>
+                            {children.length > 0 && (
+                              <div className="text-amber-600">
+                                {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+                              </div>
+                            )}
+                          </div>
+                          
+                          {/* Alt Kategoriler - Accordion */}
+                          <AnimatePresence>
+                            {isExpanded && children.length > 0 && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="overflow-hidden"
+                              >
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-2 p-4 bg-white border-t border-gray-200">
+                                  {children.map(child => {
+                                    const childId = child.id || child.Id;
+                                    const isChecked = formData.categoryIds.includes(childId);
+                                    return (
+                                      <label 
+                                        key={childId}
+                                        className={`flex items-center gap-2 p-2 border rounded-lg cursor-pointer transition-all ${
+                                          isChecked
+                                            ? 'border-amber-400 bg-amber-50'
+                                            : 'border-gray-200 hover:border-amber-400 hover:bg-amber-50'
+                                        }`}
+                                      >
+                                        <input
+                                          type="checkbox"
+                                          checked={isChecked}
+                                          onChange={(e) => {
+                                            if (e.target.checked) {
+                                              setFormData({ ...formData, categoryIds: [...formData.categoryIds, childId] });
+                                            } else {
+                                              setFormData({ ...formData, categoryIds: formData.categoryIds.filter(id => id !== childId) });
+                                            }
+                                          }}
+                                          className="w-4 h-4 text-amber-600 rounded focus:ring-2 focus:ring-amber-500"
+                                        />
+                                        <span className="text-sm font-medium text-gray-700">{child.name || child.Name}</span>
+                                      </label>
+                                    );
+                                  })}
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -1405,6 +1513,9 @@ export default function TourFormPage() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
               className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100"
+              onAnimationComplete={() => {
+                console.log('💎 Ekstralar step açıldı, mevcut extras:', formData.extras);
+              }}
             >
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">

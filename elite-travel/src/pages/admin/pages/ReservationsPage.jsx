@@ -461,9 +461,9 @@ export default function ReservationsPage() {
               <div>
                 <h3 className="font-semibold text-gray-700 mb-2">Müşteri Bilgileri</h3>
                 <div className="space-y-2 text-sm">
-                  <p><span className="text-gray-600">Ad Soyad:</span> {selectedReservation.user?.firstName} {selectedReservation.user?.lastName}</p>
-                  <p><span className="text-gray-600">E-mail:</span> {selectedReservation.user?.email}</p>
-                  <p><span className="text-gray-600">Telefon:</span> {selectedReservation.user?.phoneNumber || 'Belirtilmemiş'}</p>
+                  <p><span className="text-gray-600">Ad Soyad:</span> {selectedReservation.fullName || (selectedReservation.user ? `${selectedReservation.user.firstName} ${selectedReservation.user.lastName}` : 'Belirtilmemiş')}</p>
+                  <p><span className="text-gray-600">E-mail:</span> {selectedReservation.email || selectedReservation.user?.email || 'Belirtilmemiş'}</p>
+                  <p><span className="text-gray-600">Telefon:</span> {selectedReservation.phone || selectedReservation.user?.phoneNumber || 'Belirtilmemiş'}</p>
                 </div>
               </div>
 

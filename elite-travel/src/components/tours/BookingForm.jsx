@@ -16,16 +16,17 @@ export default function BookingForm({ tour }) {
     email: '',
     phone: '',
     numberOfPeople: 1,
-    tourDate: '',
     specialRequests: ''
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(`🔄 Input değişti - ${name}: "${value}"`);
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
+    console.log('📋 Güncel formData:', { ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -43,11 +44,14 @@ export default function BookingForm({ tour }) {
         email: formData.email,
         phone: formData.phone,
         numberOfPeople: parseInt(formData.numberOfPeople),
-        bookingDate: new Date(formData.tourDate).toISOString(),
+        bookingDate: new Date().toISOString(), // Rezervasyon yapma tarihi
         totalPrice: tour.price * parseInt(formData.numberOfPeople),
         status: 'Pending',
         specialRequests: formData.specialRequests
       };
+
+      console.log('📤 Backend\'e gönderilen booking data:', bookingData);
+      console.log('📝 Form state:', formData);
 
       await bookingService.create(bookingData);
       
@@ -60,7 +64,6 @@ export default function BookingForm({ tour }) {
         email: '',
         phone: '',
         numberOfPeople: 1,
-        tourDate: '',
         specialRequests: ''
       });
 
@@ -86,10 +89,10 @@ export default function BookingForm({ tour }) {
       onSubmit={handleSubmit}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-white rounded-2xl shadow-2xl p-8 border border-slate-100"
+      className="bg-white rounded-2xl shadow-xl p-6 border-2 border-slate-100"
     >
-      <h3 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-        <Calendar className="text-[#dca725]" size={28} />
+      <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+        <Calendar className="text-[#163a58]" size={22} />
         {t('tourDetail.bookNow') || 'Rezervasyon Yap'}
       </h3>
 
@@ -115,11 +118,11 @@ export default function BookingForm({ tour }) {
         </motion.div>
       )}
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {/* Full Name */}
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">
-            <User size={16} className="inline mr-2" />
+          <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+            <User size={13} className="inline mr-1" />
             {t('booking.fullName') || 'Ad Soyad'} *
           </label>
           <input
@@ -128,15 +131,15 @@ export default function BookingForm({ tour }) {
             value={formData.fullName}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-[#163a58] focus:ring-2 focus:ring-[#163a58]/20 transition-all outline-none"
+            className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:border-[#163a58] focus:ring-1 focus:ring-[#163a58]/20 transition-all outline-none"
             placeholder={t('booking.fullNamePlaceholder') || 'Ahmet Yılmaz'}
           />
         </div>
 
         {/* Email */}
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">
-            <Mail size={16} className="inline mr-2" />
+          <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+            <Mail size={13} className="inline mr-1" />
             {t('booking.email') || 'E-posta'} *
           </label>
           <input
@@ -145,15 +148,15 @@ export default function BookingForm({ tour }) {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-[#163a58] focus:ring-2 focus:ring-[#163a58]/20 transition-all outline-none"
+            className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:border-[#163a58] focus:ring-1 focus:ring-[#163a58]/20 transition-all outline-none"
             placeholder="ahmet@example.com"
           />
         </div>
 
         {/* Phone */}
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">
-            <Phone size={16} className="inline mr-2" />
+          <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+            <Phone size={13} className="inline mr-1" />
             {t('booking.phone') || 'Telefon'} *
           </label>
           <input
@@ -162,15 +165,15 @@ export default function BookingForm({ tour }) {
             value={formData.phone}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-[#163a58] focus:ring-2 focus:ring-[#163a58]/20 transition-all outline-none"
+            className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:border-[#163a58] focus:ring-1 focus:ring-[#163a58]/20 transition-all outline-none"
             placeholder="+90 555 123 45 67"
           />
         </div>
 
         {/* Number of People */}
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">
-            <Users size={16} className="inline mr-2" />
+          <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+            <Users size={13} className="inline mr-1" />
             {t('booking.numberOfPeople') || 'Kişi Sayısı'} *
           </label>
           <input
@@ -181,31 +184,14 @@ export default function BookingForm({ tour }) {
             min="1"
             max={tour.capacity || 50}
             required
-            className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-[#163a58] focus:ring-2 focus:ring-[#163a58]/20 transition-all outline-none"
-          />
-        </div>
-
-        {/* Tour Date */}
-        <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">
-            <Calendar size={16} className="inline mr-2" />
-            {t('booking.tourDate') || 'Tur Tarihi'} *
-          </label>
-          <input
-            type="date"
-            name="tourDate"
-            value={formData.tourDate}
-            onChange={handleChange}
-            min={today}
-            required
-            className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-[#163a58] focus:ring-2 focus:ring-[#163a58]/20 transition-all outline-none"
+            className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:border-[#163a58] focus:ring-1 focus:ring-[#163a58]/20 transition-all outline-none"
           />
         </div>
 
         {/* Special Requests */}
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">
-            <MessageSquare size={16} className="inline mr-2" />
+          <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+            <MessageSquare size={13} className="inline mr-1" />
             {t('booking.specialRequests') || 'Özel İstekler'} 
             <span className="text-slate-400 text-xs ml-1">({t('common.optional') || 'Opsiyonel'})</span>
           </label>
@@ -213,10 +199,15 @@ export default function BookingForm({ tour }) {
             name="specialRequests"
             value={formData.specialRequests}
             onChange={handleChange}
-            rows="3"
-            className="w-full px-4 py-3 border-2 border-slate-200 rounded-lg focus:border-[#163a58] focus:ring-2 focus:ring-[#163a58]/20 transition-all outline-none resize-none"
+            rows="2"
+            className="w-full px-3 py-2 text-sm border border-slate-200 rounded-lg focus:border-[#163a58] focus:ring-1 focus:ring-[#163a58]/20 transition-all outline-none resize-none"
             placeholder={t('booking.specialRequestsPlaceholder') || 'Özel yemek tercihleri, erişim ihtiyaçları vb.'}
           />
+          {tour.extras && tour.extras.length > 0 && (
+            <p className="mt-1.5 text-xs text-slate-500">
+              💡 {t('booking.extrasNote') || 'Ekstra hizmetlerden yararlanmak istiyorsanız lütfen belirtin.'}
+            </p>
+          )}
         </div>
 
         {/* Price Summary */}

@@ -32,6 +32,7 @@ import MenuItemsPage from './pages/admin/pages/MenuItemsPage'; // 👈 DÜZELTME
 import ContactMessagesPage from './pages/admin/pages/ContactMessagesPage';
 import ReservationsPage from './pages/admin/pages/ReservationsPage';
 import SecuritySettings from './pages/admin/pages/SecuritySettings';
+import HowToUsePage from './pages/admin/pages/HowToUsePage';
 
 // Protected Route - Admin routes
 const ProtectedRoute = ({ element }) => {
@@ -99,6 +100,7 @@ function App() {
         <Route path="security" element={<SecuritySettings />} />
         <Route path="menu-items" element={<MenuItemsPage />} />
         <Route path="messages" element={<ContactMessagesPage />} />
+        <Route path="how-to-use" element={<HowToUsePage />} />
       </Route>
 
       {/* ============================================ */}

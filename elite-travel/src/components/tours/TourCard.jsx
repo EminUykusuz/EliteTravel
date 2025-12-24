@@ -1,36 +1,11 @@
 import { Link } from 'react-router-dom';
-import { Calendar, MapPin, Users, ArrowUpRight, Heart } from 'lucide-react';
+import { Calendar, MapPin, Users, ArrowUpRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect } from 'react';
 
 export default function TourCardMinimal({ tour }) {
   const { t } = useTranslation(['common', 'tours']);
-  const [isWishlisted, setIsWishlisted] = useState(false);
   const symbol = tour.currency === 'EUR' ? '€' : '₺';
-
-  // Load wishlisted status from localStorage
-  useEffect(() => {
-    if (tour.slug) {
-      const favorites = JSON.parse(localStorage.getItem('tour-favorites') || '[]');
-      setIsWishlisted(favorites.includes(tour.slug));
-    }
-  }, [tour.slug]);
-
-  const handleWishlistToggle = () => {
-    const newState = !isWishlisted;
-    setIsWishlisted(newState);
-    
-    // Save to localStorage
-    const favorites = JSON.parse(localStorage.getItem('tour-favorites') || '[]');
-    if (newState) {
-      if (!favorites.includes(tour.slug)) favorites.push(tour.slug);
-    } else {
-      const idx = favorites.indexOf(tour.slug);
-      if (idx > -1) favorites.splice(idx, 1);
-    }
-    localStorage.setItem('tour-favorites', JSON.stringify(favorites));
-  };
 
   return (
     <motion.div 
@@ -52,23 +27,6 @@ export default function TourCardMinimal({ tour }) {
         
         {/* Overlay Gradient */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        
-        {/* Wishlist Button */}
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={(e) => {
-            e.preventDefault();
-            handleWishlistToggle();
-          }}
-          className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-lg hover:shadow-xl transition-all z-20"
-          title={isWishlisted ? 'Added to favorites' : 'Add to favorites'}
-        >
-          <Heart 
-            size={20} 
-            className={`transition-colors ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-gray-600'}`}
-          />
-        </motion.button>
         
         {/* Category Badge */}
         {!!tour.type && (

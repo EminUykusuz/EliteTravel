@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using EliteTravel.Core.DTOs;
 using EliteTravel.Core.Entities;
+using EliteTravel.Core.Services;
 using EliteTravel.Data.Contexts;
 using Microsoft.EntityFrameworkCore;
-using System.Net.Http;
-using System.Text.Json;
 
 namespace EliteTravel.API.Controllers
 {
@@ -13,10 +12,12 @@ namespace EliteTravel.API.Controllers
     public class ContactsController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IEmailService _emailService;
 
-        public ContactsController(AppDbContext context)
+        public ContactsController(AppDbContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         [HttpGet]
@@ -96,35 +97,7 @@ namespace EliteTravel.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ApiResponseDto<ContactResponseDto>.ErrorResponse("Validation failed"));
 
-            // Verify reCAPTCHA token
-            try
-            {
-                var client = new HttpClient();
-                var recaptchaSecret = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe"; // Test key - güncelleyin!
-                
-                var response = await client.PostAsync(
-                    $"https://www.google.com/recaptcha/api/siteverify",
-                    new FormUrlEncodedContent(new Dictionary<string, string>
-                    {
-                        { "secret", recaptchaSecret },
-                        { "response", dto.RecaptchaToken }
-                    }));
-
-                var content = await response.Content.ReadAsStringAsync();
-                var jsonDoc = JsonDocument.Parse(content);
-                var root = jsonDoc.RootElement;
-                
-                var success = root.GetProperty("success").GetBoolean();
-                var score = root.GetProperty("score").GetDouble();
-
-                // Score 0.5 altındaysa spam olabilir
-                if (!success || score < 0.5)
-                    return BadRequest(ApiResponseDto<ContactResponseDto>.ErrorResponse("reCAPTCHA verification failed"));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ApiResponseDto<ContactResponseDto>.ErrorResponse($"reCAPTCHA error: {ex.Message}"));
-            }
+            // reCAPTCHA kaldırıldı - frontend'de rate limiting kullanılıyor
 
             var contact = new Contact
             {
@@ -139,6 +112,24 @@ namespace EliteTravel.API.Controllers
 
             _context.Contacts.Add(contact);
             await _context.SaveChangesAsync();
+
+            // Send email notification to admin (async, don't wait)
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await _emailService.SendContactNotificationAsync(
+                        $"{contact.FirstName} {contact.LastName}",
+                        contact.Email,
+                        contact.Message,
+                        dto.Language ?? "tr" // Use language from request
+                    );
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Email notification failed: {ex.Message}");
+                }
+            });
 
             var responseDto = new ContactResponseDto
             {
@@ -166,6 +157,24 @@ namespace EliteTravel.API.Controllers
             contact.ReplyMessage = dto.ReplyMessage;
             contact.RepliedDate = DateTime.UtcNow;
             await _context.SaveChangesAsync();
+
+            // Send reply email to customer (async, don't wait)
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await _emailService.SendContactReplyAsync(
+                        contact.Email,
+                        $"{contact.FirstName} {contact.LastName}",
+                        dto.ReplyMessage,
+                        dto.Language ?? "tr" // Use language from request
+                    );
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Reply email failed: {ex.Message}");
+                }
+            });
 
             var responseDto = new ContactResponseDto
             {

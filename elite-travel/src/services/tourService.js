@@ -29,25 +29,52 @@ export const tourService = {
 
   // Yeni tur oluştur
   create: async (tourData) => {
-    // AdminTourForm zaten doğru FormData gönderiyor, direkt kullan
-    const response = await api.post('/tours', tourData);
-    return response.data;
+    console.log('🚀 tourService.create çağrıldı');
+    console.log('📦 Gönderilen data tipi:', tourData instanceof FormData ? 'FormData' : typeof tourData);
+    
+    // FormData içeriğini log'la
+    if (tourData instanceof FormData) {
+      console.log('📋 FormData içeriği:');
+      for (let [key, value] of tourData.entries()) {
+        console.log(`  ${key}:`, value instanceof File ? `File: ${value.name}` : value);
+      }
+    }
+    
+    try {
+      console.log('🌐 POST /tours isteği gönderiliyor...');
+      const response = await api.post('/tours', tourData);
+      console.log('✅ Backend yanıtı:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('❌ tourService.create hatası:', error);
+      console.error('❌ Hata detayı:', error.response?.data);
+      throw error;
+    }
   },
 
   // Tur güncelle
   update: async (id, tourData) => {
-    // Backend Update endpoint [FromBody] kullanıyor - JSON gönder
-    const updateDto = {
-      id: parseInt(id), // REQUIRED - backend validation için
-      price: parseFloat(tourData.get('Price')),
-      currency: tourData.get('Currency'),
-      capacity: parseInt(tourData.get('Capacity')),
-      isActive: tourData.get('IsActive') === 'true',
-      guideId: tourData.get('GuideId') ? parseInt(tourData.get('GuideId')) : null
-    };
-
-    const response = await api.put(`/tours/${id}`, updateDto);
-    return response.data;
+    console.log('🔄 tourService.update çağrıldı, ID:', id);
+    console.log('📦 Gönderilen data tipi:', tourData instanceof FormData ? 'FormData' : typeof tourData);
+    
+    // FormData içeriğini log'la
+    if (tourData instanceof FormData) {
+      console.log('📋 FormData içeriği:');
+      for (let [key, value] of tourData.entries()) {
+        console.log(`  ${key}:`, value instanceof File ? `File: ${value.name}` : value);
+      }
+    }
+    
+    try {
+      console.log(`🌐 PUT /tours/${id} isteği gönderiliyor...`);
+      const response = await api.put(`/tours/${id}`, tourData);
+      console.log('✅ Backend yanıtı:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('❌ tourService.update hatası:', error);
+      console.error('❌ Hata detayı:', error.response?.data);
+      throw error;
+    }
   },
 
   // Tur sil

@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import ScheduleSection from '../components/sections/ScheduleSection';
 import BookingForm from '../components/tours/BookingForm';
-import { MapPin, Users, Clock, AlertCircle } from 'lucide-react';
+import { MapPin, Users, Clock, AlertCircle, User, Calendar, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useState, useEffect } from 'react';
@@ -46,8 +46,11 @@ export default function TourDetailPage() {
 
         const extras = (dto.extras || dto.Extras || []).map((ex) => ({
           title: ex.title ?? ex.Title,
-          price: ex.price ?? ex.Price
+          price: ex.price ?? ex.Price,
+          emoji: ex.emoji ?? ex.Emoji ?? '✨'
         }));
+
+        const highlights = dto.highlights || dto.Highlights || [];
 
         const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5067/api';
         const baseUrl = API_URL.replace('/api', ''); // Remove /api to get base URL
@@ -61,6 +64,8 @@ export default function TourDetailPage() {
 
         console.log('🖼️ Backend\'den gelen:', { mainImage: dto.mainImage ?? dto.MainImage, thumbnail: dto.thumbnail ?? dto.Thumbnail });
         console.log('🌐 Oluşturulan URL:', { mainImageUrl, thumbnailUrl });
+        console.log('✨ Highlights:', highlights);
+        console.log('💰 Extras:', extras);
 
         setTour({
           id: dto.id ?? dto.Id,
@@ -71,10 +76,13 @@ export default function TourDetailPage() {
           currency: dto.currency ?? dto.Currency,
           capacity: dto.capacity ?? dto.Capacity,
           guideName: dto.guideName ?? dto.GuideName,
+          datesText: dto.datesText ?? dto.DatesText,
+          departureCity: dto.departureCity ?? dto.DepartureCity,
           mainImage: mainImageUrl,
           thumbnail: thumbnailUrl,
           itinerary,
-          extras
+          extras,
+          highlights
         });
       } catch (e) {
         console.error('Error loading tour:', e);
@@ -156,9 +164,38 @@ export default function TourDetailPage() {
       {/* MAIN CONTENT */}
       <div className="container mx-auto px-4 -mt-20 relative z-10">
         <div className="grid lg:grid-cols-3 gap-8">
-          {/* LEFT COLUMN */}
+          {/* LEFT COLUMN - Main Content */}
           <motion.div variants={containerVariants} className="lg:col-span-2 space-y-8">
             
+            {/* HIGHLIGHTS */}
+            {(tour.highlights || []).length > 0 && (
+              <motion.div 
+                variants={itemVariants}
+                className="bg-white p-10 rounded-2xl shadow-lg border border-slate-100 hover:shadow-xl transition-all"
+              >
+                <h2 className="text-2xl font-bold text-slate-900 mb-8">
+                  Turun Öne Çıkanları
+                </h2>
+                <div className="grid md:grid-cols-2 gap-4">
+                  {tour.highlights.map((highlight, idx) => (
+                    <motion.div
+                      key={idx}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.1 }}
+                      className="flex items-start gap-3"
+                    >
+                      <CheckCircle2 className="w-5 h-5 text-blue-900 flex-shrink-0 mt-0.5" />
+                      <span className="text-slate-700 text-base">{highlight}</span>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+            
+            {/* ITINERARY */}
+            <ScheduleSection itinerary={tour.itinerary} />
+
             {!!tour.description && (
               <motion.div 
                 variants={itemVariants}
@@ -171,56 +208,117 @@ export default function TourDetailPage() {
                 <p className="text-gray-700 leading-relaxed text-lg whitespace-pre-line">{tour.description}</p>
               </motion.div>
             )}
-            
-            {/* ITINERARY */}
-            <ScheduleSection itinerary={tour.itinerary} />
 
-            {/* EXTRAS */}
-            {(tour.extras || []).length > 0 && (
-              <motion.div variants={itemVariants} className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100">
-                <h2 className="text-3xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-                  <div className="w-1 h-8 bg-gradient-to-b from-green-600 to-green-500 rounded-full"></div>
-                  {t('tourDetail.extras') || 'Optional Extras'}
-                </h2>
-                <div className="space-y-3">
-                  {tour.extras.map((ex, idx) => (
-                    <motion.div
-                      key={idx}
-                      whileHover={{ x: 8 }}
-                      className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-r from-slate-50 to-slate-100 hover:from-green-50 hover:to-slate-100 transition-all border border-slate-200 hover:border-green-200"
-                    >
-                      <span className="font-semibold text-slate-800">{ex.title}</span>
-                      <span className="text-xl font-bold text-green-600">
-                        +{symbol}{ex.price}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-            )}
+           {/* EXTRAS */}
+{(tour.extras || []).length > 0 && (
+  <motion.div
+    variants={itemVariants}
+    className="bg-white p-8 rounded-2xl shadow-lg border border-slate-100"
+  >
+    <h2 className="text-2xl font-bold text-slate-900 mb-2">
+      {t('tourDetail.extras') || 'Ekstra Hizmetler'}
+    </h2>
+    <p className="text-xs text-slate-500 mb-4">
+      💡 {t('common:tourDetail.extrasNote') || 'Ekstra hizmetlerden yararlanmak isterseniz rezervasyon formunda "Özel İstekler" kısmında belirtiniz.'}
+    </p>
+
+    <div className="grid grid-cols-2 gap-4">
+      {tour.extras.map((ex, idx) => (
+        <div
+          key={idx}
+          className="flex items-center justify-between p-2"
+        >
+          <div className="flex items-center gap-2">
+            <span className="text-lg">{ex.emoji}</span>
+            <span className="text-xs text-slate-600">{ex.title}</span>
+          </div>
+          <span className="text-xs font-bold text-green-600">+{symbol}{ex.price}</span>
+        </div>
+      ))}
+    </div>
+  </motion.div>
+)}
 
           </motion.div>
 
-          {/* RIGHT COLUMN - BOOKING CARD */}
+          {/* RIGHT COLUMN - Booking Sidebar */}
           <motion.div variants={itemVariants} className="relative">
             <div className="sticky top-24 space-y-6">
+              {/* Price & Info Card */}
+              <div className="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+                {/* Price Header */}
+                <div className="bg-[#163a58] text-white p-6">
+                  <p className="text-xs text-slate-300 mb-2">{t('tourDetail.startingPrice') || 'Başlangıç Fiyatı'}</p>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-4xl font-bold text-[#dca725]">{symbol}{tour.price.toLocaleString()}</span>
+                    <span className="text-slate-300 text-sm">/ {t('tourDetail.perPerson') || 'kişi'}</span>
+                  </div>
+                </div>
+                
+                {/* Tour Info */}
+                <div className="p-6 space-y-4">
+                  {tour.datesText && (
+                    <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+                      <Clock size={20} className="text-[#163a58]" />
+                      <div>
+                        <p className="text-xs text-slate-500">Tarihler</p>
+                        <p className="font-semibold text-slate-900">{tour.datesText}</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {tour.departureCity && (
+                    <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+                      <MapPin size={20} className="text-[#dca725]" />
+                      <div>
+                        <p className="text-xs text-slate-500">Kalkış Noktası</p>
+                        <p className="font-semibold text-slate-900">{tour.departureCity}</p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+                    <Users size={20} className="text-[#163a58]" />
+                    <div>
+                      <p className="text-xs text-slate-500">Kapasite</p>
+                      <p className="font-semibold text-slate-900">{tour.capacity} Kişi</p>
+                    </div>
+                  </div>
+                  
+                  {tour.guideName && (
+                    <div className="flex items-center gap-3">
+                      <User size={20} className="text-[#dca725]" />
+                      <div>
+                        <p className="text-xs text-slate-500">Rehber</p>
+                        <p className="font-semibold text-slate-900">{tour.guideName}</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
               {/* Booking Form */}
               <BookingForm tour={tour} />
 
-              {/* WhatsApp Alternative */}
+              {/* WhatsApp Button */}
               <motion.a 
                 href={`https://wa.me/?text=Hi%20I%20want%20to%20book%20${encodeURIComponent(tour.title)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="block w-full py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all text-center flex items-center justify-center gap-2"
+                className="w-full py-4 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center justify-center gap-2 group"
               >
-                <img src="https://img.icons8.com/?size=100&id=7OeRNqg6S7Vf&format=png&color=000000" className='h-8' alt="WhatsApp" />
-                {t('tourDetail.whatsappInfo')}
+                <img 
+                  src="https://img.icons8.com/?size=100&id=7OeRNqg6S7Vf&format=png&color=000000" 
+                  className='h-7 group-hover:scale-110 transition-transform' 
+                  alt="WhatsApp" 
+                />
+                <span>{t('tourDetail.whatsappInfo') || 'WhatsApp ile İletişim'}</span>
               </motion.a>
             </div>
           </motion.div>
+
         </div>
       </div>
     </motion.div>

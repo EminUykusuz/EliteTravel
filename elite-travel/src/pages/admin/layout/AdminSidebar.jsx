@@ -12,7 +12,8 @@ import {
   ChevronRight,
   Menu, // 👈 YENİ: Menu icon'u eklendi
   Mail, // 👈 YENİ: Mail icon'u eklendi
-  Shield // 👈 YENİ: Shield icon'u eklendi
+  Shield, // 👈 YENİ: Shield icon'u eklendi
+  BookOpen // 👈 YENİ: BookOpen icon'u eklendi
 } from 'lucide-react';
 import eliteLogo from '../../../assets/elitelogo.svg';
 
@@ -30,6 +31,7 @@ export default function Sidebar({ isOpen }) {
     { path: '/admin/menu-items', label: 'Menü Yönetimi', icon: Menu },
     { path: '/admin/security', label: 'Güvenlik (2FA)', icon: Shield },
     { path: '/admin/settings', label: 'Ayarlar', icon: Settings },
+    { path: '/admin/how-to-use', label: 'Nasıl Kullanılır?', icon: BookOpen },
   ];
 
   const isActive = (path) => {
